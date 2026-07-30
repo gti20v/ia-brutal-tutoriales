@@ -1,152 +1,237 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="IA BRUTAL - Tutoriales, prompts y guides de inteligencia artificial sin humo">
-        <meta name="keywords" content="IA, inteligencia artificial, tutoriales, prompts, automatización">
-        <meta name="author" content="IA BRUTAL">
-        <title>IA BRUTAL - Tutoriales & Prompts de IA</title>
-      <link rel="stylesheet" href="style.css">
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IA BRUTAL - Tutoriales, prompts y guías de inteligencia artificial sin humo. Aprende IA de forma práctica y gratuita.">
+    <meta name="keywords" content="IA, inteligencia artificial, tutoriales, prompts, automatización, ChatGPT, Claude, Freebuff">
+    <meta name="author" content="IA BRUTAL">
+    <meta property="og:title" content="IA BRUTAL - Tutoriales & Prompts de IA">
+    <meta property="og:description" content="Tutoriales prácticos, prompts optimizados y automatización con IA. Sin humo, sin afiliados.">
+    <meta property="og:url" content="https://gti20v.github.io/ia-brutal-tutoriales/">
+    <meta name="theme-color" content="#0a0a1a">
+    <title>IA BRUTAL - Tutoriales, Prompts y Automatización sin Humo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
 <body>
-      <div id="app" class="app-container">
-                <!-- Header -->
-                <header class="header">
-                              <div class="header-content">
-                                                <div class="logo-section">
-                                                                      <h1 class="logo">⚡ IA BRUTAL</h1>h1>
-                                                                      <p class="tagline">Tutoriales, Prompts & Automatización sin humo</p>p>
-                                                </div>div>
-                                                <div class="header-cta">
-                                                                      <a href="https://www.youtube.com/@IABRUTAL26" target="_blank" class="btn btn-primary">
-                                                                                                📺 YouTube @IABRUTAL26
-                                                                      </a>a>
-                                                                      <a href="https://iabrutal.notion.site" target="_blank" class="btn btn-secondary">
-                                                                                                📚 Ver Prompts
-                                                                      </a>a>
-                                                </div>div>
-                              </div>div>
-                </header>header>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <a href="/" class="logo-link">
+                        <h1 class="logo">⚡ IA BRUTAL</h1>
+                    </a>
+                    <p class="tagline">Tutoriales, Prompts & Automatización <span class="highlight">sin humo</span></p>
+                </div>
+                <div class="header-cta">
+                    <a href="https://www.youtube.com/@IABRUTAL26" target="_blank" class="btn btn-primary" rel="noopener">
+                        <span class="btn-icon">📺</span>
+                        <span class="btn-text">YouTube @IABRUTAL26</span>
+                    </a>
+                    <a href="https://iabrutal.notion.site" target="_blank" class="btn btn-secondary" rel="noopener">
+                        <span class="btn-icon">📚</span>
+                        <span class="btn-text">Prompts en Notion</span>
+                    </a>
+                </div>
+            </div>
+        </header>
 
-                <!-- Navigation -->
-                <nav class="nav-tabs">
-                              <button class="nav-tab active" data-section="inicio">Inicio</button>button>
-                              <button class="nav-tab" data-section="tutoriales">Tutoriales</button>button>
-                              <button class="nav-tab" data-section="prompts">Prompts</button>button>
-                              <button class="nav-tab" data-section="guias">Guías</button>button>
-                              <button class="nav-tab" data-section="automatizacion">Automatización</button>button>
-                </nav>nav>
+        <!-- Navigation -->
+        <nav class="nav-tabs" role="tablist">
+            <button class="nav-tab active" data-section="inicio" role="tab" aria-selected="true">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-label">Inicio</span>
+            </button>
+            <button class="nav-tab" data-section="tutoriales" role="tab" aria-selected="false">
+                <span class="tab-icon">📖</span>
+                <span class="tab-label">Tutoriales</span>
+            </button>
+            <button class="nav-tab" data-section="prompts" role="tab" aria-selected="false">
+                <span class="tab-icon">💬</span>
+                <span class="tab-label">Prompts</span>
+            </button>
+            <button class="nav-tab" data-section="guias" role="tab" aria-selected="false">
+                <span class="tab-icon">📋</span>
+                <span class="tab-label">Guías</span>
+            </button>
+            <button class="nav-tab" data-section="automatizacion" role="tab" aria-selected="false">
+                <span class="tab-icon">⚙️</span>
+                <span class="tab-label">Automatización</span>
+            </button>
+        </nav>
 
-                <!-- Main Content -->
-                <main class="main-content">
-                              <!-- Inicio Section -->
-                              <section id="inicio" class="content-section active">
-                                                <div class="hero-section">
-                                                                      <h2>Bienvenido a IA BRUTAL</h2>
-                                                                    <p>Tu fuente de referencia para aprender inteligencia artificial de forma práctica y sin fluff.</p>
-                                                                    <div class="intro-grid">
-                                                                                            <div class="intro-card">
-                                                                                                                        <h3>🎯 Tutoriales Prácticos</h3>
-                                                                                                                        <p>Aprende paso a paso cómo usar las mejores herramientas de IA</p>
-                                                                                              </div>div>
-                                                                                            <div class="intro-card">
-                                                                                                                        <h3>💡 Prompts Efectivos</h3>
-                                                                                                                        <p>+30 prompts optimizados para maximizar la productividad</p>
-                                                                                              </div>div>
-                                                                                            <div class="intro-card">
-                                                                                                                        <h3>🤖 Automatización</h3>
-                                                                                                                        <p>Ejemplos reales de automatización con IA</p>
-                                                                                              </div>div>
-                                                                                            <div class="intro-card">
-                                                                                                                        <h3>📊 Guías Analíticas</h3>
-                                                                                                                        <p>Comparativas, precios y ROI de herramientas IA</p>
-                                                                                              </div>div>
-                                                                    </div>div>
-                                                </div>div>
-                                              <div class="quick-links">
-                                                                  <h3>Acceso Rápido</h3>
-                                                                  <div class="links-grid">
-                                                                                          <a href="#tutoriales" class="quick-link" onclick="showSection('tutoriales')">
-                                                                                                                      <span class="icon">📖</span>span>
-                                                                                                                      <span>Ver Tutoriales</span>
-                                                                                            </a>a>
-                                                                                          <a href="#prompts" class="quick-link" onclick="showSection('prompts')">
-                                                                                                                      <span class="icon">💬</span>
-                                                                                                                      <span>Explorar Prompts</span>
-                                                                                            </a>a>
-                                                                                          <a href="#guias" class="quick-link" onclick="showSection('guias')">
-                                                                                                                      <span class="icon">📋</span>
-                                                                                                                      <span>Leer Guías</span>
-                                                                                            </a>a>
-                                                                                          <a href="#automatizacion" class="quick-link" onclick="showSection('automatizacion')">
-                                                                                                                      <span class="icon">⚙️</span>
-                                                                                                                      <span>Ver Ejemplos</span>
-                                                                                            </a>a>
-                                                                  </div>div>
-                                              </div>div>
-                              </section>section>
-                
-                            <!-- Tutoriales Section -->
-                            <section id="tutoriales" class="content-section">
-                                            <h2>Tutoriales</h2>
-                                            <div id="tutoriales-container" class="content-grid"></div>div>
-                            </section>section>
-                
-                            <!-- Prompts Section -->
-                            <section id="prompts" class="content-section">
-                                            <h2>Prompts de IA</h2>
-                                            <div class="filters">
-                                                                <button class="filter-btn active" data-filter="todos">Todos</button>button>
-                                                                <button class="filter-btn" data-filter="escritura">Escritura</button>button>
-                                                                <button class="filter-btn" data-filter="programacion">Programación</button>button>
-                                                                <button class="filter-btn" data-filter="marketing">Marketing</button>button>
-                                                                <button class="filter-btn" data-filter="analisis">Análisis</button>button>
-                                                                <button class="filter-btn" data-filter="negocio">Negocio</button>button>
-                                            </div>div>
-                                            <div id="prompts-container" class="prompts-grid"></div>div>
-                            </section>section>
-                
-                            <!-- Guías Section -->
-                            <section id="guias" class="content-section">
-                                            <h2>Guías & Análisis</h2>
-                                            <div id="guias-container" class="content-grid"></div>div>
-                            </section>section>
-                
-                            <!-- Automatización Section -->
-                            <section id="automatizacion" class="content-section">
-                                            <h2>Ejemplos de Automatización</h2>
-                                            <div id="automatizacion-container" class="content-grid"></div>div>
-                            </section>section>
-                </main>main>
-      
-              <!-- Footer -->
-              <footer class="footer">
-                          <div class="footer-content">
-                                          <div class="footer-section">
-                                                              <h4>IA BRUTAL</h4>
-                                                              <p>Tutoriales, prompts y automatización de IA sin humo.</p>
-                                          </div>div>
-                                          <div class="footer-section">
-                                                              <h4>Enlaces</h4>
-                                                              <ul>
-                                                                                        <li><a href="https://www.youtube.com/@IABRUTAL26" target="_blank">YouTube</a>a></li>
-                                                                                      <li><a href="https://iabrutal.notion.site" target="_blank">Notion</a>a></li>
-                                                                                      <li><a href="https://github.com/gti20v/ia-brutal-tutoriales" target="_blank">GitHub</a>a></li>
-                                                              </ul>
-                                          </div>div>
-                                          <div class="footer-section">
-                                                              <h4>Información</h4>
-                                                              <p>Todo el contenido es 100% gratuito y sin afiliaciones.</p>
-                                                              <p class="year">&copy; 2026 IA BRUTAL. Todos los derechos reservados.</p>
-                                          </div>div>
-                          </div>div>
-              </footer>footer>
-      </div>div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Inicio Section -->
+            <section id="inicio" class="content-section active" role="tabpanel">
+                <div class="hero-section">
+                    <div class="hero-badge">🔥 100% Gratuito · Sin Afiliados · Contenido Real</div>
+                    <h2 class="hero-title">Bienvenido a <span class="gradient-text">IA BRUTAL</span></h2>
+                    <p class="hero-subtitle">Tu fuente de referencia para aprender inteligencia artificial de forma práctica y sin fluff. Tutoriales que funcionan, prompts que ahorran horas y automatización que escala.</p>
+                    
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <span class="stat-number">+30</span>
+                            <span class="stat-label">Prompts Optimizados</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">+10</span>
+                            <span class="stat-label">Tutoriales Prácticos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Gratuito</span>
+                        </div>
+                    </div>
+
+                    <div class="intro-grid">
+                        <div class="intro-card">
+                            <div class="intro-card-icon">🎯</div>
+                            <h3>Tutoriales Prácticos</h3>
+                            <p>Aprende paso a paso cómo usar las mejores herramientas de IA. De cero a experto.</p>
+                            <a href="#tutoriales" class="card-link" onclick="showSection('tutoriales')">Ver tutoriales →</a>
+                        </div>
+                        <div class="intro-card">
+                            <div class="intro-card-icon">💡</div>
+                            <h3>Prompts Efectivos</h3>
+                            <p>+30 prompts optimizados y probados para maximizar tu productividad con IA.</p>
+                            <a href="#prompts" class="card-link" onclick="showSection('prompts')">Explorar prompts →</a>
+                        </div>
+                        <div class="intro-card">
+                            <div class="intro-card-icon">🤖</div>
+                            <h3>Automatización</h3>
+                            <p>Ejemplos reales de automatización con IA que te ahorrarán horas cada semana.</p>
+                            <a href="#automatizacion" class="card-link" onclick="showSection('automatizacion')">Ver ejemplos →</a>
+                        </div>
+                        <div class="intro-card">
+                            <div class="intro-card-icon">📊</div>
+                            <h3>Guías Analíticas</h3>
+                            <p>Comparativas, precios y ROI de herramientas IA para tomar las mejores decisiones.</p>
+                            <a href="#guias" class="card-link" onclick="showSection('guias')">Leer guías →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-links-section">
+                    <h3>⚡ Acceso Rápido</h3>
+                    <div class="links-grid">
+                        <a href="#tutoriales" class="quick-link" onclick="showSection('tutoriales')">
+                            <span class="quick-link-icon">📖</span>
+                            <span class="quick-link-text">Ver Tutoriales</span>
+                        </a>
+                        <a href="#prompts" class="quick-link" onclick="showSection('prompts')">
+                            <span class="quick-link-icon">💬</span>
+                            <span class="quick-link-text">Explorar Prompts</span>
+                        </a>
+                        <a href="#guias" class="quick-link" onclick="showSection('guias')">
+                            <span class="quick-link-icon">📋</span>
+                            <span class="quick-link-text">Leer Guías</span>
+                        </a>
+                        <a href="#automatizacion" class="quick-link" onclick="showSection('automatizacion')">
+                            <span class="quick-link-icon">⚙️</span>
+                            <span class="quick-link-text">Ver Automatización</span>
+                        </a>
+                        <a href="https://www.youtube.com/@IABRUTAL26" target="_blank" class="quick-link" rel="noopener">
+                            <span class="quick-link-icon">▶️</span>
+                            <span class="quick-link-text">YouTube</span>
+                        </a>
+                        <a href="https://iabrutal.notion.site" target="_blank" class="quick-link" rel="noopener">
+                            <span class="quick-link-icon">📚</span>
+                            <span class="quick-link-text">Notion Library</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tutoriales Section -->
+            <section id="tutoriales" class="content-section" role="tabpanel">
+                <div class="section-header">
+                    <h2>📖 Tutoriales</h2>
+                    <p class="section-desc">Guías paso a paso para dominar las herramientas de IA más relevantes</p>
+                </div>
+                <div id="tutoriales-container" class="content-grid"></div>
+            </section>
+
+            <!-- Prompts Section -->
+            <section id="prompts" class="content-section" role="tabpanel">
+                <div class="section-header">
+                    <h2>💬 Prompts de IA</h2>
+                    <p class="section-desc">+30 prompts optimizados y listos para copiar y pegar. Ahorra horas.</p>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="todos">Todos</button>
+                    <button class="filter-btn" data-filter="escritura">✍️ Escritura</button>
+                    <button class="filter-btn" data-filter="programacion">💻 Programación</button>
+                    <button class="filter-btn" data-filter="marketing">📈 Marketing</button>
+                    <button class="filter-btn" data-filter="analisis">🔍 Análisis</button>
+                    <button class="filter-btn" data-filter="negocio">🏢 Negocio</button>
+                </div>
+                <div id="prompts-container" class="prompts-grid"></div>
+            </section>
+
+            <!-- Guías Section -->
+            <section id="guias" class="content-section" role="tabpanel">
+                <div class="section-header">
+                    <h2>📋 Guías & Análisis</h2>
+                    <p class="section-desc">Análisis detallados, comparativas y ROI de herramientas de IA</p>
+                </div>
+                <div id="guias-container" class="content-grid"></div>
+            </section>
+
+            <!-- Automatización Section -->
+            <section id="automatizacion" class="content-section" role="tabpanel">
+                <div class="section-header">
+                    <h2>⚙️ Ejemplos de Automatización</h2>
+                    <p class="section-desc">Código listo para implementar. Ahorra horas con estas automatizaciones</p>
+                </div>
+                <div id="automatizacion-container" class="content-grid"></div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section footer-brand">
+                    <h4>⚡ IA BRUTAL</h4>
+                    <p>Tutoriales, prompts y automatización de IA sin humo. 100% gratuito, sin afiliaciones.</p>
+                    <div class="footer-social">
+                        <a href="https://www.youtube.com/@IABRUTAL26" target="_blank" class="social-link" rel="noopener" title="YouTube">▶️</a>
+                        <a href="https://iabrutal.notion.site" target="_blank" class="social-link" rel="noopener" title="Notion">📚</a>
+                        <a href="https://github.com/gti20v/ia-brutal-tutoriales" target="_blank" class="social-link" rel="noopener" title="GitHub">💻</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="https://www.youtube.com/@IABRUTAL26" target="_blank" rel="noopener">📺 YouTube</a></li>
+                        <li><a href="https://iabrutal.notion.site" target="_blank" rel="noopener">📚 Notion</a></li>
+                        <li><a href="https://github.com/gti20v/ia-brutal-tutoriales" target="_blank" rel="noopener">💻 GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contenido</h4>
+                    <ul>
+                        <li><a href="#tutoriales" onclick="showSection('tutoriales')">📖 Tutoriales</a></li>
+                        <li><a href="#prompts" onclick="showSection('prompts')">💬 Prompts</a></li>
+                        <li><a href="#guias" onclick="showSection('guias')">📋 Guías</a></li>
+                        <li><a href="#automatizacion" onclick="showSection('automatizacion')">⚙️ Automatización</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Información</h4>
+                    <p>Todo el contenido es 100% gratuito y sin afiliaciones.</p>
+                    <p class="year">&copy; 2026 IA BRUTAL. Hecho con ⚡ para la comunidad.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
 
     <script src="script.js"></script>
 </body>
-</html>html></p></li></li>
-                                                              </ul></p></span></span></p></p></h2>
-</body></title>
-  </head>
+</html>
