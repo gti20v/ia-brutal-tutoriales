@@ -229,6 +229,30 @@
         </footer>
     </div>
 
+    <!-- Access Modal -->
+    <div id="access-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-icon">🔐</div>
+                <h2 id="modal-title">Contenido Exclusivo</h2>
+                <p class="modal-desc">Introduce la clave de acceso para ver este contenido.</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-group">
+                    <input type="password" id="access-key-input" class="modal-input" placeholder="Introduce la clave..." autocomplete="off" maxlength="50">
+                    <button id="access-submit-btn" class="modal-submit-btn">
+                        <span class="btn-text">Desbloquear</span>
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </div>
+                <p id="modal-error" class="modal-error">❌ Clave incorrecta. Intenta de nuevo.</p>
+            </div>
+            <div class="modal-footer">
+                <p class="modal-hint">💡 La clave se guarda para toda la sesión. Solo necesitas introducirla una vez.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast notification -->
     <div id="toast" class="toast"></div>
 

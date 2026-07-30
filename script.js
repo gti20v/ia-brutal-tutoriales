@@ -6,6 +6,107 @@
 'use strict';
 
 // =============================================
+// ACCESS CONTROL CONFIG
+// =============================================
+// Cambia esta clave por la que quieras usar.
+// El acceso se recuerda durante la sesión (sessionStorage).
+//
+// ⚠️ NOTA: Al ser un sitio estático (GitHub Pages), la clave
+// es visible en el código fuente del navegador (DevTools).
+// Esto protege contra curiosos, pero NO es seguridad real.
+// Es un candado de cortesía, no un cifrado.
+const ACCESS_KEY = 'iabrutal2026';
+const ACCESS_SESSION_KEY = 'ia_brutal_unlocked';
+
+// =============================================
+// ACCESS CONTROL
+// =============================================
+
+function requireAccess(callback) {
+    // Check if already unlocked this session
+    if (sessionStorage.getItem(ACCESS_SESSION_KEY) === 'true') {
+        callback();
+        return;
+    }
+
+    const modal = document.getElementById('access-modal');
+    const input = document.getElementById('access-key-input');
+    const submitBtn = document.getElementById('access-submit-btn');
+    const errorEl = document.getElementById('modal-error');
+
+    if (!modal || !input || !submitBtn || !errorEl) {
+        // Fallback: if modal elements don't exist, allow access
+        callback();
+        return;
+    }
+
+    // Clean slate
+    input.value = '';
+    errorEl.classList.remove('show');
+    input.classList.remove('error');
+
+    // Show modal
+    modal.classList.add('active');
+    setTimeout(() => input.focus(), 100);
+
+    // Prevent body scroll while modal is open
+    document.body.style.overflow = 'hidden';
+
+    function handleUnlock() {
+        const enteredKey = input.value.trim();
+        if (enteredKey === ACCESS_KEY) {
+            // Success — store in session and unlock
+            sessionStorage.setItem(ACCESS_SESSION_KEY, 'true');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            errorEl.classList.remove('show');
+            input.classList.remove('error');
+            // Remove event listeners
+            cleanup();
+            // Execute the protected action
+            callback();
+            showToast('🔓 ¡Contenido desbloqueado!');
+        } else {
+            // Wrong key
+            input.classList.add('error');
+            errorEl.classList.add('show');
+            input.value = '';
+            setTimeout(() => input.focus(), 300);
+            // Remove error after 2s
+            setTimeout(() => {
+                errorEl.classList.remove('show');
+                input.classList.remove('error');
+            }, 2500);
+        }
+    }
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleUnlock();
+        } else if (e.key === 'Escape') {
+            // Don't close on escape — force unlock
+        }
+    }
+
+    function handleOutsideClick(e) {
+        if (e.target === modal) {
+            // Don't close on backdrop click — force unlock
+        }
+    }
+
+    function cleanup() {
+        submitBtn.removeEventListener('click', handleUnlock);
+        input.removeEventListener('keydown', handleKeyDown);
+        modal.removeEventListener('click', handleOutsideClick);
+    }
+
+    submitBtn.addEventListener('click', handleUnlock);
+    input.addEventListener('keydown', handleKeyDown);
+    modal.addEventListener('click', handleOutsideClick);
+}
+
+// =============================================
 // DATA LOADING
 // =============================================
 
@@ -91,9 +192,19 @@ function renderTutoriales() {
 function toggleContent(contentId, btn) {
     const content = document.getElementById(contentId);
     if (!content) return;
-    
-    const isExpanded = content.classList.toggle('expanded');
-    btn.innerHTML = isExpanded ? '📕 Ocultar contenido' : '📖 Ver contenido';
+
+    // If already expanded, just toggle closed — no need to re-authenticate
+    if (content.classList.contains('expanded')) {
+        content.classList.remove('expanded');
+        btn.innerHTML = '📖 Ver contenido';
+        return;
+    }
+
+    // Require access before expanding
+    requireAccess(() => {
+        content.classList.add('expanded');
+        btn.innerHTML = '📕 Ocultar contenido';
+    });
 }
 
 // =============================================
@@ -134,18 +245,21 @@ function renderPrompts(filter = 'todos') {
 }
 
 function copyPrompt(element) {
-    const text = element.textContent.trim();
-    navigator.clipboard.writeText(text).then(() => {
-        showToast('✅ ¡Prompt copiado al portapapeles!');
-    }).catch(() => {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        showToast('✅ ¡Prompt copiado al portapapeles!');
+    // Require access before copying
+    requireAccess(() => {
+        const text = element.textContent.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('✅ ¡Prompt copiado al portapapeles!');
+        }).catch(() => {
+            // Fallback for older browsers
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('✅ ¡Prompt copiado al portapapeles!');
+        });
     });
 }
 

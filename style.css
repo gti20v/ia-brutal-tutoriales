@@ -893,6 +893,227 @@ body {
 }
 
 /* ============================================
+   ACCESS MODAL
+   ============================================ */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modalShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.modal-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 40px 36px 32px;
+    max-width: 460px;
+    width: 90%;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--accent-glow);
+    animation: modalSlideUp 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent-gradient);
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.modal-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.modal-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.modal-body {
+    margin-bottom: 20px;
+}
+
+.modal-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.modal-input {
+    flex: 1;
+    padding: 14px 18px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: var(--transition);
+    letter-spacing: 2px;
+}
+
+.modal-input::placeholder {
+    color: var(--text-muted);
+    letter-spacing: 0;
+}
+
+.modal-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.modal-input.error {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+    animation: modalShake 0.5s ease;
+}
+
+.modal-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: var(--accent-gradient);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+.modal-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px var(--accent-glow);
+}
+
+.modal-submit-btn:active {
+    transform: translateY(0);
+}
+
+.btn-arrow {
+    font-size: 1.2rem;
+    transition: var(--transition);
+}
+
+.modal-submit-btn:hover .btn-arrow {
+    transform: translateX(3px);
+}
+
+.modal-error {
+    display: none;
+    font-size: 0.85rem;
+    color: var(--red);
+    margin-top: 12px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.modal-error.show {
+    display: block;
+    animation: modalShake 0.5s ease;
+}
+
+.modal-footer {
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+}
+
+.modal-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* Modal responsive */
+@media (max-width: 480px) {
+    .modal-container {
+        padding: 30px 24px 24px;
+    }
+
+    .modal-input-group {
+        flex-direction: column;
+    }
+
+    .modal-submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .modal-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .modal-icon {
+        font-size: 2.5rem;
+    }
+}
+
+/* ============================================
    TOAST NOTIFICATION
    ============================================ */
 .toast {
