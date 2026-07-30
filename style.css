@@ -1005,30 +1005,36 @@ body {
 
 .modal-close {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 34px;
-    height: 34px;
+    top: -12px;
+    right: -12px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    border: none;
-    background: var(--bg-card);
-    color: var(--text-muted);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--transition);
-    z-index: 10;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 20;
+    box-shadow: 0 2px 12px rgba(220, 38, 38, 0.4);
+    line-height: 1;
+    font-family: 'Inter', sans-serif;
 }
 
 .modal-close:hover {
-    background: var(--bg-card-hover);
-    color: var(--text-primary);
-    transform: rotate(90deg);
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .modal-close:active {
-    transform: rotate(90deg) scale(0.95);
+    transform: scale(0.95);
 }
 
 .modal-container::before {
