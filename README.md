@@ -25,7 +25,7 @@ Guías paso a paso para las herramientas más relevantes:
 
 ## 🎬 Conecta
 
-- **YouTube:** [@IABRUTAL](https://youtube.com/@iabrutal)
+- **YouTube:** [@IABRUTAL26](https://youtube.com/@iabrutal26)
 - **Prompts & Recursos:** [Notion Library](https://notion.so/iabrutal)
 - **GitHub:** Síguenos para actualizaciones
 
