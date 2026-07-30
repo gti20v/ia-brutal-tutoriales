@@ -32,6 +32,7 @@ function requireAccess(callback) {
     const modal = document.getElementById('access-modal');
     const input = document.getElementById('access-key-input');
     const submitBtn = document.getElementById('access-submit-btn');
+    const closeBtn = document.getElementById('modal-close-btn');
     const errorEl = document.getElementById('modal-error');
 
     if (!modal || !input || !submitBtn || !errorEl) {
@@ -80,28 +81,39 @@ function requireAccess(callback) {
         }
     }
 
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        errorEl.classList.remove('show');
+        input.classList.remove('error');
+        cleanup();
+    }
+
     function handleKeyDown(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             handleUnlock();
         } else if (e.key === 'Escape') {
-            // Don't close on escape — force unlock
+            e.preventDefault();
+            closeModal();
         }
     }
 
     function handleOutsideClick(e) {
         if (e.target === modal) {
-            // Don't close on backdrop click — force unlock
+            closeModal();
         }
     }
 
     function cleanup() {
         submitBtn.removeEventListener('click', handleUnlock);
+        if (closeBtn) closeBtn.removeEventListener('click', closeModal);
         input.removeEventListener('keydown', handleKeyDown);
         modal.removeEventListener('click', handleOutsideClick);
     }
 
     submitBtn.addEventListener('click', handleUnlock);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
     input.addEventListener('keydown', handleKeyDown);
     modal.addEventListener('click', handleOutsideClick);
 }
