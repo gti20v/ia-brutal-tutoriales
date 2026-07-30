@@ -1,1 +1,1626 @@
-{"tutoriales":[{"title":"Instalación Freebuff","description":"Guía completa para instalar Freebuff","duration":"15 min","level":"Principiante","content":"1. Descargar Freebuff desde freebuff.io\n2. Descomprimir archivo\n3. npm install\n4. Configurar .env\n5. npm start\n6. Acceder a localhost:3000"},{"title":"Claude API - Primeros Pasos","description":"Integrar Claude API en Python","duration":"20 min","level":"Intermedio","content":"1. Obtener key en console.anthropic.com\n2. pip install anthropic\n3. Crear credentials.json\n4. client = Anthropic(api_key='key')\n5. message = client.messages.create(...)\n6. Procesar respuesta"},{"title":"ChatGPT Pro - Productividad","description":"Estrategias avanzadas con ChatGPT Pro","duration":"18 min","level":"Intermedio","content":"1. Suscribirse ChatGPT Plus $20/mes\n2. Usar GPT-4 para tareas complejas\n3. Custom instructions para consistencia\n4. Code Interpreter para datos\n5. DALL-E 3 para imágenes\n6. Guardar chats reutilizables"}],"prompts":[{"title":"Redactor SEO","category":"Escritura","description":"Artículos optimizados SEO","text":"Escribe artículo de 2000 palabras sobre [TOPIC] con H2, H3, keywords [KEYWORDS], hook 100w, datos reales, CTA","tip":"Especifica tópico, keywords y audiencia"},{"title":"Email Persuasivo","category":"Escritura","description":"Emails con alta apertura","text":"Email de venta para [PRODUCT]: Hook gancho, Problema-Solución-Prueba-CTA, personalizado para [AUDIENCE], máx 150w, tone urgente, PS beneficio","tip":"Los emails con PS generan +15% clicks"},{"title":"Debugger Python","category":"Programación","description":"Encuentra errores en código","text":"Analiza este código Python:\n```[CODE]```\nEncuentra: sintaxis, lógica, ineficiencias, vulnerabilidades. Provee código corregido","tip":"Siempre pega traceback completo"},{"title":"Marketing Manager","category":"Marketing","description":"Estrategia marketing completa","text":"Estrategia para [PRODUCT]: Target audience, canales, mensaje, KPIs, presupuesto, calendario 3m, tácticas","tip":"Define buyer persona primero"},{"title":"Analista Datos","category":"Análisis","description":"Interpreta datos y da insights","text":"Analiza datos:\n```[DATA]```\nPatrones, anomalías, correlaciones, recomendaciones, visualizaciones, métrica importante","tip":"Valida datos antes de conclusiones"},{"title":"Business Model","category":"Negocio","description":"Modelo de negocio completo","text":"BMC para [IDEA]: Value Prop, Customers, Channels, Relationships, Revenue, Resources, Activities, Partnerships, Costs","tip":"BMC es herramienta #1 para validar ideas"}],"guias":[{"title":"Precios IA 2026","type":"Análisis Precios","description":"Comparativa de herramientas IA","content":"CHAT:\n- Claude Pro: $20/mes (reasoning)\n- ChatGPT Plus: $20/mes (versátil)\n- Gemini Advanced: $20/mes (Google)\n\nIMAGEN:\n- DALL-E 3: $15/mes o $0.08/imagen\n- Midjourney: $10-120/mes\n- Stable Diffusion: Gratis\n\nCODE:\n- GitHub Copilot: $10/mes\n- Cursor: $20/mes\n- Tabnine: Gratis + premium"},{"title":"Alternativas Gratis","type":"Comparativa","description":"Herramientas gratis que reemplazan pagas","content":"CHAT: ChatGPT Gratis, Ollama local, Llama 2, HuggingFace\nIMAGEN: Stable Diffusion, Leonardo AI, Pixlr\nCODE: GitHub Copilot (estudiantes), Tabnine Community\nVIDEO: CapCut, DaVinci Resolve, Synthesia\n\nConsejo: Combina tools gratis para máximo ROI"},{"title":"ROI Herramientas IA","type":"Análisis ROI","description":"Retorno real de inversión","content":"FREELANCER COPYWRITING:\nSin IA: 4h/artículo × $50 = $200/artículo\nCon IA: 1h/artículo × $50 = $50 + $40 tools = $90/artículo\nAhorro: $110/artículo\n30 artículos/mes = $3,300 ahorro\nROI: 82.5x en mes 1"}],"automatizacion":[{"title":"Email Automático","tool":"Python+Gmail API","complexity":"Intermedio","description":"Respuestas automáticas con IA","timeSaving":"5h/semana","code":"from google.oauth2 import Credentials\nimport anthropic\n\ndef auto_reply():\n    service = build('gmail','v1')\n    msgs = service.users().messages().list(q='unread').execute()\n    for m in msgs['messages']:\n        msg = service.users().messages().get(id=m['id']).execute()\n        reply = claude_reply(msg)\n        send_email(reply)"},{"title":"Blog Generator","tool":"Python+Claude+WordPress","complexity":"Avanzado","description":"Genera artículos automáticamente","timeSaving":"20h/semana","code":"client = anthropic.Anthropic()\nmsg = client.messages.create(\n    model='claude-3-opus',\n    messages=[{'role':'user','content':f'Escribe artículo sobre {topic}'}]\n)\nwp.posts.create({'title':topic,'content':msg.content[0].text})"},{"title":"Social Media Posts","tool":"Python+Buffer","complexity":"Básico","description":"Publica en redes automáticamente","timeSaving":"3h/semana","code":"import requests\nfor post in posts:\n    requests.post('buffer.api/updates',\n        json={'text':post['text'],'scheduled_at':post['time']})\n    print(f'Post programado: {post[\"text\"]}')"}, {"title":"Chat Soporte","tool":"Python+Claude+Flask","complexity":"Intermedio","description":"Responde tickets automáticamente","timeSaving":"10h/semana","code":"@app.route('/support',methods=['POST'])\ndef support():\n    msg = request.json['message']\n    reply = client.messages.create(...)\n    save_response(reply)\n    return {'response':reply}"}]}
+{
+  "tutoriales": [
+    {
+      "title": "Primeros pasos con Claude: crea tu cuenta y domina la interfaz",
+      "description": "Guía completa para dar tus primeros pasos en Claude.ai, entender los límites del plan gratuito y configurar tu espacio de trabajo.",
+      "duration": "12 min",
+      "level": "Principiante",
+      "content": "1. Entra en claude.ai y crea una cuenta con tu correo o Google.\n2. Verifica tu correo electrónico y completa el perfil básico.\n3. Explora el selector de modelos: Haiku para tareas rápidas, Sonnet para uso diario, Opus para tareas complejas.\n4. Crea tu primer chat y prueba una pregunta simple para familiarizarte con el formato de respuesta.\n5. Activa 'Proyectos' en la barra lateral para agrupar conversaciones relacionadas con contexto compartido.\n6. Sube un documento (PDF o Word) y pide un resumen para ver cómo Claude procesa archivos.\n7. Revisa el historial de chats y aprende a renombrarlos para encontrarlos después.\n8. Configura las preferencias de estilo de respuesta en Ajustes > Perfil para personalizar el tono."
+    },
+    {
+      "title": "Claude Projects: organiza tu trabajo con contexto persistente",
+      "description": "Aprende a usar Projects para mantener contexto, instrucciones y archivos compartidos entre conversaciones relacionadas.",
+      "duration": "18 min",
+      "level": "Intermedio",
+      "content": "1. Crea un nuevo Proyecto desde la barra lateral y ponle un nombre descriptivo.\n2. Añade 'Instrucciones personalizadas' que definan el rol de Claude dentro de ese proyecto.\n3. Sube documentos de referencia (hasta el límite del plan) que Claude usará como contexto en todos los chats del proyecto.\n4. Inicia una conversación dentro del proyecto y comprueba que Claude cita el contenido subido.\n5. Organiza varios proyectos por cliente, área o tipo de tarea para no mezclar contexto.\n6. Actualiza los archivos de contexto cuando cambien los datos base (por ejemplo, un manual de marca).\n7. Comparte el proyecto con tu equipo si usas un plan Team para mantener coherencia entre usuarios.\n8. Revisa periódicamente qué archivos ya no aportan valor y elimínalos para no saturar el contexto."
+    },
+    {
+      "title": "Domina Claude Artifacts para crear apps y visualizaciones",
+      "description": "Tutorial práctico para generar código interactivo, diagramas y mini-aplicaciones directamente en el chat con Artifacts.",
+      "duration": "20 min",
+      "level": "Intermedio",
+      "content": "1. Pide a Claude 'crea una calculadora de propinas en HTML' y observa cómo se abre el panel de Artifacts.\n2. Edita el artifact pidiendo cambios específicos, por ejemplo 'cambia el color a azul oscuro'.\n3. Prueba a generar un gráfico con datos propios usando Chart.js dentro de un artifact.\n4. Genera un diagrama de flujo en Mermaid para documentar un proceso de negocio.\n5. Descarga el código del artifact y pruébalo localmente en tu editor.\n6. Combina varios artifacts en una conversación para construir un prototipo por partes.\n7. Usa artifacts para crear dashboards simples que muestren KPIs de ejemplo.\n8. Comparte el artifact publicado como enlace privado con un compañero para recibir feedback."
+    },
+    {
+      "title": "Claude Code desde cero: tu primer agente de programación en terminal",
+      "description": "Instalación, configuración y primer proyecto real usando Claude Code como asistente de desarrollo en la terminal.",
+      "duration": "25 min",
+      "level": "Intermedio",
+      "content": "1. Instala Node.js 18+ y ejecuta 'npm install -g @anthropic-ai/claude-code'.\n2. Autentícate con tu cuenta de Anthropic ejecutando 'claude' en la terminal.\n3. Navega a la carpeta de tu proyecto y lanza Claude Code con el comando 'claude'.\n4. Pide un resumen del repositorio con '/init' para que Claude genere un CLAUDE.md con contexto del proyecto.\n5. Solicita una tarea concreta, por ejemplo 'añade validación de email al formulario de registro'.\n6. Revisa el diff propuesto antes de aceptar los cambios, usando el modo de confirmación por archivo.\n7. Usa '/undo' o el control de versiones de git para revertir cambios si algo no te convence.\n8. Configura un hook en settings.json para ejecutar tests automáticamente tras cada edición."
+    },
+    {
+      "title": "Claude Skills: crea capacidades reutilizables para tus flujos",
+      "description": "Cómo diseñar, empaquetar y usar Skills personalizadas que extienden lo que Claude puede hacer en tareas repetitivas.",
+      "duration": "22 min",
+      "level": "Avanzado",
+      "content": "1. Entiende qué es una Skill: un paquete de instrucciones y scripts que Claude carga bajo demanda.\n2. Crea una carpeta con un archivo SKILL.md que describa el propósito y cuándo debe activarse.\n3. Añade una descripción clara y ejemplos de disparo para que Claude sepa cuándo invocarla.\n4. Incluye scripts auxiliares (Python o Bash) que la skill pueda ejecutar como parte del flujo.\n5. Prueba la skill en una conversación real pidiendo una tarea que coincida con su descripción.\n6. Itera sobre el SKILL.md ajustando el lenguaje si Claude no la activa cuando debería.\n7. Documenta las limitaciones y casos borde dentro del propio archivo para futuras revisiones.\n8. Comparte la skill con tu equipo colocándola en un repositorio de plugins interno."
+    },
+    {
+      "title": "Introducción a MCP: conecta Claude con tus herramientas reales",
+      "description": "Qué es el Model Context Protocol, por qué importa y cómo conectar tu primer servidor MCP a Claude Desktop.",
+      "duration": "20 min",
+      "level": "Avanzado",
+      "content": "1. Comprende el concepto: MCP es un protocolo abierto que permite a Claude hablar con herramientas externas de forma estandarizada.\n2. Instala Claude Desktop y localiza el archivo de configuración claude_desktop_config.json.\n3. Añade un servidor MCP público, por ejemplo el de sistema de archivos, con su comando de arranque.\n4. Reinicia Claude Desktop y verifica que el nuevo conector aparece en el icono de herramientas.\n5. Prueba una petición que requiera el servidor, como 'lista los archivos de mi carpeta de descargas'.\n6. Conecta un segundo servidor MCP, por ejemplo el de una base de datos PostgreSQL de prueba.\n7. Revisa los permisos que Claude solicita antes de ejecutar acciones potencialmente destructivas.\n8. Explora el registro de MCP servers de Anthropic para encontrar conectores ya construidos por la comunidad."
+    },
+    {
+      "title": "RAG explicado con ejemplos: cómo dar memoria externa a un modelo",
+      "description": "Fundamentos de Retrieval-Augmented Generation y una implementación mínima con embeddings y una base vectorial.",
+      "duration": "30 min",
+      "level": "Avanzado",
+      "content": "1. Entiende el problema que resuelve RAG: dar acceso a información actualizada o privada sin reentrenar el modelo.\n2. Divide tus documentos en fragmentos (chunks) de 300-500 tokens con solapamiento del 10%.\n3. Genera embeddings de cada fragmento usando un modelo como text-embedding-3-small o Voyage AI.\n4. Almacena los vectores en una base vectorial como Chroma, Pinecone o Weaviate.\n5. Ante una pregunta del usuario, genera el embedding de la consulta y busca los fragmentos más similares.\n6. Inserta los fragmentos recuperados como contexto en el prompt enviado a Claude o al LLM elegido.\n7. Evalúa la calidad de las respuestas midiendo precisión de recuperación (recall@k) sobre un set de prueba.\n8. Ajusta el tamaño de chunk y el número de fragmentos recuperados (k) según los resultados de la evaluación."
+    },
+    {
+      "title": "Agentes autónomos con Claude: de la teoría a un flujo funcional",
+      "description": "Diseña un agente que planifica, ejecuta herramientas y revisa su propio trabajo antes de entregar el resultado.",
+      "duration": "28 min",
+      "level": "Avanzado",
+      "content": "1. Define el objetivo del agente en una frase clara, por ejemplo 'investigar precios de competidores y generar informe'.\n2. Diseña las herramientas que el agente podrá usar: búsqueda web, lectura de archivos, escritura de reportes.\n3. Escribe un prompt de sistema que describa el bucle de trabajo: planear, actuar, observar, repetir.\n4. Implementa un límite de iteraciones para evitar bucles infinitos de llamadas a herramientas.\n5. Añade un paso de autoevaluación donde el agente revisa si cumplió el objetivo antes de terminar.\n6. Registra cada acción y resultado en un log para poder depurar el comportamiento del agente.\n7. Prueba el agente con casos límite: información faltante, herramientas que fallan, resultados ambiguos.\n8. Despliega el agente en un entorno controlado y añade alertas humanas para acciones irreversibles."
+    },
+    {
+      "title": "ChatGPT vs Claude vs Gemini: cómo elegir el modelo correcto para cada tarea",
+      "description": "Comparativa práctica basada en pruebas reales para saber qué asistente usar según el tipo de trabajo.",
+      "duration": "15 min",
+      "level": "Principiante",
+      "content": "1. Identifica el tipo de tarea: escritura creativa, código, análisis de datos o investigación con fuentes.\n2. Prueba la misma consulta de código en Claude y ChatGPT y compara la calidad del razonamiento explicado.\n3. Evalúa Gemini para tareas que requieran integración directa con Google Workspace (Docs, Sheets, Gmail).\n4. Compara el manejo de documentos largos: sube el mismo PDF de 50 páginas a los tres asistentes.\n5. Revisa las políticas de uso de datos de cada proveedor si vas a trabajar con información sensible.\n6. Ten en cuenta el coste por token de cada API si planeas automatizar procesos a gran escala.\n7. Prueba las capacidades de generación de imágenes: Gemini y ChatGPT las integran nativamente, Claude no.\n8. Define una regla simple de equipo: qué herramienta usar por defecto según el tipo de entregable."
+    },
+    {
+      "title": "Cómo escribir prompts efectivos: la estructura CRISPE",
+      "description": "Framework práctico para estructurar prompts que obtienen mejores resultados de cualquier modelo de lenguaje.",
+      "duration": "16 min",
+      "level": "Principiante",
+      "content": "1. Aprende el acrónimo CRISPE: Contexto, Rol, Instrucción, Especificidad, Personalidad, Ejemplos.\n2. Escribe el Contexto: explica la situación y el objetivo final antes de pedir nada.\n3. Asigna un Rol al modelo, por ejemplo 'actúa como redactor SEO senior con 10 años de experiencia'.\n4. Da la Instrucción concreta en una frase imperativa clara, evitando ambigüedad.\n5. Añade Especificidad: formato de salida, longitud máxima, tono y público objetivo.\n6. Define la Personalidad de la respuesta si el tono importa (formal, cercano, técnico).\n7. Incluye uno o dos Ejemplos de la salida esperada (few-shot) para anclar el estilo.\n8. Itera el prompt basándote en la primera respuesta, ajustando la parte que falló."
+    },
+    {
+      "title": "Prompt chaining: encadena tareas complejas en pasos simples",
+      "description": "Técnica para dividir un problema grande en varias llamadas encadenadas al modelo, mejorando precisión y control.",
+      "duration": "18 min",
+      "level": "Intermedio",
+      "content": "1. Identifica una tarea compleja que hoy resuelves con un único prompt gigante y con resultados inconsistentes.\n2. Divide la tarea en subtareas secuenciales, por ejemplo: investigar, resumir, estructurar, redactar.\n3. Escribe un prompt específico para cada subtarea, con entrada y salida bien definidas.\n4. Pasa la salida de un paso como entrada del siguiente, validando el formato entre pasos.\n5. Añade una verificación intermedia donde el modelo evalúa su propio resultado antes de continuar.\n6. Implementa el encadenamiento manualmente en el chat o automatízalo con la API y un script en Python.\n7. Mide la mejora de calidad comparando el resultado del prompt único contra el encadenado.\n8. Documenta la cadena de prompts como un playbook reutilizable para el equipo."
+    },
+    {
+      "title": "Fine-tuning vs prompt engineering vs RAG: qué técnica usar y cuándo",
+      "description": "Guía de decisión para elegir la estrategia correcta según tu caso de uso, presupuesto y volumen de datos.",
+      "duration": "20 min",
+      "level": "Avanzado",
+      "content": "1. Empieza siempre por prompt engineering: es la opción más barata y rápida de iterar.\n2. Si necesitas que el modelo use información propia y actualizada, evalúa RAG antes que fine-tuning.\n3. Considera fine-tuning solo cuando necesites cambiar el estilo o formato de salida de forma consistente y masiva.\n4. Calcula el coste de preparar un dataset de fine-tuning de al menos 500-1000 ejemplos de calidad.\n5. Evalúa el mantenimiento: RAG se actualiza cambiando documentos, fine-tuning requiere reentrenar.\n6. Prueba un enfoque híbrido: RAG para conocimiento y prompt engineering para el formato de respuesta.\n7. Mide resultados con una batería de pruebas fija antes y después de cada cambio de estrategia.\n8. Documenta la decisión y el motivo para que el equipo no repita pruebas ya descartadas."
+    },
+    {
+      "title": "Whisper de OpenAI: transcribe audio y vídeo con precisión profesional",
+      "description": "Tutorial paso a paso para transcribir entrevistas, podcasts o reuniones usando Whisper, en local o vía API.",
+      "duration": "17 min",
+      "level": "Intermedio",
+      "content": "1. Decide entre usar la API de OpenAI (pago por minuto) o el modelo Whisper local y gratuito.\n2. Si usas local, instala Python y ejecuta 'pip install openai-whisper' junto con ffmpeg.\n3. Convierte tu archivo de audio a formato compatible (mp3 o wav) si es necesario.\n4. Ejecuta el comando 'whisper archivo.mp3 --model medium --language Spanish' desde la terminal.\n5. Revisa el archivo .srt generado con los subtítulos con marcas de tiempo.\n6. Corrige manualmente nombres propios o jerga técnica que el modelo pueda confundir.\n7. Si necesitas mayor velocidad, usa la API con el modelo whisper-1 y sube el archivo directamente.\n8. Integra la transcripción en un flujo posterior, por ejemplo resumir la reunión con Claude."
+    },
+    {
+      "title": "ElevenLabs: clona voces y genera locuciones realistas con IA",
+      "description": "Cómo crear locuciones profesionales, clonar tu propia voz de forma ética y usarlas en vídeos o podcasts.",
+      "duration": "15 min",
+      "level": "Principiante",
+      "content": "1. Crea una cuenta en ElevenLabs y explora la biblioteca de voces predefinidas.\n2. Prueba el modo 'Text to Speech' pegando un guion corto y escuchando el resultado.\n3. Ajusta los parámetros de estabilidad y claridad para controlar la expresividad de la voz.\n4. Si quieres clonar tu voz, sube al menos 3 minutos de audio limpio sin ruido de fondo.\n5. Confirma el consentimiento de uso de voz según los términos legales de la plataforma.\n6. Genera un locución larga dividiendo el guion en bloques de menos de 5000 caracteres.\n7. Exporta el audio en formato mp3 de alta calidad para uso en vídeo o podcast.\n8. Combina la locución con subtítulos generados por Whisper para producir contenido accesible."
+    },
+    {
+      "title": "Midjourney para principiantes: tu primera imagen generada por IA",
+      "description": "Configura Discord, entiende los parámetros básicos y genera tus primeras imágenes con Midjourney V6.",
+      "duration": "14 min",
+      "level": "Principiante",
+      "content": "1. Crea una cuenta en Discord y únete al servidor oficial de Midjourney o activa el bot en tu propio servidor.\n2. Suscríbete a un plan de pago, ya que Midjourney no ofrece uso gratuito ilimitado.\n3. Escribe tu primer prompt con el comando '/imagine' seguido de una descripción clara de la escena.\n4. Añade parámetros como '--ar 16:9' para el formato o '--v 6' para elegir versión del modelo.\n5. Selecciona una de las 4 variaciones generadas y pulsa 'Upscale' para aumentar la resolución.\n6. Usa 'Vary (Subtle)' o 'Vary (Strong)' para explorar variaciones sobre una imagen que te gustó.\n7. Aprende a usar pesos de prompt con '::' para dar más importancia a ciertos elementos.\n8. Descarga la imagen final en alta resolución desde el enlace que genera el bot."
+    },
+    {
+      "title": "Stable Diffusion local: instala y genera imágenes en tu propio PC",
+      "description": "Instalación de Automatic1111 o ComfyUI para generar imágenes sin límites de suscripción, usando tu GPU.",
+      "duration": "35 min",
+      "level": "Avanzado",
+      "content": "1. Verifica que tu GPU tiene al menos 6GB de VRAM (NVIDIA recomendado para mejor compatibilidad).\n2. Instala Python 3.10 y Git en tu sistema antes de continuar.\n3. Clona el repositorio de Automatic1111 con 'git clone' desde su repositorio oficial.\n4. Descarga un checkpoint de modelo, por ejemplo SDXL 1.0, y colócalo en la carpeta models/Stable-diffusion.\n5. Ejecuta el script webui-user.bat (Windows) o webui.sh (Linux/Mac) para iniciar la interfaz local.\n6. Accede a la interfaz en tu navegador en localhost:7860 y escribe tu primer prompt.\n7. Ajusta los pasos de muestreo (steps) y el CFG scale para controlar fidelidad al prompt.\n8. Instala extensiones como ControlNet para controlar poses y composición con mayor precisión."
+    },
+    {
+      "title": "n8n desde cero: crea tu primer flujo de automatización visual",
+      "description": "Instalación, conceptos básicos de nodos y creación de un flujo que conecta un formulario con un email automático.",
+      "duration": "22 min",
+      "level": "Principiante",
+      "content": "1. Regístrate en n8n Cloud o instala la versión self-hosted con Docker usando la imagen oficial.\n2. Crea un nuevo workflow y añade un nodo Trigger, por ejemplo 'Webhook' o 'Formulario'.\n3. Conecta un nodo de acción, como 'Send Email' o 'Google Sheets', arrastrando la conexión entre nodos.\n4. Configura las credenciales del servicio conectado siguiendo el asistente de autenticación.\n5. Prueba el flujo con el botón 'Execute Workflow' y revisa los datos que pasan entre nodos.\n6. Añade un nodo 'IF' para crear una condición que decida el camino según el valor de un campo.\n7. Activa el workflow para que se ejecute automáticamente cuando llegue un nuevo dato.\n8. Revisa el historial de ejecuciones para depurar errores en producción."
+    },
+    {
+      "title": "Zapier: conecta tus apps sin escribir una línea de código",
+      "description": "Guía práctica para crear tu primer Zap que automatiza una tarea repetitiva entre dos aplicaciones.",
+      "duration": "12 min",
+      "level": "Principiante",
+      "content": "1. Crea una cuenta gratuita en Zapier y explora la galería de plantillas de Zaps populares.\n2. Haz clic en 'Create Zap' y elige la app disparadora, por ejemplo Gmail.\n3. Selecciona el evento disparador, como 'Nuevo email con adjunto'.\n4. Conecta tu cuenta de Gmail autorizando el acceso mediante OAuth.\n5. Añade una acción, por ejemplo 'Guardar adjunto en Google Drive'.\n6. Mapea los campos de datos entre el trigger y la acción usando el editor visual.\n7. Prueba el Zap con el botón de test y verifica que el archivo aparece en Drive.\n8. Activa el Zap y monitoriza su uso desde el panel de historial de tareas."
+    },
+    {
+      "title": "Make (antes Integromat): automatizaciones visuales avanzadas",
+      "description": "Cómo construir escenarios complejos con routers, filtros e iteradores para automatizar procesos multi-paso.",
+      "duration": "26 min",
+      "level": "Intermedio",
+      "content": "1. Crea una cuenta en Make y familiarízate con el editor visual de escenarios en canvas.\n2. Añade el primer módulo disparador, por ejemplo 'Watch new rows' de Google Sheets.\n3. Inserta un módulo Router para dividir el flujo en varias ramas según condiciones.\n4. Configura un Filter en cada rama para que solo pase la información que cumple ciertos criterios.\n5. Usa un Iterator para procesar arrays de datos, por ejemplo varios productos de un pedido.\n6. Añade un módulo de agregación (Aggregator) para combinar resultados antes de la salida final.\n7. Configura el manejo de errores con la opción 'Add error handler' en los módulos críticos.\n8. Programa la ejecución periódica del escenario y revisa el consumo de operaciones mensuales."
+    },
+    {
+      "title": "Automatiza tu bandeja de entrada con IA: clasificación y respuestas",
+      "description": "Combina Gmail, n8n y Claude para clasificar correos automáticamente y sugerir respuestas.",
+      "duration": "24 min",
+      "level": "Avanzado",
+      "content": "1. Conecta tu cuenta de Gmail a n8n mediante el nodo oficial de Gmail con OAuth2.\n2. Crea un trigger que se dispare cada vez que llegue un correo nuevo a la bandeja.\n3. Añade un nodo HTTP Request que envíe el contenido del correo a la API de Claude.\n4. Escribe un prompt de sistema que clasifique el correo en categorías: urgente, comercial, soporte, spam.\n5. Usa la salida estructurada en JSON para decidir el siguiente paso del flujo con un nodo Switch.\n6. Genera un borrador de respuesta con Claude para los correos de categoría 'soporte'.\n7. Guarda el borrador en Gmail como draft en lugar de enviarlo automáticamente, para revisión humana.\n8. Registra cada clasificación en una hoja de cálculo para auditar la precisión del sistema con el tiempo."
+    },
+    {
+      "title": "Agentes de soporte al cliente con IA: diseño de un chatbot que resuelve tickets",
+      "description": "Arquitectura práctica de un chatbot de soporte que usa RAG sobre tu documentación y escala a humano cuando falla.",
+      "duration": "27 min",
+      "level": "Avanzado",
+      "content": "1. Recopila toda tu documentación de soporte (FAQ, manuales, políticas) en un formato de texto limpio.\n2. Indexa los documentos en una base vectorial usando el proceso de RAG explicado en el tutorial correspondiente.\n3. Define el prompt de sistema del agente incluyendo tono de marca y límites claros de lo que puede prometer.\n4. Configura una herramienta de 'escalar a humano' que el agente pueda invocar cuando no tenga confianza en la respuesta.\n5. Añade un umbral de similitud mínimo en la recuperación: si no hay match suficiente, escala automáticamente.\n6. Integra el agente en tu canal de atención, por ejemplo Intercom o WhatsApp Business, vía webhook.\n7. Registra cada conversación con su resultado (resuelto/escalado) para medir la tasa de resolución automática.\n8. Revisa semanalmente las conversaciones escaladas para ampliar la base de conocimiento con los huecos detectados."
+    },
+    {
+      "title": "Coding assistants: saca el máximo partido a GitHub Copilot",
+      "description": "Configuración, atajos y buenas prácticas para programar más rápido con Copilot en VS Code.",
+      "duration": "16 min",
+      "level": "Intermedio",
+      "content": "1. Instala la extensión GitHub Copilot desde el marketplace de VS Code y autentícate con tu cuenta de GitHub.\n2. Activa Copilot Chat para hacer preguntas sobre el código sin salir del editor.\n3. Escribe un comentario descriptivo antes de una función para guiar la sugerencia de código.\n4. Usa Tab para aceptar sugerencias completas y Ctrl+flecha para aceptarlas palabra por palabra.\n5. Selecciona un bloque de código y pide '/explain' para entender lógica heredada rápidamente.\n6. Usa '/fix' sobre un error resaltado para que Copilot proponga una corrección.\n7. Configura reglas de exclusión de archivos sensibles en la configuración de Copilot para evitar fugas de datos.\n8. Combina Copilot con revisiones humanas obligatorias en el pull request antes de fusionar a main."
+    },
+    {
+      "title": "Cursor: el editor de código construido alrededor de la IA",
+      "description": "Instalación y flujo de trabajo con Cursor para refactorizar, generar y depurar código a gran velocidad.",
+      "duration": "19 min",
+      "level": "Intermedio",
+      "content": "1. Descarga Cursor desde su web oficial e importa tu configuración de VS Code si ya lo usabas.\n2. Abre tu proyecto y usa Ctrl+K para editar código inline con instrucciones en lenguaje natural.\n3. Usa Ctrl+L para abrir el chat lateral y pedir cambios que afecten a varios archivos.\n4. Activa el modo 'Composer' para tareas que requieran crear o modificar múltiples archivos a la vez.\n5. Indexa tu repositorio completo para que el modelo tenga contexto de toda la base de código.\n6. Configura reglas de proyecto en un archivo .cursorrules con convenciones de estilo del equipo.\n7. Revisa el diff generado antes de aceptar cambios, igual que en una revisión de código tradicional.\n8. Usa el modo de depuración para pegar un stack trace y pedir un diagnóstico del error."
+    },
+    {
+      "title": "Google Sheets con IA: fórmulas automáticas y análisis con Gemini",
+      "description": "Cómo usar Gemini dentro de Google Sheets para generar fórmulas, resumir datos y crear informes.",
+      "duration": "14 min",
+      "level": "Principiante",
+      "content": "1. Activa Gemini en Google Workspace desde el icono de estrella en la barra lateral de Sheets.\n2. Selecciona un rango de datos y pide 'resume las tendencias principales de esta tabla'.\n3. Solicita una fórmula compleja describiendo el resultado que buscas, por ejemplo 'suma condicional por región y mes'.\n4. Pide a Gemini que genere un gráfico automáticamente a partir de los datos seleccionados.\n5. Usa la función auxiliar de limpieza de datos para detectar duplicados o valores inconsistentes.\n6. Genera una tabla dinámica sugerida automáticamente según el tipo de datos detectado.\n7. Exporta el resumen generado como texto para incluirlo en un informe ejecutivo.\n8. Automatiza la actualización periódica del resumen conectando Sheets con Apps Script y un trigger horario."
+    },
+    {
+      "title": "Notion AI: organiza tu segundo cerebro con inteligencia artificial",
+      "description": "Cómo usar Notion AI para resumir páginas, generar tareas automáticamente y estructurar bases de conocimiento.",
+      "duration": "13 min",
+      "level": "Principiante",
+      "content": "1. Activa el complemento Notion AI desde la configuración del espacio de trabajo.\n2. Selecciona un bloque de texto y pide 'resume en 3 puntos clave' desde el menú contextual.\n3. Usa el comando '/ai' para generar una plantilla de página nueva a partir de una descripción.\n4. Pide a Notion AI que traduzca una página completa manteniendo el formato original.\n5. Genera una lista de tareas accionables a partir de las notas de una reunión pegada en la página.\n6. Usa la función Q&A del espacio de trabajo para preguntar sobre contenido disperso en varias páginas.\n7. Crea una base de datos con propiedades sugeridas automáticamente según el tipo de contenido.\n8. Configura una plantilla reutilizable con instrucciones de IA integradas para nuevos proyectos."
+    },
+    {
+      "title": "SEO con IA: investigación de palabras clave y briefs de contenido",
+      "description": "Flujo completo para investigar keywords, analizar competencia y generar un brief de contenido optimizado con IA.",
+      "duration": "23 min",
+      "level": "Intermedio",
+      "content": "1. Define el tema principal y usa una herramienta como Ahrefs o Ubersuggest para extraer keywords relacionadas.\n2. Pide a Claude que agrupe las keywords por intención de búsqueda: informacional, transaccional, navegacional.\n3. Analiza los 5 primeros resultados de Google para el término principal y extrae su estructura de encabezados.\n4. Pide al modelo que identifique gaps de contenido comparando tu borrador con los competidores top.\n5. Genera un brief con: título sugerido, meta descripción, estructura H2/H3 y palabras clave secundarias a incluir.\n6. Redacta el contenido siguiendo el brief, evitando relleno y priorizando información verificable.\n7. Revisa la legibilidad y añade datos, ejemplos o citas que aporten autoridad real al texto.\n8. Audita el contenido publicado a los 30 días y ajusta según el rendimiento en Search Console."
+    },
+    {
+      "title": "Generación de vídeo con IA: primeros pasos con Runway y Pika",
+      "description": "Cómo generar clips de vídeo cortos a partir de texto o imágenes usando las herramientas líderes actuales.",
+      "duration": "20 min",
+      "level": "Intermedio",
+      "content": "1. Crea una cuenta en Runway y explora el modo 'Text to Video' con un prompt descriptivo corto.\n2. Genera un clip de 4 segundos y observa la coherencia de movimiento y física de la escena.\n3. Prueba 'Image to Video' subiendo una imagen fija para animarla con movimiento de cámara.\n4. Ajusta parámetros de movimiento (cantidad y dirección) para controlar la intensidad de la animación.\n5. Repite el proceso en Pika Labs y compara la calidad y coherencia frente a Runway para el mismo prompt.\n6. Extiende un clip generado usando la función de continuación para lograr tomas más largas.\n7. Exporta los clips y edítalos en una línea de tiempo con un editor tradicional como CapCut o Premiere.\n8. Añade locución generada con ElevenLabs y música libre de derechos para completar la pieza final."
+    },
+    {
+      "title": "Analiza datos con IA: de un CSV a insights accionables en minutos",
+      "description": "Sube un dataset a Claude o ChatGPT y obtén análisis estadístico, gráficos y conclusiones sin escribir código.",
+      "duration": "18 min",
+      "level": "Intermedio",
+      "content": "1. Prepara tu archivo CSV limpiando filas duplicadas y valores nulos evidentes antes de subirlo.\n2. Sube el archivo al chat y pide un resumen estadístico general: medias, medianas y valores atípicos.\n3. Pide que identifique correlaciones relevantes entre columnas numéricas del dataset.\n4. Solicita una visualización específica, por ejemplo 'un gráfico de barras de ventas por región'.\n5. Pide al modelo que ejecute código Python en su entorno de análisis para validar los cálculos mostrados.\n6. Formula preguntas de negocio concretas, como '¿qué producto tiene mejor margen relativo?'.\n7. Pide un resumen ejecutivo de 5 líneas con las conclusiones más accionables para dirección.\n8. Exporta el código Python generado para reproducir el análisis con datos actualizados cada mes."
+    },
+    {
+      "title": "Agentes de ventas con IA: cualifica leads automáticamente",
+      "description": "Diseña un flujo que analiza leads entrantes, los puntúa y prioriza el trabajo del equipo comercial.",
+      "duration": "25 min",
+      "level": "Avanzado",
+      "content": "1. Define los criterios de cualificación: presupuesto, autoridad, necesidad y tiempo (framework BANT).\n2. Conecta tu CRM (HubSpot o similar) a n8n para capturar cada lead nuevo automáticamente.\n3. Envía los datos del lead a Claude con un prompt que le pida puntuar de 0 a 100 según los criterios BANT.\n4. Extrae la puntuación y la justificación en formato JSON estructurado para poder automatizar decisiones.\n5. Configura una regla: leads con puntuación superior a 80 se asignan automáticamente al comercial senior.\n6. Genera un resumen de contexto para el comercial con los puntos clave de la conversación previa del lead.\n7. Programa un recordatorio automático en el calendario del comercial para el primer contacto en menos de 1 hora.\n8. Revisa mensualmente la correlación entre puntuación IA y cierre real de venta para recalibrar el modelo."
+    },
+    {
+      "title": "Automatización de reportes de marketing con IA y Google Data Studio",
+      "description": "Conecta tus fuentes de datos, automatiza el análisis con IA y genera informes semanales sin trabajo manual.",
+      "duration": "21 min",
+      "level": "Intermedio",
+      "content": "1. Centraliza tus fuentes de datos (Meta Ads, Google Ads, Analytics) en una hoja de Google Sheets usando Supermetrics.\n2. Programa la actualización automática de datos cada lunes por la mañana.\n3. Conecta la hoja a un flujo de n8n que envíe los datos a Claude para su interpretación.\n4. Pide un análisis semanal en formato fijo: qué funcionó, qué no, y una recomendación concreta.\n5. Genera automáticamente un documento en Google Docs con el informe usando la API de Google.\n6. Envía el informe por email al equipo de marketing cada lunes a las 9am mediante el propio flujo.\n7. Añade un gráfico comparativo automático de la semana actual contra la anterior.\n8. Revisa trimestralmente si las recomendaciones automáticas coinciden con las decisiones que realmente tomó el equipo."
+    },
+    {
+      "title": "Claude para desarrolladores: usa la API con streaming y function calling",
+      "description": "Tutorial técnico para integrar la API de Claude en tu aplicación con respuestas en streaming y llamadas a funciones.",
+      "duration": "24 min",
+      "level": "Avanzado",
+      "content": "1. Crea una cuenta en console.anthropic.com y genera tu clave de API.\n2. Instala el SDK oficial con 'pip install anthropic' o 'npm install @anthropic-ai/sdk'.\n3. Realiza tu primera llamada básica al endpoint de mensajes con el modelo claude-sonnet.\n4. Activa el modo streaming para recibir la respuesta token a token y mejorar la experiencia de usuario.\n5. Define una herramienta (tool) con su esquema JSON para que el modelo pueda solicitar su ejecución.\n6. Implementa el bucle de function calling: el modelo pide la herramienta, tu código la ejecuta y devuelve el resultado.\n7. Activa prompt caching para reducir coste y latencia en conversaciones con contexto extenso repetido.\n8. Añade manejo de errores y reintentos con backoff exponencial para llamadas fallidas por rate limit."
+    },
+    {
+      "title": "Herramientas no-code con IA: crea una app funcional con Bubble y Claude",
+      "description": "Combina un constructor no-code con IA generativa para lanzar un MVP funcional en un fin de semana.",
+      "duration": "30 min",
+      "level": "Avanzado",
+      "content": "1. Define el flujo de usuario mínimo de tu MVP en un diagrama simple antes de abrir la herramienta.\n2. Crea una cuenta en Bubble y arranca desde una plantilla en blanco responsive.\n3. Diseña las pantallas principales usando el editor visual de arrastrar y soltar.\n4. Pide a Claude que genere la lógica de flujo de datos (workflows) describiendo el comportamiento esperado.\n5. Configura la base de datos interna de Bubble con los tipos de datos definidos en el diagrama inicial.\n6. Integra una API externa, por ejemplo de pagos con Stripe, siguiendo la documentación del conector.\n7. Prueba el flujo completo con usuarios de prueba y corrige errores de lógica detectados.\n8. Publica la app y configura analítica básica para medir la activación de los primeros usuarios."
+    },
+    {
+      "title": "Extensiones de navegador con IA: acelera tu día a día en Chrome",
+      "description": "Selección práctica de extensiones de IA para resumir páginas, escribir emails y automatizar tareas del navegador.",
+      "duration": "11 min",
+      "level": "Principiante",
+      "content": "1. Instala una extensión de resumen de páginas web y pruébala en un artículo largo de noticias.\n2. Configura una extensión de escritura asistida para revisar gramática y tono en tus correos.\n3. Prueba una extensión que resuma automáticamente vídeos de YouTube a partir de la transcripción.\n4. Activa una extensión de captura de pantalla con IA que explique gráficos o interfaces complejas.\n5. Configura atajos de teclado personalizados para lanzar las funciones de IA más usadas.\n6. Revisa los permisos solicitados por cada extensión antes de instalarla, priorizando la privacidad.\n7. Desinstala las extensiones que no uses tras dos semanas de prueba real.\n8. Documenta tu stack final de extensiones para replicarlo en un nuevo equipo rápidamente."
+    },
+    {
+      "title": "Claude en Slack: automatiza resúmenes de canales y reuniones",
+      "description": "Instala la integración oficial de Claude en Slack para resumir hilos largos y generar actas automáticamente.",
+      "duration": "15 min",
+      "level": "Intermedio",
+      "content": "1. Instala la app de Claude desde el directorio de apps de Slack en tu espacio de trabajo.\n2. Autoriza los permisos necesarios para que Claude pueda leer los canales donde se le mencione.\n3. Menciona a @Claude en un hilo largo y pide 'resume esta conversación en 5 puntos'.\n4. Configura un recordatorio diario que resuma la actividad de un canal específico a las 9am.\n5. Integra una grabación de reunión transcrita con Whisper y pide a Claude que genere el acta.\n6. Pide que extraiga tareas accionables del resumen con responsable y fecha límite si se mencionan.\n7. Comparte el resumen automáticamente en un canal de seguimiento del proyecto.\n8. Revisa la configuración de privacidad para limitar los canales a los que Claude tiene acceso."
+    },
+    {
+      "title": "Automatiza tu contabilidad básica con IA: facturas y gastos",
+      "description": "Flujo para extraer datos de facturas con OCR e IA, y clasificarlos automáticamente en tu hoja de gastos.",
+      "duration": "19 min",
+      "level": "Intermedio",
+      "content": "1. Reúne un lote de facturas en PDF o foto que quieras digitalizar.\n2. Sube cada factura a Claude y pide que extraiga: proveedor, fecha, importe, IVA y concepto en formato JSON.\n3. Valida manualmente los primeros 10 resultados para confirmar la precisión de extracción.\n4. Automatiza el proceso conectando un email de facturas entrante a un flujo de n8n con OCR previo.\n5. Envía los datos extraídos a una hoja de Google Sheets o a tu software contable vía API.\n6. Configura una regla de categorización automática según palabras clave del concepto (suministros, software, viajes).\n7. Genera un resumen mensual de gastos por categoría automáticamente el día 1 de cada mes.\n8. Revisa trimestralmente los errores de clasificación para mejorar las reglas del flujo."
+    },
+    {
+      "title": "Claude Computer Use: automatiza tareas en el escritorio",
+      "description": "Introducción a la capacidad de Claude para controlar un ordenador virtual: mover el ratón, hacer clic y escribir.",
+      "duration": "22 min",
+      "level": "Experto",
+      "content": "1. Entiende el concepto: Computer Use permite a Claude ver capturas de pantalla y decidir acciones de ratón/teclado.\n2. Configura un entorno sandbox seguro (contenedor Docker aislado) antes de dar acceso a Claude.\n3. Define el objetivo de la tarea de forma muy específica, por ejemplo 'rellena este formulario web con estos datos'.\n4. Observa el bucle: Claude pide una captura, decide una acción, la ejecuta y vuelve a observar el resultado.\n5. Limita las acciones permitidas eliminando accesos a configuraciones críticas del sistema.\n6. Añade puntos de control humano antes de acciones irreversibles como enviar formularios o pagos.\n7. Registra cada sesión en vídeo para poder auditar el comportamiento del agente después.\n8. Evalúa el coste en tokens de esta capacidad, ya que cada captura de pantalla consume contexto considerable."
+    },
+    {
+      "title": "Genera presentaciones profesionales con IA en minutos",
+      "description": "Compara Gamma, Tome y Claude para crear una presentación de negocio a partir de un simple resumen.",
+      "duration": "16 min",
+      "level": "Principiante",
+      "content": "1. Escribe un resumen de 5-10 líneas con el objetivo y los puntos clave de tu presentación.\n2. Pega el resumen en Gamma y elige una plantilla visual acorde a tu marca.\n3. Revisa la estructura de diapositivas generada y reordena las que no sigan una narrativa lógica.\n4. Pide a Claude que redacte el guion de presentador (speaker notes) para cada diapositiva.\n5. Sustituye las imágenes genéricas por gráficos reales generados a partir de tus datos.\n6. Ajusta la paleta de colores y tipografía para que coincida con tu identidad de marca.\n7. Exporta la presentación a PowerPoint para hacer ajustes finos manuales si es necesario.\n8. Practica la presentación con el guion generado y cronometra el tiempo real de exposición."
+    },
+    {
+      "title": "Automatización de redes sociales con IA: calendario y publicación",
+      "description": "Diseña un flujo que genera ideas, redacta copys y programa publicaciones automáticamente cada semana.",
+      "duration": "20 min",
+      "level": "Intermedio",
+      "content": "1. Define tres pilares de contenido para tu marca, por ejemplo educativo, producto y comunidad.\n2. Pide a Claude que genere 10 ideas de publicación por pilar basadas en tendencias recientes del sector.\n3. Redacta los copys finales especificando tono de marca y llamada a la acción en cada publicación.\n4. Genera las imágenes de apoyo con Midjourney o Canva Magic Studio siguiendo la guía de estilo.\n5. Conecta un flujo de n8n con Buffer o Metricool para programar automáticamente las publicaciones generadas.\n6. Configura horarios óptimos de publicación según los datos históricos de engagement de tu cuenta.\n7. Revisa manualmente cada copy antes de que se publique automáticamente, evitando errores de tono.\n8. Analiza el rendimiento semanal y ajusta los pilares de contenido según lo que mejor funcionó."
+    },
+    {
+      "title": "Crea tu propio GPT personalizado en ChatGPT sin programar",
+      "description": "Guía para construir un GPT a medida con instrucciones, conocimiento propio y acciones personalizadas.",
+      "duration": "17 min",
+      "level": "Intermedio",
+      "content": "1. Accede a 'Explorar GPTs' y pulsa 'Crear' desde tu cuenta ChatGPT Plus o Team.\n2. Usa el modo conversacional del GPT Builder para describir el propósito de tu asistente.\n3. Cambia a la pestaña 'Configure' y refina manualmente el prompt de instrucciones.\n4. Sube archivos de conocimiento propio (PDFs, hojas de cálculo) que el GPT debe consultar.\n5. Activa las capacidades necesarias: navegación web, generación de imágenes o intérprete de código.\n6. Configura una acción personalizada conectando una API externa mediante un esquema OpenAPI.\n7. Prueba el GPT con preguntas reales de usuarios finales antes de publicarlo.\n8. Publica el GPT de forma privada, por enlace o pública en el directorio, según tu caso de uso."
+    },
+    {
+      "title": "Automatización de atención al cliente con IA y WhatsApp Business",
+      "description": "Conecta la API de WhatsApp Business con un agente de IA que responde consultas frecuentes automáticamente.",
+      "duration": "26 min",
+      "level": "Avanzado",
+      "content": "1. Solicita acceso a la API de WhatsApp Business a través de un proveedor autorizado como Twilio o 360dialog.\n2. Configura el webhook de mensajes entrantes apuntando a tu flujo de n8n o servidor propio.\n3. Diseña el prompt de sistema del agente incluyendo el catálogo de respuestas frecuentes de tu negocio.\n4. Implementa una capa de RAG sobre tu documentación de producto para respuestas precisas y actualizadas.\n5. Añade lógica de detección de intención de compra para derivar automáticamente al equipo comercial.\n6. Configura mensajes de plantilla aprobados por Meta para reiniciar conversaciones tras 24 horas de inactividad.\n7. Implementa límites de frecuencia para evitar respuestas duplicadas ante mensajes repetidos del usuario.\n8. Monitoriza la tasa de resolución automática y revisa semanalmente las conversaciones no resueltas."
+    },
+    {
+      "title": "IA para reclutamiento: cribado de candidatos y generación de preguntas",
+      "description": "Cómo usar IA para analizar CVs, generar preguntas de entrevista y reducir sesgos en el proceso de selección.",
+      "duration": "18 min",
+      "level": "Intermedio",
+      "content": "1. Define claramente los criterios objetivos del puesto antes de automatizar cualquier cribado.\n2. Sube un lote de CVs anonimizados (sin nombre ni foto) a Claude para reducir sesgo inconsciente.\n3. Pide que puntúe cada CV según los criterios objetivos definidos, con justificación explícita.\n4. Revisa manualmente una muestra aleatoria de puntuaciones para auditar posibles sesgos del modelo.\n5. Genera preguntas de entrevista técnica específicas basadas en la experiencia declarada del candidato.\n6. Crea una rúbrica de evaluación estructurada para que todos los entrevistadores puntúen de forma consistente.\n7. Usa Whisper para transcribir entrevistas y Claude para resumir los puntos clave de cada candidato.\n8. Documenta el proceso completo para cumplir con requisitos legales de transparencia en selección automatizada."
+    },
+    {
+      "title": "Automatiza informes financieros mensuales con IA y hojas de cálculo",
+      "description": "Flujo que extrae datos contables, los analiza con IA y genera un informe financiero listo para dirección.",
+      "duration": "23 min",
+      "level": "Avanzado",
+      "content": "1. Exporta los datos contables del mes desde tu ERP o software de contabilidad en formato CSV.\n2. Limpia y normaliza las columnas (fechas, categorías, importes) antes del análisis.\n3. Sube los datos a Claude y pide un análisis de variación respecto al mes anterior y al presupuesto.\n4. Solicita la identificación de las 3 desviaciones más significativas con posible causa raíz.\n5. Pide que genere una narrativa ejecutiva de una página en lenguaje no técnico para el comité directivo.\n6. Automatiza la generación de gráficos de tendencia de los últimos 12 meses con Python o Sheets.\n7. Integra el flujo completo en n8n para que se ejecute automáticamente el día 2 de cada mes.\n8. Revisa trimestralmente la precisión del análisis automático contra el informe validado por el CFO."
+    },
+    {
+      "title": "Perplexity AI: investigación con fuentes verificadas en tiempo real",
+      "description": "Cómo usar Perplexity para investigar temas actuales con citas verificables, evitando alucinaciones del modelo.",
+      "duration": "13 min",
+      "level": "Principiante",
+      "content": "1. Crea una cuenta en Perplexity y elige entre el modo rápido y el modo 'Pro' con más fuentes.\n2. Formula una pregunta específica en lugar de un tema genérico para obtener fuentes más relevantes.\n3. Revisa las fuentes citadas en cada afirmación haciendo clic en los números de referencia.\n4. Usa el modo 'Focus' para limitar la búsqueda a un tipo de fuente, como académica o de noticias.\n5. Activa 'Collections' para agrupar investigaciones relacionadas de un mismo proyecto.\n6. Compara la respuesta de Perplexity con una búsqueda tradicional en Google para el mismo tema.\n7. Exporta la investigación con las fuentes citadas en un documento para tu equipo.\n8. Verifica manualmente cualquier dato crítico antes de usarlo en un documento oficial o publicación."
+    },
+    {
+      "title": "Claude para abogados: resume contratos y detecta cláusulas de riesgo",
+      "description": "Flujo de trabajo para analizar contratos largos, extraer cláusulas clave y detectar términos no estándar.",
+      "duration": "21 min",
+      "level": "Avanzado",
+      "content": "1. Sube el contrato completo en PDF a Claude, asegurándote de que el texto sea seleccionable y no una imagen escaneada.\n2. Pide un resumen ejecutivo de las partes, objeto del contrato, duración y condiciones de terminación.\n3. Solicita la identificación de cláusulas de penalización, exclusividad o no competencia.\n4. Pide una comparación contra una plantilla estándar de tu organización para detectar desviaciones.\n5. Solicita que marque en rojo cualquier cláusula que suponga un riesgo legal o financiero no habitual.\n6. Verifica manualmente cada hallazgo crítico con un abogado antes de tomar decisiones basadas en el análisis.\n7. Genera una lista de preguntas para negociar con la contraparte basada en los riesgos detectados.\n8. Documenta el análisis en un checklist reutilizable para futuros contratos similares."
+    },
+    {
+      "title": "Automatización de encuestas y feedback de clientes con IA",
+      "description": "Cómo recopilar, analizar y resumir automáticamente el feedback de clientes en insights accionables.",
+      "duration": "17 min",
+      "level": "Intermedio",
+      "content": "1. Diseña una encuesta corta de máximo 5 preguntas usando Typeform o Google Forms.\n2. Conecta las respuestas a una hoja de cálculo en tiempo real mediante la integración nativa.\n3. Configura un flujo de n8n que envíe cada nueva respuesta a Claude para su análisis de sentimiento.\n4. Clasifica automáticamente cada respuesta como positiva, neutra o negativa con justificación breve.\n5. Agrupa comentarios similares en temas recurrentes usando un prompt de clustering semántico.\n6. Genera un resumen semanal con los 3 temas más mencionados y su tendencia respecto a semanas anteriores.\n7. Configura una alerta automática cuando el porcentaje de feedback negativo supere un umbral definido.\n8. Comparte el resumen automáticamente con el equipo de producto cada lunes por email o Slack."
+    },
+    {
+      "title": "IA generativa para e-commerce: descripciones de producto a escala",
+      "description": "Genera cientos de descripciones de producto optimizadas para SEO y conversión sin perder consistencia de marca.",
+      "duration": "19 min",
+      "level": "Intermedio",
+      "content": "1. Define una guía de estilo de marca: tono, longitud, palabras prohibidas y estructura estándar.\n2. Prepara una hoja de cálculo con los atributos técnicos de cada producto (material, tamaño, uso).\n3. Escribe un prompt maestro que incluya la guía de estilo y los placeholders para cada atributo.\n4. Automatiza el proceso con un script que recorra cada fila y llame a la API de Claude con los datos del producto.\n5. Incluye en el prompt una keyword principal de SEO por producto para optimizar el texto generado.\n6. Revisa manualmente una muestra del 10% de las descripciones generadas antes de publicar el lote completo.\n7. Sube las descripciones aprobadas a tu plataforma de e-commerce mediante importación masiva o API.\n8. Mide el impacto en tasa de conversión comparando productos con descripción nueva contra el histórico."
+    },
+    {
+      "title": "Construye tu primer chatbot con RAG usando LangChain y Claude",
+      "description": "Implementación técnica completa de un chatbot con memoria y recuperación de documentos propios.",
+      "duration": "32 min",
+      "level": "Experto",
+      "content": "1. Instala las dependencias necesarias: 'pip install langchain langchain-anthropic chromadb'.\n2. Carga tus documentos fuente usando los document loaders de LangChain según el formato (PDF, HTML, texto).\n3. Divide los documentos en chunks usando RecursiveCharacterTextSplitter con overlap configurado.\n4. Genera los embeddings de cada chunk y almacénalos en una instancia local de ChromaDB.\n5. Configura un retriever que devuelva los k fragmentos más relevantes para cada consulta del usuario.\n6. Define la cadena (chain) que combina el retriever con el modelo Claude usando ConversationalRetrievalChain.\n7. Añade memoria de conversación para que el chatbot mantenga contexto entre turnos.\n8. Expón el chatbot mediante una API con FastAPI y despliega en un servidor con variables de entorno seguras."
+    },
+    {
+      "title": "Automatiza tu investigación de mercado con agentes de búsqueda web",
+      "description": "Diseña un agente que investiga competidores, recopila datos y genera un informe comparativo automáticamente.",
+      "duration": "25 min",
+      "level": "Avanzado",
+      "content": "1. Define las preguntas clave de investigación, por ejemplo precios, funcionalidades y posicionamiento de 5 competidores.\n2. Configura un agente con acceso a herramienta de búsqueda web (por ejemplo, vía API de Brave Search o Tavily).\n3. Escribe el prompt de sistema con el formato exacto de salida esperado para cada competidor.\n4. Ejecuta el agente iterativamente, uno por competidor, para mantener el contexto acotado y preciso.\n5. Pide al agente que cite la fuente y fecha de cada dato recopilado para poder verificarlo después.\n6. Consolida los resultados individuales en una tabla comparativa única con Claude.\n7. Revisa manualmente los datos de precios y funcionalidades, ya que son los más propensos a estar desactualizados.\n8. Programa la repetición de este proceso trimestralmente para mantener la inteligencia competitiva actualizada."
+    },
+    {
+      "title": "Claude para educadores: crea material didáctico y evalúa exámenes",
+      "description": "Cómo usar Claude para generar planes de clase, ejercicios diferenciados y corregir exámenes con retroalimentación.",
+      "duration": "18 min",
+      "level": "Principiante",
+      "content": "1. Define el objetivo de aprendizaje y el nivel del grupo antes de pedir cualquier material.\n2. Pide un plan de clase de 50 minutos con actividad inicial, desarrollo y cierre evaluativo.\n3. Solicita 3 versiones del mismo ejercicio con distinto nivel de dificultad para atención a la diversidad.\n4. Genera una rúbrica de evaluación clara con criterios y niveles de desempeño.\n5. Sube exámenes escaneados o escritos y pide una corrección preliminar según la rúbrica proporcionada.\n6. Revisa manualmente cada corrección automática antes de comunicarla al alumnado.\n7. Pide retroalimentación individualizada y constructiva para cada estudiante basada en sus errores específicos.\n8. Guarda los materiales generados en un banco de recursos organizado por tema y nivel para reutilizar."
+    },
+    {
+      "title": "Automatización de inventario con IA: predicción de demanda",
+      "description": "Usa datos históricos de ventas e IA para predecir necesidades de stock y evitar quiebres o sobrestock.",
+      "duration": "24 min",
+      "level": "Avanzado",
+      "content": "1. Exporta el histórico de ventas de al menos 12 meses por producto desde tu sistema de gestión.\n2. Limpia los datos eliminando outliers causados por promociones puntuales o errores de registro.\n3. Sube el dataset a un entorno de análisis y pide identificar patrones de estacionalidad por producto.\n4. Solicita una proyección de demanda para las próximas 4 semanas basada en la tendencia histórica.\n5. Cruza la proyección con el stock actual para calcular la necesidad de reposición por producto.\n6. Genera automáticamente una lista de pedido sugerido a proveedores ordenada por urgencia.\n7. Configura una alerta cuando el stock proyectado caiga por debajo del punto de seguridad definido.\n8. Compara mensualmente la predicción contra la venta real para ajustar el modelo y mejorar precisión."
+    },
+    {
+      "title": "Genera podcasts con IA de principio a fin: guion, voces y edición",
+      "description": "Flujo completo para producir un episodio de podcast usando IA en cada etapa del proceso.",
+      "duration": "28 min",
+      "level": "Avanzado",
+      "content": "1. Define el tema y estructura del episodio: introducción, 3 bloques de contenido y cierre con llamada a la acción.\n2. Pide a Claude que redacte el guion completo con un tono conversacional y ejemplos concretos.\n3. Genera dos voces distintas en ElevenLabs para simular un formato de entrevista o diálogo.\n4. Divide el guion en bloques de menos de 5000 caracteres para generar el audio por partes.\n5. Une los archivos de audio generados usando un editor como Audacity o Descript.\n6. Añade música de introducción y transición libre de derechos entre bloques de contenido.\n7. Genera las notas del episodio y los capítulos con marcas de tiempo usando Claude a partir del guion.\n8. Exporta el episodio final en mp3 de 128kbps y sube a tu plataforma de distribución de podcasts."
+    },
+    {
+      "title": "IA para diseño UX: genera wireframes y user flows con prompts",
+      "description": "Cómo usar herramientas de IA para acelerar la fase de ideación en el diseño de producto digital.",
+      "duration": "20 min",
+      "level": "Intermedio",
+      "content": "1. Describe el problema de usuario y el objetivo de la funcionalidad antes de pedir cualquier diseño.\n2. Pide a Claude que genere un user flow textual paso a paso desde la entrada hasta la conversión.\n3. Convierte el user flow en un diagrama visual usando Mermaid dentro de un artifact.\n4. Usa una herramienta como Uizard o Galileo AI para generar un wireframe visual a partir de una descripción.\n5. Pide variaciones del wireframe con distintos enfoques: minimalista, denso en información, orientado a conversión.\n6. Valida el wireframe con 3-5 usuarios reales antes de pasar a diseño de alta fidelidad.\n7. Documenta las decisiones de diseño y el razonamiento detrás de cada elección de layout.\n8. Itera el diseño final en Figma tomando el wireframe generado por IA como punto de partida, no como entrega final."
+    },
+    {
+      "title": "Automatiza la gestión de proyectos con IA en Asana o ClickUp",
+      "description": "Cómo usar IA para desglosar objetivos en tareas, estimar tiempos y generar reportes de avance automáticos.",
+      "duration": "19 min",
+      "level": "Intermedio",
+      "content": "1. Describe el objetivo del proyecto en una frase clara y pide a Claude que lo desglose en fases principales.\n2. Solicita que cada fase se divida en tareas concretas con una estimación de tiempo realista.\n3. Importa las tareas generadas a Asana o ClickUp usando su función de importación masiva desde CSV.\n4. Configura dependencias entre tareas basadas en la lógica sugerida por el desglose inicial.\n5. Automatiza con n8n un resumen semanal del estado del proyecto extraído vía API de la herramienta.\n6. Pide a Claude que redacte el resumen en lenguaje ejecutivo, destacando riesgos y bloqueos.\n7. Envía el resumen automáticamente al canal de Slack del equipo cada viernes por la tarde.\n8. Revisa mensualmente si las estimaciones de tiempo generadas por IA se ajustan a la realidad del equipo."
+    },
+    {
+      "title": "Seguridad y privacidad al usar IA: qué datos no debes compartir nunca",
+      "description": "Guía práctica de buenas prácticas para proteger información sensible al trabajar con asistentes de IA.",
+      "duration": "14 min",
+      "level": "Principiante",
+      "content": "1. Identifica qué categorías de datos son sensibles en tu contexto: personales, financieros, credenciales, propiedad intelectual.\n2. Revisa la política de retención y entrenamiento de datos del proveedor de IA que uses antes de compartir información.\n3. Evita pegar contraseñas, claves de API o tokens de acceso directamente en cualquier chat de IA.\n4. Anonimiza datos personales (nombres, emails, teléfonos) antes de subir documentos con información de clientes.\n5. Usa las opciones de 'no usar mis datos para entrenamiento' disponibles en los planes empresariales.\n6. Configura el acceso a herramientas de IA en tu empresa con una política clara de uso aceptable.\n7. Revisa los permisos de cualquier plugin, extensión o MCP server antes de darle acceso a tus cuentas.\n8. Forma periódicamente a tu equipo sobre riesgos de ingeniería social potenciada por IA, como el phishing generado con deepfakes."
+    }
+  ],
+  "prompts": [
+    {
+      "title": "Redactor de artículos de blog SEO",
+      "category": "Escritura",
+      "level": "Principiante",
+      "description": "Genera un artículo de blog completo optimizado para buscadores sobre cualquier tema.",
+      "text": "Actúa como redactor SEO senior. Escribe un artículo de blog de 1200 palabras sobre [TOPIC], dirigido a [AUDIENCIA]. Incluye un título con la keyword principal, meta descripción de 150 caracteres, estructura con H2/H3, y al menos 3 ejemplos concretos. Tono: [TONO]. No uses relleno ni frases genéricas.",
+      "tip": "Sustituye [TOPIC] por una keyword real que ya hayas investigado, no un tema genérico."
+    },
+    {
+      "title": "Corrector de estilo y gramática",
+      "category": "Escritura",
+      "level": "Principiante",
+      "description": "Revisa y mejora un texto manteniendo la voz original del autor.",
+      "text": "Revisa el siguiente texto corrigiendo gramática, ortografía y claridad, sin cambiar el significado ni la voz del autor. Señala cada cambio con una breve explicación entre corchetes. Texto: [TEXTO]",
+      "tip": "Pide primero solo la lista de cambios antes de aceptar la versión reescrita completa."
+    },
+    {
+      "title": "Generador de guion de vídeo corto",
+      "category": "Escritura",
+      "level": "Intermedio",
+      "description": "Crea un guion de vídeo de 60 segundos para redes sociales con gancho, desarrollo y CTA.",
+      "text": "Escribe el guion de un vídeo de [DURACION] segundos para [PLATAFORMA] sobre [TOPIC]. Estructura: gancho en los primeros 3 segundos, desarrollo con 2 ideas clave, y llamada a la acción clara. Incluye indicaciones de plano entre corchetes.",
+      "tip": "Graba varias versiones del gancho y prueba cuál retiene más audiencia en los primeros 3 segundos."
+    },
+    {
+      "title": "Reescritor de tono de marca",
+      "category": "Escritura",
+      "level": "Intermedio",
+      "description": "Adapta cualquier texto al tono de voz definido en tu guía de marca.",
+      "text": "Reescribe el siguiente texto adaptándolo a este tono de marca: [DESCRIPCION_TONO]. Mantén la información factual intacta, cambia solo estilo y vocabulario. Texto original: [TEXTO]",
+      "tip": "Pega ejemplos previos de tu marca como referencia few-shot para mayor consistencia."
+    },
+    {
+      "title": "Generador de newsletter semanal",
+      "category": "Escritura",
+      "level": "Intermedio",
+      "description": "Estructura una newsletter con secciones fijas a partir de notas sueltas.",
+      "text": "A partir de estas notas sueltas: [NOTAS], redacta una newsletter semanal con: titular principal, 3 noticias breves, una recomendación y un cierre personal. Tono cercano y directo, máximo 500 palabras.",
+      "tip": "Mantén siempre la misma estructura de secciones para generar hábito de lectura en tus suscriptores."
+    },
+    {
+      "title": "Storytelling de marca para landing page",
+      "category": "Escritura",
+      "level": "Avanzado",
+      "description": "Genera la narrativa completa de una landing page usando el framework problema-solución-transformación.",
+      "text": "Actúa como copywriter experto en storytelling de marca. Escribe el texto de una landing page para [PRODUCTO] usando la estructura: dolor del cliente, agitación del problema, presentación de la solución, prueba social y llamada a la acción final. Público: [AUDIENCIA].",
+      "tip": "Usa datos reales de testimonios de clientes en la sección de prueba social, nunca los inventes."
+    },
+    {
+      "title": "Editor de libro: análisis de estructura narrativa",
+      "category": "Escritura",
+      "level": "Experto",
+      "description": "Analiza la estructura narrativa completa de un manuscrito y sugiere mejoras de ritmo.",
+      "text": "Actúa como editor literario senior. Analiza la estructura narrativa del siguiente capítulo identificando: arco del personaje, ritmo, puntos de tensión y coherencia con la trama general. Manuscrito: [TEXTO]. Sugiere mejoras concretas sin reescribir el estilo del autor.",
+      "tip": "Divide manuscritos largos en capítulos y analiza cada uno por separado para no perder profundidad de análisis."
+    },
+    {
+      "title": "Generador de bio profesional para LinkedIn",
+      "category": "Escritura",
+      "level": "Principiante",
+      "description": "Crea una biografía profesional concisa y persuasiva para perfiles profesionales.",
+      "text": "Escribe una biografía profesional de 3 líneas para LinkedIn basada en estos datos: [DATOS_PROFESIONALES]. Debe destacar un logro cuantificable y terminar con una frase que invite a conectar.",
+      "tip": "Incluye siempre al menos una cifra concreta (años de experiencia, resultados logrados) para dar credibilidad."
+    },
+    {
+      "title": "Debugger de código con explicación paso a paso",
+      "category": "Programación",
+      "level": "Principiante",
+      "description": "Encuentra y explica errores en un fragmento de código, sin solo dar la solución.",
+      "text": "Analiza el siguiente código y encuentra el error que causa [DESCRIPCION_ERROR]. Explica paso a paso por qué ocurre el problema antes de mostrar la corrección. Código: [CODIGO]. Lenguaje: [LENGUAJE]",
+      "tip": "Pide siempre la explicación antes que el código corregido, así aprendes en vez de solo copiar la solución."
+    },
+    {
+      "title": "Generador de tests unitarios",
+      "category": "Programación",
+      "level": "Intermedio",
+      "description": "Genera una suite de tests unitarios cubriendo casos normales y límite.",
+      "text": "Genera tests unitarios en [FRAMEWORK] para la siguiente función, cubriendo: caso normal, caso límite, entrada inválida y caso de error. Función: [CODIGO]. Explica brevemente qué cubre cada test.",
+      "tip": "Ejecuta los tests generados y revisa la cobertura real antes de darlos por válidos."
+    },
+    {
+      "title": "Refactorizador de código legacy",
+      "category": "Programación",
+      "level": "Intermedio",
+      "description": "Refactoriza código antiguo mejorando legibilidad sin cambiar el comportamiento externo.",
+      "text": "Refactoriza el siguiente código [LENGUAJE] mejorando nombres de variables, eliminando duplicación y aplicando principios SOLID donde aplique, sin cambiar el comportamiento externo observable. Código: [CODIGO]",
+      "tip": "Pide que liste explícitamente qué comportamiento se mantiene igual antes de aceptar el refactor."
+    },
+    {
+      "title": "Generador de documentación técnica de API",
+      "category": "Programación",
+      "level": "Intermedio",
+      "description": "Documenta un endpoint de API en formato estándar a partir del código fuente.",
+      "text": "A partir de este código de endpoint [CODIGO], genera documentación en formato OpenAPI/Markdown incluyendo: método, ruta, parámetros, cuerpo de petición, respuestas posibles con códigos de estado, y un ejemplo de uso con curl.",
+      "tip": "Valida el ejemplo de curl generado ejecutándolo realmente contra tu API antes de publicarlo."
+    },
+    {
+      "title": "Diseñador de esquema de base de datos",
+      "category": "Programación",
+      "level": "Avanzado",
+      "description": "Diseña un esquema relacional normalizado a partir de una descripción funcional del negocio.",
+      "text": "Actúa como arquitecto de bases de datos. Diseña un esquema relacional normalizado (hasta 3FN) para [DESCRIPCION_NEGOCIO]. Incluye tablas, claves primarias/foráneas, índices recomendados y el DDL en SQL.",
+      "tip": "Revisa los índices propuestos contra los patrones de consulta reales antes de implementarlos en producción."
+    },
+    {
+      "title": "Revisor de seguridad de código (code review)",
+      "category": "Programación",
+      "level": "Avanzado",
+      "description": "Audita un fragmento de código buscando vulnerabilidades de seguridad comunes.",
+      "text": "Actúa como ingeniero de seguridad. Revisa el siguiente código buscando vulnerabilidades: inyección SQL, XSS, gestión insegura de secretos, y validación de entrada insuficiente. Código: [CODIGO]. Clasifica cada hallazgo por severidad.",
+      "tip": "Complementa siempre este análisis con una herramienta SAST automatizada, no confíes solo en la revisión del modelo."
+    },
+    {
+      "title": "Arquitecto de sistema: diseño de microservicio",
+      "category": "Programación",
+      "level": "Experto",
+      "description": "Diseña la arquitectura completa de un microservicio nuevo con sus decisiones técnicas justificadas.",
+      "text": "Actúa como arquitecto de software senior. Diseña la arquitectura de un microservicio para [FUNCIONALIDAD] considerando: patrón de comunicación (sync/async), estrategia de persistencia, manejo de fallos (circuit breaker, retries), y observabilidad. Justifica cada decisión con trade-offs.",
+      "tip": "Contrasta el diseño propuesto con al menos un ADR (Architecture Decision Record) previo de tu equipo para mantener consistencia."
+    },
+    {
+      "title": "Generador de queries SQL complejas",
+      "category": "Programación",
+      "level": "Intermedio",
+      "description": "Traduce una necesidad de negocio en una consulta SQL optimizada.",
+      "text": "Escribe una query SQL para [BASE_DE_DATOS] que responda: [NECESIDAD_DE_NEGOCIO]. Usa el siguiente esquema de tablas: [ESQUEMA]. Optimiza para rendimiento y explica el plan de ejecución esperado.",
+      "tip": "Ejecuta EXPLAIN ANALYZE sobre la query generada para confirmar que usa los índices esperados."
+    },
+    {
+      "title": "Migrador de código entre lenguajes",
+      "category": "Programación",
+      "level": "Avanzado",
+      "description": "Convierte un módulo completo de un lenguaje a otro manteniendo la lógica exacta.",
+      "text": "Convierte el siguiente código de [LENGUAJE_ORIGEN] a [LENGUAJE_DESTINO], manteniendo la misma lógica de negocio y manejo de errores. Señala cualquier diferencia de comportamiento entre los dos lenguajes que pueda afectar el resultado. Código: [CODIGO]",
+      "tip": "Ejecuta la suite de tests original contra el código migrado antes de considerarlo terminado."
+    },
+    {
+      "title": "Generador de copy para anuncios de Meta Ads",
+      "category": "Marketing",
+      "level": "Principiante",
+      "description": "Crea variantes de copy publicitario listas para testear en campañas de Meta Ads.",
+      "text": "Genera 5 variantes de copy para un anuncio de Meta Ads sobre [PRODUCTO], dirigido a [AUDIENCIA]. Cada variante debe usar un gancho distinto (curiosidad, urgencia, prueba social, dolor, beneficio directo). Máximo 125 caracteres por variante.",
+      "tip": "Testea las 5 variantes en paralelo con presupuesto igual antes de escalar la ganadora."
+    },
+    {
+      "title": "Generador de secuencia de email marketing",
+      "category": "Marketing",
+      "level": "Intermedio",
+      "description": "Diseña una secuencia de bienvenida de varios correos con objetivo de conversión.",
+      "text": "Diseña una secuencia de [NUMERO] emails de bienvenida para nuevos suscriptores de [NEGOCIO]. Define el objetivo de cada email, el asunto, y un resumen del contenido. El último email debe incluir una oferta clara.",
+      "tip": "Espacia los envíos entre 1 y 3 días para no saturar la bandeja del suscriptor."
+    },
+    {
+      "title": "Analista de buyer persona",
+      "category": "Marketing",
+      "level": "Intermedio",
+      "description": "Construye un buyer persona detallado a partir de datos de clientes reales.",
+      "text": "A partir de estos datos de clientes [DATOS_CLIENTES], construye un buyer persona detallado incluyendo: demografía, objetivos, frustraciones, canales de información preferidos y objeciones de compra más comunes.",
+      "tip": "Valida el buyer persona generado entrevistando a 3-5 clientes reales antes de usarlo para decisiones de campaña."
+    },
+    {
+      "title": "Estratega de campaña de lanzamiento de producto",
+      "category": "Marketing",
+      "level": "Avanzado",
+      "description": "Diseña el plan completo de lanzamiento de un producto en múltiples canales.",
+      "text": "Actúa como director de marketing. Diseña un plan de lanzamiento de 4 semanas para [PRODUCTO], incluyendo fase de expectación, lanzamiento y consolidación, con canales, mensajes clave y KPIs por semana.",
+      "tip": "Define desde el inicio cómo medirás el éxito de cada fase, no solo del lanzamiento global."
+    },
+    {
+      "title": "Auditor de embudo de conversión",
+      "category": "Marketing",
+      "level": "Avanzado",
+      "description": "Analiza un embudo de marketing completo e identifica los cuellos de botella principales.",
+      "text": "Analiza este embudo de conversión con estos datos por etapa: [DATOS_EMBUDO]. Identifica en qué etapa hay mayor caída porcentual, hipótesis de causa probable, y 3 experimentos concretos para mejorarla.",
+      "tip": "Prioriza el experimento con mayor impacto potencial y menor esfuerzo de implementación primero."
+    },
+    {
+      "title": "Generador de guion para anuncio en vídeo",
+      "category": "Marketing",
+      "level": "Intermedio",
+      "description": "Crea el guion completo de un anuncio en vídeo con estructura de conversión probada.",
+      "text": "Escribe el guion de un anuncio en vídeo de [DURACION] segundos para [PRODUCTO] usando la estructura AIDA (atención, interés, deseo, acción). Incluye indicaciones visuales entre corchetes para cada línea.",
+      "tip": "Graba el mismo guion con distintos presentadores y compara el rendimiento antes de escalar el gasto."
+    },
+    {
+      "title": "Estratega de posicionamiento de marca",
+      "category": "Marketing",
+      "level": "Experto",
+      "description": "Define el posicionamiento estratégico de una marca frente a su competencia directa.",
+      "text": "Actúa como consultor de branding senior. Define el posicionamiento de [MARCA] frente a estos competidores [COMPETIDORES], usando el framework de mapa de posicionamiento (dos ejes clave del mercado). Justifica la elección de ejes y la posición recomendada.",
+      "tip": "Valida el posicionamiento propuesto con una encuesta rápida a clientes actuales antes de comunicarlo públicamente."
+    },
+    {
+      "title": "Analista de datos de ventas mensuales",
+      "category": "Análisis",
+      "level": "Principiante",
+      "description": "Convierte una tabla de ventas en un resumen ejecutivo claro y accionable.",
+      "text": "Analiza estos datos de ventas mensuales [DATOS] y genera un resumen ejecutivo de máximo 5 líneas destacando: tendencia general, producto top, y una recomendación concreta para el próximo mes.",
+      "tip": "Pide siempre que el modelo muestre los cálculos intermedios para poder verificar las cifras clave."
+    },
+    {
+      "title": "Detector de anomalías en series temporales",
+      "category": "Análisis",
+      "level": "Intermedio",
+      "description": "Identifica valores atípicos en una serie de datos temporal y sugiere posibles causas.",
+      "text": "Analiza esta serie temporal de datos [DATOS] e identifica los 3 puntos más anómalos respecto a la tendencia esperada. Para cada uno, sugiere una posible causa de negocio a investigar.",
+      "tip": "Contrasta cada anomalía detectada con eventos reales del calendario de negocio (promociones, festivos, incidencias)."
+    },
+    {
+      "title": "Comparador de cohortes de usuarios",
+      "category": "Análisis",
+      "level": "Avanzado",
+      "description": "Analiza el comportamiento de distintas cohortes de usuarios y extrae patrones de retención.",
+      "text": "Con estos datos de cohortes de usuarios [DATOS], compara la retención a 30/60/90 días entre cohortes y determina qué cambio de producto o campaña podría explicar las diferencias observadas.",
+      "tip": "Segmenta las cohortes por canal de adquisición además de por fecha para insights más profundos."
+    },
+    {
+      "title": "Generador de dashboard ejecutivo en texto",
+      "category": "Análisis",
+      "level": "Intermedio",
+      "description": "Convierte múltiples métricas dispersas en un dashboard textual listo para presentar.",
+      "text": "A partir de estas métricas [METRICAS], genera un resumen tipo dashboard con: semáforo (verde/ámbar/rojo) por métrica, variación vs periodo anterior, y una frase de contexto para cada una.",
+      "tip": "Define de antemano los umbrales exactos de cada semáforo para que el análisis sea consistente cada semana."
+    },
+    {
+      "title": "Analista de causa raíz (root cause analysis)",
+      "category": "Análisis",
+      "level": "Experto",
+      "description": "Investiga sistemáticamente la causa raíz de un problema de negocio usando los 5 porqués.",
+      "text": "Actúa como analista senior. Aplica la técnica de los 5 porqués para investigar la causa raíz de: [PROBLEMA_OBSERVADO], usando estos datos disponibles [DATOS]. Al final, propón una acción correctiva y una métrica de seguimiento.",
+      "tip": "Valida cada 'porqué' con datos reales antes de avanzar al siguiente nivel, no asumas causalidad sin evidencia."
+    },
+    {
+      "title": "Evaluador de calidad de leads (lead scoring)",
+      "category": "Análisis",
+      "level": "Avanzado",
+      "description": "Puntúa leads entrantes según probabilidad de conversión basada en atributos históricos.",
+      "text": "Con este histórico de leads convertidos y no convertidos [DATOS], identifica los 3 atributos con mayor correlación con la conversión y propone un modelo simple de puntuación de 0 a 100 para nuevos leads.",
+      "tip": "Recalibra el modelo de puntuación cada trimestre con los datos de conversión más recientes."
+    },
+    {
+      "title": "Plan de negocio en una página (lean canvas)",
+      "category": "Negocio",
+      "level": "Principiante",
+      "description": "Estructura una idea de negocio en el formato lean canvas de 9 bloques.",
+      "text": "Ayúdame a estructurar esta idea de negocio [IDEA] en formato Lean Canvas: problema, segmento de clientes, propuesta de valor, solución, canales, ingresos, costes, métricas clave y ventaja injusta.",
+      "tip": "Valida cada bloque del canvas con al menos una conversación real con un potencial cliente antes de invertir tiempo."
+    },
+    {
+      "title": "Generador de propuesta comercial",
+      "category": "Negocio",
+      "level": "Intermedio",
+      "description": "Redacta una propuesta comercial persuasiva y estructurada para un cliente potencial.",
+      "text": "Redacta una propuesta comercial para [CLIENTE] ofreciendo [SERVICIO/PRODUCTO], con esta estructura: contexto del problema, solución propuesta, entregables, cronograma, inversión y próximos pasos.",
+      "tip": "Personaliza siempre la sección de contexto con detalles específicos de la conversación previa con el cliente."
+    },
+    {
+      "title": "Analista de viabilidad financiera de proyecto",
+      "category": "Negocio",
+      "level": "Avanzado",
+      "description": "Evalúa la viabilidad financiera de un proyecto con proyección de flujo de caja simple.",
+      "text": "Evalúa la viabilidad financiera de [PROYECTO] con esta inversión inicial [MONTO] y estos ingresos/costes estimados [DATOS]. Calcula el punto de equilibrio, ROI a 12 meses y los 2 principales riesgos financieros.",
+      "tip": "Contrasta las proyecciones con datos reales de proyectos similares anteriores en tu empresa si existen."
+    },
+    {
+      "title": "Negociador: preparación de estrategia de negociación",
+      "category": "Negocio",
+      "level": "Avanzado",
+      "description": "Prepara una estrategia de negociación identificando intereses, alternativas y concesiones posibles.",
+      "text": "Ayúdame a preparar una negociación con [CONTRAPARTE] sobre [TEMA]. Identifica mi BATNA, sus posibles intereses ocultos, 3 concesiones que puedo ofrecer sin gran coste, y una apertura de conversación recomendada.",
+      "tip": "Practica la conversación en un roleplay con el modelo antes de la negociación real."
+    },
+    {
+      "title": "Diseñador de OKRs trimestrales",
+      "category": "Negocio",
+      "level": "Intermedio",
+      "description": "Convierte objetivos estratégicos vagos en OKRs medibles y accionables.",
+      "text": "Convierte este objetivo estratégico [OBJETIVO] en un set de OKRs trimestrales: 1 objetivo cualitativo inspirador y 3 resultados clave medibles y con plazo. Evita resultados clave que sean solo tareas.",
+      "tip": "Revisa los OKRs a mitad de trimestre y ajusta solo las iniciativas, nunca el objetivo original."
+    },
+    {
+      "title": "Consultor de M&A: análisis preliminar de adquisición",
+      "category": "Negocio",
+      "level": "Experto",
+      "description": "Realiza un análisis preliminar de atractivo de una empresa objetivo para adquisición.",
+      "text": "Actúa como consultor de fusiones y adquisiciones. Con estos datos financieros y de mercado de la empresa objetivo [DATOS], realiza un análisis preliminar de atractivo de adquisición cubriendo sinergias potenciales, riesgos de integración y un rango de valoración orientativo.",
+      "tip": "Este análisis es solo un punto de partida: siempre requiere due diligence profesional antes de cualquier decisión real."
+    },
+    {
+      "title": "Generador de guion de venta consultiva",
+      "category": "Negocio",
+      "level": "Intermedio",
+      "description": "Crea un guion de llamada de ventas basado en descubrimiento de necesidades, no en pitch directo.",
+      "text": "Crea un guion de llamada de ventas consultiva para [PRODUCTO/SERVICIO], estructurado en: apertura, preguntas de descubrimiento (SPIN), presentación de solución alineada a lo descubierto, y cierre con próximos pasos.",
+      "tip": "Nunca sigas el guion de forma rígida: úsalo como referencia y adapta según las respuestas reales del cliente."
+    },
+    {
+      "title": "Generador de FAQ para producto SaaS",
+      "category": "Negocio",
+      "level": "Principiante",
+      "description": "Crea una sección de preguntas frecuentes completa a partir de la descripción de un producto.",
+      "text": "Genera 15 preguntas frecuentes con respuesta para un producto SaaS de [DESCRIPCION_PRODUCTO], cubriendo: precios, funcionalidades, seguridad, integración y soporte. Respuestas de máximo 3 líneas cada una.",
+      "tip": "Revisa las FAQ generadas contra los tickets de soporte reales más comunes para no dejar huecos."
+    },
+    {
+      "title": "Extractor de insights de entrevistas de usuario",
+      "category": "Análisis",
+      "level": "Intermedio",
+      "description": "Sintetiza transcripciones de entrevistas de usuario en patrones y citas relevantes.",
+      "text": "Analiza estas transcripciones de entrevistas de usuario [TRANSCRIPCIONES] e identifica los 3 patrones más repetidos, con una cita textual de respaldo para cada uno.",
+      "tip": "Etiqueta cada cita con el ID del entrevistado para poder rastrear la fuente después."
+    },
+    {
+      "title": "Generador de casos de prueba QA",
+      "category": "Programación",
+      "level": "Principiante",
+      "description": "Genera casos de prueba manuales a partir de una historia de usuario.",
+      "text": "A partir de esta historia de usuario [HISTORIA_USUARIO], genera 8 casos de prueba manuales cubriendo camino feliz, casos límite y casos de error, en formato: precondición, pasos, resultado esperado.",
+      "tip": "Ejecuta manualmente al menos los casos de error antes de dar por cerrada la funcionalidad."
+    },
+    {
+      "title": "Generador de commit messages descriptivos",
+      "category": "Programación",
+      "level": "Principiante",
+      "description": "Convierte un diff de código en un mensaje de commit siguiendo Conventional Commits.",
+      "text": "Escribe un mensaje de commit siguiendo el formato Conventional Commits (feat/fix/refactor/docs) para este diff: [DIFF]. Incluye un cuerpo breve explicando el porqué del cambio, no solo el qué.",
+      "tip": "Revisa que el tipo de commit (feat, fix, etc.) sea correcto antes de aceptarlo automáticamente."
+    },
+    {
+      "title": "Simulador de entrevista técnica",
+      "category": "Programación",
+      "level": "Intermedio",
+      "description": "Simula una entrevista técnica realista para un puesto específico y da feedback.",
+      "text": "Actúa como entrevistador técnico senior para un puesto de [PUESTO]. Hazme 5 preguntas progresivas de dificultad creciente sobre [TECNOLOGIA], una a la vez, y da feedback honesto sobre cada respuesta antes de continuar.",
+      "tip": "Pide feedback específico sobre qué mejorar en la comunicación de tu respuesta, no solo en el contenido técnico."
+    },
+    {
+      "title": "Generador de landing page de captación de leads",
+      "category": "Marketing",
+      "level": "Principiante",
+      "description": "Genera el copy completo de una landing page enfocada en captar leads.",
+      "text": "Escribe el copy completo de una landing page de captación de leads para [OFERTA], incluyendo: titular, subtítulo, 3 beneficios clave, sección de prueba social y formulario con microcopy persuasivo.",
+      "tip": "Testea al menos dos titulares distintos con tráfico real antes de fijar la versión definitiva."
+    },
+    {
+      "title": "Auditor de contenido SEO existente",
+      "category": "Marketing",
+      "level": "Avanzado",
+      "description": "Audita artículos publicados y prioriza cuáles actualizar según potencial de tráfico.",
+      "text": "Analiza esta lista de artículos con sus métricas [DATOS: URL, posición, tráfico, fecha] y prioriza los 10 con mayor potencial de mejora si se actualizan, explicando el motivo de cada priorización.",
+      "tip": "Combina esta priorización con datos reales de Search Console antes de asignar recursos de redacción."
+    },
+    {
+      "title": "Generador de guion de webinar",
+      "category": "Marketing",
+      "level": "Avanzado",
+      "description": "Estructura un webinar completo de venta educativa con timing por sección.",
+      "text": "Diseña el guion de un webinar de [DURACION] minutos sobre [TEMA], con estructura: introducción y credibilidad, contenido de valor (3 puntos), transición a oferta, y cierre con urgencia. Indica minutaje aproximado por sección.",
+      "tip": "Deja siempre al menos 10 minutos al final para preguntas en vivo, no lo cuentes dentro del guion de venta."
+    },
+    {
+      "title": "Generador de resumen ejecutivo de informe largo",
+      "category": "Análisis",
+      "level": "Principiante",
+      "description": "Convierte un informe extenso en un resumen ejecutivo de una página.",
+      "text": "Resume el siguiente informe en un máximo de 300 palabras, destacando: 3 hallazgos principales, implicaciones de negocio y una recomendación priorizada. Informe: [TEXTO_INFORME]",
+      "tip": "Pide siempre una versión de una frase además del resumen largo, útil para comunicaciones ejecutivas rápidas."
+    },
+    {
+      "title": "Generador de matriz de priorización RICE",
+      "category": "Negocio",
+      "level": "Intermedio",
+      "description": "Prioriza una lista de iniciativas usando el framework RICE de forma objetiva.",
+      "text": "Prioriza esta lista de iniciativas [LISTA_INICIATIVAS] usando el framework RICE (Reach, Impact, Confidence, Effort). Asigna una puntuación estimada a cada componente y ordena el resultado final de mayor a menor score.",
+      "tip": "Haz que un segundo miembro del equipo puntúe de forma independiente para contrastar el sesgo de la estimación inicial."
+    },
+    {
+      "title": "Generador de política de trabajo remoto",
+      "category": "Negocio",
+      "level": "Intermedio",
+      "description": "Redacta una política interna de trabajo remoto clara y aplicable.",
+      "text": "Redacta una política de trabajo remoto para una empresa de [TAMAÑO_EMPRESA] empleados en el sector [SECTOR], cubriendo: horarios, comunicación, herramientas obligatorias, y expectativas de disponibilidad.",
+      "tip": "Revisa la política con el equipo legal antes de publicarla formalmente, ya que puede tener implicaciones laborales."
+    },
+    {
+      "title": "Generador de guion de onboarding de nuevo empleado",
+      "category": "Negocio",
+      "level": "Principiante",
+      "description": "Crea un plan de onboarding estructurado para la primera semana de un nuevo empleado.",
+      "text": "Diseña un plan de onboarding de 5 días para un nuevo [PUESTO] que se incorpora a [EMPRESA], con objetivos claros por día y una checklist final de verificación de conocimientos adquiridos.",
+      "tip": "Asigna un compañero mentor desde el día 1, ningún plan de onboarding sustituye el acompañamiento humano."
+    },
+    {
+      "title": "Explicador de conceptos técnicos para no técnicos",
+      "category": "Escritura",
+      "level": "Principiante",
+      "description": "Traduce un concepto técnico complejo a un lenguaje accesible para audiencia no técnica.",
+      "text": "Explica el concepto de [CONCEPTO_TECNICO] usando una analogía cotidiana, sin jerga técnica, para una audiencia de [AUDIENCIA_NO_TECNICA]. Máximo 150 palabras.",
+      "tip": "Pide que valide la explicación con la pregunta '¿qué parte seguiría sin entender alguien de marketing?'."
+    },
+    {
+      "title": "Generador de plan de contenido trimestral",
+      "category": "Marketing",
+      "level": "Avanzado",
+      "description": "Diseña un calendario de contenido de 3 meses alineado con objetivos de negocio.",
+      "text": "Diseña un plan de contenido trimestral para [MARCA] alineado con el objetivo de negocio de [OBJETIVO]. Incluye pilares temáticos, frecuencia por canal, y 3 campañas destacadas del trimestre.",
+      "tip": "Revisa el plan mensualmente y ajusta según el rendimiento real, no lo trates como un documento fijo."
+    },
+    {
+      "title": "Generador de política de devoluciones clara",
+      "category": "Negocio",
+      "level": "Principiante",
+      "description": "Redacta una política de devoluciones justa y fácil de entender para tu tienda online.",
+      "text": "Redacta una política de devoluciones para [TIENDA] que venda [TIPO_PRODUCTO], especificando plazo, condiciones del producto, proceso de solicitud y quién paga el envío de vuelta.",
+      "tip": "Revisa que la política cumpla con la normativa de consumidores de tu país antes de publicarla."
+    },
+    {
+      "title": "Generador de guion de atención telefónica",
+      "category": "Negocio",
+      "level": "Intermedio",
+      "description": "Crea un guion de atención al cliente por teléfono con manejo de objeciones comunes.",
+      "text": "Crea un guion de atención telefónica para [TIPO_CONSULTA] en [EMPRESA], incluyendo saludo, verificación de identidad, resolución y cierre, más 3 respuestas a objeciones frecuentes.",
+      "tip": "Entrena al equipo con roleplay usando este guion antes de ponerlo en producción."
+    },
+    {
+      "title": "Analista de sentimiento de reseñas",
+      "category": "Análisis",
+      "level": "Principiante",
+      "description": "Clasifica y resume reseñas de clientes por sentimiento y tema.",
+      "text": "Clasifica estas reseñas de clientes [RESEÑAS] por sentimiento (positivo/neutro/negativo) y agrúpalas por tema principal mencionado. Da un resumen de los 3 temas más frecuentes.",
+      "tip": "Cruza los temas negativos recurrentes con tu roadmap de producto para priorizar mejoras."
+    },
+    {
+      "title": "Generador de guion de vídeo tutorial",
+      "category": "Escritura",
+      "level": "Intermedio",
+      "description": "Estructura un guion de vídeo tutorial técnico paso a paso.",
+      "text": "Escribe el guion de un vídeo tutorial de [DURACION] minutos que enseñe a [TAREA], dividido en introducción, pasos numerados y resumen final con recursos adicionales.",
+      "tip": "Graba una prueba piloto y cronometra si el guion se ajusta realmente a la duración planeada."
+    },
+    {
+      "title": "Refactorizador de queries lentas",
+      "category": "Programación",
+      "level": "Avanzado",
+      "description": "Optimiza una consulta SQL con bajo rendimiento explicando cada cambio.",
+      "text": "Optimiza esta query SQL lenta [QUERY] sobre la tabla con este volumen de filas [VOLUMEN], explicando qué índice o reescritura mejora el rendimiento y por qué.",
+      "tip": "Compara el plan de ejecución antes y después con EXPLAIN ANALYZE para confirmar la mejora real."
+    },
+    {
+      "title": "Generador de plan de capacitación de equipo",
+      "category": "Negocio",
+      "level": "Intermedio",
+      "description": "Diseña un plan de formación interna sobre una nueva herramienta o proceso.",
+      "text": "Diseña un plan de capacitación de [DURACION] para que el equipo de [AREA] aprenda a usar [HERRAMIENTA], con sesiones, objetivos por sesión y una evaluación final.",
+      "tip": "Recoge feedback anónimo tras cada sesión para ajustar el resto del plan de formación."
+    },
+    {
+      "title": "Generador de copy para página de precios",
+      "category": "Marketing",
+      "level": "Intermedio",
+      "description": "Redacta el copy de una página de precios que reduzca la fricción de decisión.",
+      "text": "Redacta el copy de una página de precios para [PRODUCTO] con [NUMERO] planes, incluyendo un titular que reduzca la fricción, una comparación clara de features y respuestas a las 3 objeciones de precio más comunes.",
+      "tip": "Destaca siempre el plan que más te interesa vender con una etiqueta visual tipo 'más popular'."
+    },
+    {
+      "title": "Simulador de escenario de crisis de comunicación",
+      "category": "Negocio",
+      "level": "Experto",
+      "description": "Prepara un plan de respuesta ante una crisis de reputación de marca.",
+      "text": "Simula una crisis de comunicación para [EMPRESA] causada por [SITUACION]. Redacta un comunicado inicial de contención, un plan de respuesta en redes sociales, y un mensaje interno para empleados.",
+      "tip": "Ten plantillas de este tipo preparadas de antemano, nunca improvises el primer comunicado durante una crisis real."
+    },
+    {
+      "title": "Generador de resumen de paper académico",
+      "category": "Análisis",
+      "level": "Avanzado",
+      "description": "Resume un artículo científico o técnico en lenguaje accesible manteniendo el rigor.",
+      "text": "Resume este paper académico [TEXTO] en 300 palabras, explicando: pregunta de investigación, metodología, hallazgo principal y limitaciones declaradas por los propios autores.",
+      "tip": "Verifica siempre la metodología citada contra el paper original antes de usar las conclusiones en una decisión importante."
+    },
+    {
+      "title": "Generador de checklist de code review",
+      "category": "Programación",
+      "level": "Intermedio",
+      "description": "Crea una checklist estándar de revisión de código para pull requests del equipo.",
+      "text": "Genera una checklist de code review para pull requests de [LENGUAJE/FRAMEWORK], cubriendo legibilidad, tests, seguridad, rendimiento y consistencia con el estilo del proyecto.",
+      "tip": "Automatiza las partes de la checklist que puedan verificarse con linters antes de que llegue a revisión humana."
+    }
+  ],
+  "guias": [
+    {
+      "title": "Claude vs ChatGPT vs Gemini: comparativa de precios 2026",
+      "type": "Comparativa",
+      "level": "Principiante",
+      "description": "Comparativa actualizada de planes, límites y coste por token de los tres asistentes líderes.",
+      "content": "Claude (Anthropic): plan Free con uso limitado, Pro a 20$/mes con más mensajes y acceso a Projects, Team desde 25$/usuario/mes.\nChatGPT (OpenAI): Free con GPT limitado, Plus a 20$/mes con GPT-4o y herramientas avanzadas, Team a 25-30$/usuario/mes.\nGemini (Google): Free integrado en Gmail/Docs, Gemini Advanced dentro de Google One AI Premium a 19,99$/mes.\nEn coste de API por millón de tokens de entrada: Claude Sonnet ronda los 3$, GPT-4o ronda los 2,50$, Gemini Pro ronda los 1,25$, siendo la opción más económica para volumen alto.\nConclusión práctica: para uso diario de oficina con Workspace, Gemini es más económico si ya pagas Google Workspace. Para programación y razonamiento complejo, Claude ofrece mejor relación calidad-precio en Pro. Para un ecosistema amplio de plugins y GPTs personalizados, ChatGPT Plus sigue siendo el más versátil."
+    },
+    {
+      "title": "Guía conceptual: qué es un token y por qué importa el coste",
+      "type": "Guía conceptual",
+      "level": "Principiante",
+      "description": "Explicación clara de cómo los modelos de lenguaje procesan texto en tokens y su impacto en coste y límites.",
+      "content": "Un token es la unidad mínima de texto que procesa un modelo de lenguaje: aproximadamente 4 caracteres o 0,75 palabras en español.\nEl coste de la API se cobra por millón de tokens, separando tokens de entrada (input) y de salida (output), siendo estos últimos generalmente más caros.\nLos límites de contexto (context window) se miden en tokens: Claude Sonnet soporta hasta 200.000 tokens, equivalentes a unas 150.000 palabras.\nUn documento de 10 páginas ronda los 5.000-7.000 tokens, por lo que puedes subir decenas de documentos antes de agotar el contexto en conversaciones largas.\nEl prompt caching permite reutilizar contexto repetido (como instrucciones de sistema largas) a un coste reducido, hasta un 90% más barato en tokens de caché leídos.\nRecomendación práctica: monitoriza tu consumo de tokens en la consola del proveedor mensualmente para evitar sorpresas en la factura si automatizas procesos a gran escala."
+    },
+    {
+      "title": "Checklist de seguridad antes de conectar un MCP server",
+      "type": "Checklist",
+      "level": "Avanzado",
+      "description": "Lista de verificación para evaluar riesgos antes de dar acceso a un servidor MCP externo.",
+      "content": "[ ] Verifica el origen del código del servidor MCP: repositorio oficial o mantenedor de confianza reconocido.\n[ ] Revisa exactamente qué herramientas expone el servidor y qué acciones puede ejecutar (lectura vs escritura vs ejecución).\n[ ] Limita el alcance de las credenciales conectadas al mínimo necesario (principio de menor privilegio).\n[ ] Ejecuta el servidor en un entorno aislado (contenedor o sandbox) si maneja archivos o ejecuta comandos del sistema.\n[ ] Revisa si el servidor registra o envía datos a terceros fuera de tu infraestructura.\n[ ] Configura alertas o confirmaciones manuales para acciones irreversibles (borrar, enviar, pagar).\n[ ] Actualiza el servidor regularmente y revisa el changelog en busca de cambios de permisos.\n[ ] Documenta qué servidores MCP están activos en tu organización y quién los aprobó."
+    },
+    {
+      "title": "Análisis de ROI: automatizar atención al cliente con IA",
+      "type": "Análisis ROI",
+      "level": "Avanzado",
+      "description": "Modelo de cálculo de retorno de inversión para justificar un proyecto de automatización de soporte.",
+      "content": "Costes de implementación estimados: licencia de plataforma de IA (300-1500$/mes según volumen), integración inicial (40-80 horas de desarrollo), y mantenimiento continuo (5-10 horas/mes).\nAhorro estimado: si tu equipo gestiona 2000 tickets/mes y automatizas el 40% de las consultas repetitivas (recuperación de contraseña, estado de pedido, FAQ), ahorras aproximadamente 800 tickets x 6 minutos = 80 horas/mes de agente.\nA un coste medio de agente de 15$/hora, el ahorro mensual ronda los 1200$, superando el coste de plataforma en la mayoría de escenarios a partir del segundo o tercer mes.\nMétricas a monitorizar: tasa de resolución automática, tasa de escalado a humano, y satisfacción del cliente (CSAT) diferenciada entre tickets automatizados y humanos.\nPunto de equilibrio típico: entre el mes 2 y el mes 4, dependiendo del volumen de tickets y la tasa de automatización lograda.\nRiesgo a vigilar: una automatización agresiva sin buena base de conocimiento puede reducir el CSAT, anulando el ahorro por churn de clientes insatisfechos."
+    },
+    {
+      "title": "Comparativa de herramientas no-code de automatización",
+      "type": "Comparativa",
+      "level": "Intermedio",
+      "description": "Zapier vs Make vs n8n: diferencias clave en precio, flexibilidad y curva de aprendizaje.",
+      "content": "Zapier: el más simple de aprender, ideal para automatizaciones lineales sencillas. Precio desde 20$/mes para 750 tareas, escala rápido en coste con volumen alto.\nMake (antes Integromat): interfaz visual más potente con routers, iteradores y agregadores. Precio desde 9$/mes, mejor relación precio-funcionalidad para flujos complejos.\nn8n: opción self-hosted gratuita (solo coste de servidor) o cloud desde 20$/mes. La más flexible técnicamente, permite código JavaScript/Python embebido en los nodos.\nCurva de aprendizaje: Zapier menos de 1 día, Make 2-3 días, n8n 1 semana si nunca programaste antes.\nRecomendación: empieza con Zapier si tu equipo no es técnico y los flujos son simples. Cambia a Make o n8n cuando necesites lógica condicional compleja o el volumen de tareas encarezca demasiado Zapier."
+    },
+    {
+      "title": "Guía conceptual: diferencia entre agente y chatbot",
+      "type": "Guía conceptual",
+      "level": "Intermedio",
+      "description": "Aclara la confusión común entre un chatbot tradicional y un agente autónomo con IA.",
+      "content": "Un chatbot tradicional sigue un árbol de decisiones predefinido o responde con respuestas generadas pero sin capacidad de actuar sobre sistemas externos.\nUn agente de IA puede planificar pasos, usar herramientas (buscar en la web, consultar una base de datos, ejecutar código) y decidir el siguiente paso según el resultado de la acción anterior.\nLa diferencia clave es el bucle de razonamiento-acción-observación: el agente evalúa constantemente si ha cumplido el objetivo antes de terminar.\nNo todo caso de uso necesita un agente: para preguntas simples con respuesta directa, un chatbot con RAG es más rápido, barato y predecible.\nUsa un agente cuando la tarea requiera múltiples pasos dependientes entre sí, decisiones condicionales, o interacción con varias herramientas externas.\nRiesgo a considerar: los agentes son menos predecibles y más caros en tokens, por lo que necesitan límites de iteración y supervisión humana en acciones críticas."
+    },
+    {
+      "title": "Checklist de lanzamiento de un chatbot con IA en producción",
+      "type": "Checklist",
+      "level": "Avanzado",
+      "description": "Lista de verificación técnica y de negocio antes de exponer un chatbot de IA a clientes reales.",
+      "content": "[ ] El prompt de sistema define claramente los límites de lo que el bot puede y no puede prometer.\n[ ] Existe un mecanismo de escalado a humano cuando la confianza de la respuesta es baja.\n[ ] Se ha probado el bot con al menos 50 preguntas reales de clientes, incluyendo casos límite y adversariales.\n[ ] Los datos sensibles de clientes no se envían a proveedores sin acuerdo de procesamiento de datos (DPA) firmado.\n[ ] Existe un registro (log) de todas las conversaciones para auditoría posterior.\n[ ] Se ha definido un plan de rollback si el bot genera respuestas incorrectas de forma masiva.\n[ ] El equipo de soporte sabe cómo intervenir manualmente en una conversación activa.\n[ ] Se han configurado alertas cuando la tasa de escalado supere un umbral anómalo."
+    },
+    {
+      "title": "Análisis de ROI: coding assistants en equipos de desarrollo",
+      "type": "Análisis ROI",
+      "level": "Intermedio",
+      "description": "Cálculo del retorno de inversión de herramientas como GitHub Copilot o Cursor en un equipo de ingeniería.",
+      "content": "Coste típico: 10-20$/usuario/mes para GitHub Copilot Business, 20$/usuario/mes para Cursor Pro.\nEstudios internos de la industria reportan entre 20% y 55% de aumento en velocidad de escritura de código para tareas repetitivas (boilerplate, tests, documentación).\nPara un equipo de 10 desarrolladores con salario medio de 60.000$/año (unos 29$/hora), un aumento del 15% de productividad neta equivale aproximadamente a 1,5 desarrolladores adicionales de capacidad, muy por encima del coste de licencia (200$/mes total).\nRiesgo a considerar: la productividad medida en líneas de código no siempre se traduce en velocidad de entrega real si aumenta la deuda técnica por código no revisado con cuidado.\nRecomendación de medición: usa como métrica el tiempo de ciclo (cycle time) de tickets antes y después de adoptar la herramienta, no solo el volumen de código generado.\nPunto de equilibrio: prácticamente inmediato en la mayoría de equipos, dado el bajo coste relativo de la licencia frente al coste-hora de un desarrollador."
+    },
+    {
+      "title": "Comparativa de modelos de generación de imágenes",
+      "type": "Comparativa",
+      "level": "Intermedio",
+      "description": "Midjourney, DALL-E 3 y Stable Diffusion: fortalezas, precio y mejores casos de uso.",
+      "content": "Midjourney: mejor calidad estética por defecto, ideal para arte conceptual e ilustración. Precio desde 10$/mes con límite de imágenes rápidas. Requiere Discord, curva de aprendizaje media.\nDALL-E 3 (integrado en ChatGPT Plus): mejor comprensión de instrucciones complejas y texto dentro de la imagen. Incluido en la suscripción de 20$/mes de ChatGPT Plus.\nStable Diffusion (local o vía API): gratuito si lo ejecutas en tu propia GPU, máxima flexibilidad y control (ControlNet, LoRA personalizados), pero requiere conocimiento técnico y hardware potente.\nPara marketing y contenido rápido: DALL-E 3 por su facilidad de uso e integración con ChatGPT.\nPara arte de alta calidad estética: Midjourney sigue siendo el estándar de la industria creativa.\nPara control total y coste marginal cero a largo plazo: Stable Diffusion local, con inversión inicial en hardware o coste de GPU en la nube."
+    },
+    {
+      "title": "Guía conceptual: qué es el prompt caching y cuándo usarlo",
+      "type": "Guía conceptual",
+      "level": "Avanzado",
+      "description": "Explica el mecanismo de caché de prompts en las APIs de LLM y su impacto en coste y latencia.",
+      "content": "El prompt caching permite marcar una parte del prompt (por ejemplo, instrucciones de sistema largas o documentos de contexto) para que el proveedor la reutilice en llamadas posteriores sin reprocesarla completamente.\nEl beneficio principal es doble: reducción de coste (hasta 90% más barato en los tokens de caché leídos) y reducción de latencia en la primera respuesta.\nEs especialmente útil en agentes que mantienen el mismo contexto de sistema en cientos de llamadas consecutivas, como un chatbot de soporte con una base de conocimiento fija.\nLa caché tiene un tiempo de vida limitado (normalmente 5 minutos desde el último uso), por lo que no sirve para contexto que se consulta esporádicamente.\nPara activarlo, debes estructurar el prompt colocando el contenido estático (instrucciones, documentos) al principio y el contenido variable (la pregunta del usuario) al final.\nMide el ahorro real comparando la factura de tokens antes y después de activar caching en un flujo de alto volumen."
+    },
+    {
+      "title": "Checklist de auditoría de contenido generado por IA antes de publicar",
+      "type": "Checklist",
+      "level": "Intermedio",
+      "description": "Verificaciones mínimas antes de publicar cualquier contenido generado o asistido por IA.",
+      "content": "[ ] Se ha verificado manualmente cualquier dato, cifra o cita incluida en el texto.\n[ ] El tono coincide con la guía de estilo de marca, sin frases genéricas de relleno.\n[ ] No se ha copiado texto casi literal de una fuente sin atribución.\n[ ] Se ha revisado que el contenido no contenga información desactualizada o inventada (alucinaciones).\n[ ] El contenido cumple con las políticas de divulgación de contenido generado por IA de la plataforma de publicación, si aplica.\n[ ] Se ha revisado la accesibilidad del contenido (alt text en imágenes, estructura de encabezados).\n[ ] Un humano ha dado el visto bueno final antes de la publicación, especialmente en contenido sensible o legal."
+    },
+    {
+      "title": "Análisis de ROI: RAG interno para documentación de empresa",
+      "type": "Análisis ROI",
+      "level": "Avanzado",
+      "description": "Justifica la inversión en un sistema de búsqueda interna con RAG frente a la búsqueda manual tradicional.",
+      "content": "Coste de implementación: base vectorial gestionada (50-300$/mes según volumen), desarrollo inicial (60-120 horas), mantenimiento (10-15 horas/mes de actualización de contenido).\nAhorro estimado: si cada empleado pierde en promedio 20 minutos diarios buscando información interna dispersa, y el sistema RAG reduce ese tiempo en un 70%, el ahorro por empleado ronda las 14 minutos/día.\nPara una plantilla de 50 empleados con coste medio de 25$/hora, el ahorro mensual estimado ronda los 4.000-5.000$, muy por encima del coste de mantenimiento del sistema.\nBeneficio adicional no cuantificable directamente: reducción de errores por uso de documentación desactualizada, al centralizar la fuente de verdad.\nPunto de equilibrio típico: entre el primer y el segundo mes de uso activo por parte de la plantilla.\nRiesgo principal: si la documentación fuente no se mantiene actualizada, el sistema RAG pierde valor rápidamente y genera desconfianza en el equipo."
+    },
+    {
+      "title": "Comparativa de plataformas de clonación de voz con IA",
+      "type": "Comparativa",
+      "level": "Intermedio",
+      "description": "ElevenLabs, Play.ht y Murf: diferencias de calidad, precio y casos de uso recomendados.",
+      "content": "ElevenLabs: mejor calidad de voz y expresividad emocional del mercado, precio desde 5$/mes (plan starter) hasta 330$/mes (plan escalado). Ideal para audiolibros y contenido narrativo.\nPlay.ht: buena relación calidad-precio, con planes desde 31$/mes, fuerte en voces para vídeos explicativos y e-learning.\nMurf: enfocado en presentaciones corporativas y vídeos de formación, con editor visual integrado tipo timeline, desde 29$/mes.\nPara clonación de voz propia con máxima fidelidad: ElevenLabs es el estándar actual de la industria.\nPara equipos que necesitan editar vídeo y voz en la misma interfaz: Murf simplifica el flujo de trabajo.\nConsideración legal común a las tres: siempre debes tener consentimiento explícito de la persona cuya voz clonas, y revisar las leyes locales sobre deepfakes de voz."
+    },
+    {
+      "title": "Guía conceptual: alucinaciones en modelos de lenguaje, por qué ocurren",
+      "type": "Guía conceptual",
+      "level": "Principiante",
+      "description": "Explica de forma sencilla por qué los LLM a veces inventan información con total seguridad.",
+      "content": "Una alucinación ocurre cuando el modelo genera información que suena plausible pero es incorrecta o inventada, sin que el modelo 'sepa' que se equivoca.\nLa causa raíz es que los modelos predicen la siguiente palabra más probable según patrones aprendidos, no consultan una base de datos de hechos verificados en tiempo real (salvo que tengan herramientas de búsqueda conectadas).\nLas alucinaciones son más frecuentes en: fechas exactas, cifras estadísticas específicas, citas bibliográficas, y eventos muy recientes no incluidos en el entrenamiento.\nEstrategias para reducirlas: usar RAG para anclar respuestas en documentos reales, pedir al modelo que cite fuentes verificables, y usar temperatura baja para respuestas más conservadoras.\nRegla práctica: nunca publiques ni tomes decisiones basadas en datos específicos (cifras, fechas, nombres) generados por IA sin verificación humana independiente.\nLos modelos con acceso a búsqueda web en tiempo real (como Perplexity o Claude con herramientas) reducen significativamente este riesgo al citar fuentes reales."
+    },
+    {
+      "title": "Checklist para elegir la herramienta de automatización correcta",
+      "type": "Checklist",
+      "level": "Principiante",
+      "description": "Preguntas clave para decidir entre Zapier, Make, n8n o desarrollo a medida.",
+      "content": "[ ] ¿Cuántas tareas/ejecuciones necesitas al mes? Por debajo de 1000, cualquier herramienta no-code es rentable.\n[ ] ¿La lógica del flujo es lineal o requiere condicionales complejos y bucles? Si es compleja, prioriza Make o n8n.\n[ ] ¿Tu equipo tiene conocimientos técnicos básicos? n8n ofrece más control pero exige más curva de aprendizaje.\n[ ] ¿Necesitas alojar los datos en tu propia infraestructura por cumplimiento normativo? n8n self-hosted es la única opción de las tres con ese control total.\n[ ] ¿El presupuesto mensual es una limitación fuerte? Compara el coste por tarea/operación, no solo el precio base del plan.\n[ ] ¿Necesitas soporte premium y SLA garantizado? Zapier suele tener el soporte más maduro para empresas.\n[ ] ¿El flujo podría crecer mucho en volumen? Evalúa el coste a 10x el volumen actual antes de decidir, no solo el coste inicial."
+    },
+    {
+      "title": "Análisis de ROI: generación de contenido de marketing con IA",
+      "type": "Análisis ROI",
+      "level": "Intermedio",
+      "description": "Cálculo de ahorro de tiempo y coste al incorporar IA generativa en la producción de contenido.",
+      "content": "Coste de herramientas: entre 20$ y 100$/mes por asistente de IA generativa dedicado (Claude Pro, ChatGPT Plus o similar), más tiempo de revisión humana.\nAhorro de tiempo estimado: redactar un artículo de blog de 1200 palabras desde cero toma en promedio 3-4 horas; con asistencia de IA bien configurada (brief + generación + edición), el tiempo baja a 1-1.5 horas.\nPara un equipo que publica 8 artículos al mes, el ahorro ronda las 16-20 horas mensuales, equivalentes a 400-600$ al coste medio de un redactor freelance (25$/hora).\nConsideración de calidad: el ahorro de tiempo se compensa parcialmente con tiempo de edición y fact-checking, que no debe eliminarse del proceso.\nPunto de equilibrio: inmediato, dado el bajo coste de las herramientas frente al ahorro de horas de redacción.\nRiesgo reputacional: contenido genérico o con errores factuales publicado sin revisión puede dañar la credibilidad de marca más de lo que ahorra en tiempo."
+    },
+    {
+      "title": "Comparativa de bases de datos vectoriales para RAG",
+      "type": "Comparativa",
+      "level": "Avanzado",
+      "description": "Pinecone, Weaviate, Chroma y pgvector: diferencias técnicas y de coste para proyectos de RAG.",
+      "content": "Pinecone: totalmente gestionado, muy fácil de escalar, precio desde 0$ (plan starter limitado) hasta cientos de dólares/mes en producción con alto volumen. Ideal si no quieres gestionar infraestructura.\nWeaviate: open source con opción cloud gestionada, soporta búsqueda híbrida (vectorial + palabras clave) de forma nativa, buena opción para casos de uso empresariales complejos.\nChroma: la opción más simple para prototipar localmente, gratuita y ligera, pero requiere trabajo adicional para escalar a producción con alta concurrencia.\npgvector: extensión de PostgreSQL que añade búsqueda vectorial a una base de datos relacional existente, ideal si ya usas Postgres y quieres evitar una pieza de infraestructura adicional.\nRecomendación por etapa: prototipo rápido usa Chroma, producción con equipo pequeño usa Pinecone, producción empresarial con control de datos usa Weaviate o pgvector según si ya tienes Postgres.\nConsidera siempre la latencia de búsqueda a tu volumen real de vectores antes de decidir, con una prueba de carga previa."
+    },
+    {
+      "title": "Guía conceptual: contexto, ventana de contexto y memoria en LLM",
+      "type": "Guía conceptual",
+      "level": "Principiante",
+      "description": "Aclara la diferencia entre el contexto de una conversación y la 'memoria' persistente entre sesiones.",
+      "content": "La ventana de contexto es la cantidad de texto (medida en tokens) que el modelo puede 'ver' en una sola conversación, incluyendo el historial completo del chat.\nCuando la conversación supera ese límite, el sistema empieza a descartar los mensajes más antiguos, por lo que el modelo 'olvida' el inicio de la charla.\nEsto es distinto de la memoria persistente entre sesiones, una función más reciente que algunos asistentes ofrecen para recordar preferencias del usuario entre conversaciones distintas.\nClaude Projects y los GPTs personalizados simulan memoria a largo plazo subiendo documentos de contexto fijo, no mediante memoria real del modelo entre chats.\nPara conversaciones muy largas (como el desarrollo de un proyecto de código), es buena práctica resumir periódicamente el progreso y empezar un chat nuevo con ese resumen como contexto inicial.\nRegla práctica: si notas que el asistente 'olvida' instrucciones dadas al principio de una conversación larga, probablemente hayas superado la ventana de contexto efectiva."
+    },
+    {
+      "title": "Checklist de cumplimiento normativo al usar IA con datos de clientes",
+      "type": "Checklist",
+      "level": "Avanzado",
+      "description": "Puntos clave de cumplimiento (RGPD y similares) antes de procesar datos personales con IA generativa.",
+      "content": "[ ] Existe base legal (consentimiento, interés legítimo o contrato) para procesar los datos personales con IA.\n[ ] El proveedor de IA ofrece un Acuerdo de Procesamiento de Datos (DPA) firmado.\n[ ] Los datos personales se anonimizan o pseudonimizan siempre que sea técnicamente posible antes de enviarlos.\n[ ] Se ha verificado dónde se almacenan y procesan los datos geográficamente (relevante para transferencias internacionales).\n[ ] El proveedor confirma que no usa tus datos para entrenar modelos, salvo consentimiento explícito.\n[ ] Existe un proceso definido para atender solicitudes de derecho al olvido sobre datos usados en IA.\n[ ] Se ha informado a los usuarios finales cuando interactúan con un sistema de IA generativa, según normativa aplicable.\n[ ] Se mantiene un registro de actividades de tratamiento que incluya los flujos de IA implementados."
+    },
+    {
+      "title": "Análisis de ROI: agentes de cualificación de leads con IA",
+      "type": "Análisis ROI",
+      "level": "Avanzado",
+      "description": "Modelo de retorno de inversión para justificar la automatización de la cualificación comercial.",
+      "content": "Coste de implementación: integración CRM-IA (30-60 horas de desarrollo), coste de API por lead procesado (aproximadamente 0,01-0,05$ por análisis), mantenimiento mensual (5 horas).\nBeneficio principal: reducción del tiempo que el equipo comercial dedica a cualificar leads manualmente, estimado en 10-15 minutos por lead.\nPara un equipo que recibe 500 leads/mes, automatizar la cualificación ahorra entre 80 y 125 horas mensuales de trabajo comercial de bajo valor añadido.\nA un coste medio de comercial de 20$/hora, el ahorro mensual estimado ronda los 1.600-2.500$, muy superior al coste de la solución.\nBeneficio secundario medible: reducción del tiempo de primera respuesta a leads de alta calidad, lo que históricamente correlaciona con mayor tasa de cierre.\nPunto de equilibrio: generalmente en el primer mes de operación, dado el bajo coste marginal por lead procesado.\nRiesgo a vigilar: un modelo de puntuación mal calibrado puede descartar leads valiosos; requiere revisión y ajuste continuo con datos reales de cierre."
+    },
+    {
+      "title": "Comparativa de asistentes de código: Copilot vs Cursor vs Claude Code",
+      "type": "Comparativa",
+      "level": "Avanzado",
+      "description": "Diferencias de enfoque, precio y flujo de trabajo entre los principales asistentes de programación IA.",
+      "content": "GitHub Copilot: integrado directamente en editores populares (VS Code, JetBrains), fuerte en autocompletado en línea, precio desde 10$/mes individual, 19$/usuario/mes en plan Business.\nCursor: editor propio construido sobre VS Code, con edición multi-archivo (Composer) y mejor comprensión de contexto de proyecto completo, precio desde 20$/mes.\nClaude Code: herramienta de terminal orientada a tareas agenticas completas (leer, editar, ejecutar comandos, tests), ideal para refactors grandes y flujos de trabajo autónomos, con coste basado en uso de API o incluido en planes Claude Pro/Max.\nPara autocompletado rápido mientras escribes: Copilot sigue siendo el más pulido y con menor fricción.\nPara refactors que tocan múltiples archivos con contexto amplio del proyecto: Cursor ofrece la mejor experiencia visual integrada.\nPara automatizar tareas completas de principio a fin desde la terminal, incluyendo ejecución de comandos y tests: Claude Code es el más potente en autonomía real.\nMuchos equipos combinan Copilot para el día a día y Claude Code o Cursor para tareas de mayor envergadura."
+    },
+    {
+      "title": "Guía conceptual: qué son los agentes multi-paso y cuándo evitarlos",
+      "type": "Guía conceptual",
+      "level": "Avanzado",
+      "description": "Explica cuándo un flujo multi-agente aporta valor real y cuándo solo añade complejidad innecesaria.",
+      "content": "Un sistema multi-agente divide una tarea compleja entre varios agentes especializados que colaboran, cada uno con su propio rol y herramientas.\nAporta valor real cuando la tarea tiene fases claramente diferenciadas que requieren distinto tipo de razonamiento, por ejemplo: uno investiga, otro redacta, otro verifica.\nAñade complejidad innecesaria cuando la tarea podría resolverse con un único prompt bien estructurado o una cadena simple de dos pasos.\nCada agente adicional incrementa el coste en tokens, la latencia total, y la superficie de posibles errores de coordinación entre agentes.\nRegla práctica: empieza siempre con el enfoque más simple (un solo prompt, luego prompt chaining) y solo escala a multi-agente si demuestras que el enfoque simple no alcanza la calidad necesaria.\nSi decides usar multi-agente, define claramente el protocolo de comunicación entre agentes y un límite estricto de iteraciones para evitar bucles costosos."
+    },
+    {
+      "title": "Checklist de migración de un proceso manual a automatización con IA",
+      "type": "Checklist",
+      "level": "Intermedio",
+      "description": "Pasos de verificación antes de automatizar un proceso que hoy hace un humano.",
+      "content": "[ ] El proceso manual está documentado paso a paso, incluyendo excepciones y casos borde reales.\n[ ] Se ha medido el volumen y la frecuencia actual del proceso para dimensionar correctamente la automatización.\n[ ] Se ha identificado qué porcentaje del proceso es realmente automatizable vs qué requiere juicio humano.\n[ ] Existe un plan de convivencia: el proceso automatizado corre en paralelo al manual durante un periodo de prueba.\n[ ] Se han definido métricas de éxito claras (tiempo ahorrado, tasa de error, satisfacción) antes de lanzar.\n[ ] El equipo que antes hacía el proceso manual conoce el cambio y su nuevo rol de supervisión.\n[ ] Existe un plan de rollback rápido si la automatización falla en producción.\n[ ] Se ha calculado el ROI esperado con cifras conservadoras, no con el mejor escenario posible."
+    },
+    {
+      "title": "Análisis de ROI: transcripción automática de reuniones",
+      "type": "Análisis ROI",
+      "level": "Principiante",
+      "description": "Cálculo simple del ahorro de tiempo al automatizar actas de reunión con Whisper o similar.",
+      "content": "Coste de herramienta: entre 0$ (Whisper local) y 30$/mes para herramientas gestionadas tipo Otter.ai o Fireflies.\nAhorro de tiempo estimado: redactar un acta manual de una reunión de 1 hora toma en promedio 30-45 minutos adicionales; con transcripción y resumen automático, baja a 5-10 minutos de revisión.\nPara un equipo que celebra 10 reuniones semanales con actas, el ahorro ronda las 5-6 horas semanales, equivalentes a 20-24 horas mensuales.\nA un coste medio de 20$/hora, el ahorro mensual estimado supera los 400-480$, muy por encima del coste de la herramienta.\nBeneficio adicional: mayor precisión en compromisos y decisiones registradas, reduciendo malentendidos post-reunión.\nPunto de equilibrio: inmediato desde el primer mes de uso activo.\nConsideración de privacidad: informa siempre a los participantes de que la reunión se transcribe automáticamente, por buena práctica y en muchos casos por requisito legal."
+    },
+    {
+      "title": "Comparativa de planes empresariales de IA: Team vs Enterprise",
+      "type": "Comparativa",
+      "level": "Intermedio",
+      "description": "Diferencias clave entre los planes de equipo y empresariales de Claude, ChatGPT y Gemini.",
+      "content": "Claude Team: desde 25$/usuario/mes, incluye Projects compartidos, mayor límite de uso y administración centralizada básica. Enterprise añade SSO, controles de retención de datos y soporte dedicado, con precio a medida.\nChatGPT Team: desde 25-30$/usuario/mes, incluye GPTs compartidos del workspace y administración de miembros. Enterprise añade seguridad avanzada, SSO, y garantías de no entrenamiento con tus datos, precio a medida según volumen.\nGemini para Workspace: integrado en los planes de Google Workspace Business/Enterprise, con precio adicional por usuario sobre el plan base de Workspace.\nCriterio de decisión principal: si tu empresa maneja datos sensibles o regulados, el salto a Enterprise suele justificarse solo por las garantías contractuales de datos, no por funcionalidades adicionales.\nPara equipos de menos de 20 personas sin requisitos regulatorios estrictos, el plan Team suele ser suficiente y más económico.\nRevisa siempre el acuerdo de nivel de servicio (SLA) y el DPA antes de firmar un contrato Enterprise a largo plazo."
+    },
+    {
+      "title": "Comparativa de suites de productividad con IA integrada",
+      "type": "Comparativa",
+      "level": "Intermedio",
+      "description": "Microsoft 365 Copilot vs Google Workspace con Gemini: qué ofrece cada suite.",
+      "content": "Microsoft 365 Copilot: precio adicional de 30$/usuario/mes sobre tu licencia de Microsoft 365, fuerte integración en Word, Excel y Outlook con generación y análisis dentro del propio documento.\nGoogle Workspace con Gemini: incluido en niveles superiores de Workspace o como add-on, integración nativa en Docs, Sheets y Gmail.\nMicrosoft Copilot destaca en análisis de datos complejos en Excel con fórmulas explicadas en lenguaje natural.\nGoogle Gemini destaca en la rapidez de resumen de hilos largos de Gmail y generación de borradores contextuales.\nRecomendación: elige la suite en la que ya opera tu empresa, el coste de migrar todo el ecosistema rara vez compensa la diferencia de funcionalidades de IA entre ambas."
+    },
+    {
+      "title": "Guía conceptual: qué es el few-shot prompting",
+      "type": "Guía conceptual",
+      "level": "Intermedio",
+      "description": "Explica la técnica de dar ejemplos dentro del prompt para mejorar la consistencia de las respuestas.",
+      "content": "El few-shot prompting consiste en incluir 2-5 ejemplos de entrada-salida deseada dentro del propio prompt antes de la petición real.\nMejora significativamente la consistencia de formato en tareas de clasificación, extracción de datos estructurados o estilos de escritura muy específicos.\nSe diferencia del zero-shot (sin ejemplos) en que ancla al modelo a un patrón concreto en lugar de dejarlo inferir el formato deseado.\nUn buen ejemplo few-shot debe ser representativo de los casos reales, incluyendo al menos un caso límite si es relevante para la tarea.\nDesventaja: aumenta el número de tokens del prompt, por lo que en tareas de alto volumen conviene evaluar si el zero-shot con instrucciones muy claras logra resultados similares a menor coste.\nRegla práctica: usa few-shot cuando el formato de salida sea crítico y difícil de describir solo con instrucciones textuales."
+    },
+    {
+      "title": "Checklist de evaluación de un modelo de IA para tu empresa",
+      "type": "Checklist",
+      "level": "Avanzado",
+      "description": "Puntos a verificar antes de adoptar un modelo de IA como estándar de la organización.",
+      "content": "[ ] El modelo cumple con los requisitos de precisión mínimos para el caso de uso, medidos con un set de prueba propio.\n[ ] El coste por uso es sostenible al volumen proyectado a 12 meses, no solo al volumen piloto.\n[ ] El proveedor ofrece garantías contractuales sobre uso y retención de tus datos.\n[ ] Existe documentación suficiente para que el equipo técnico se integre sin fricción excesiva.\n[ ] El modelo soporta el idioma y contexto cultural de tu mercado principal con calidad adecuada.\n[ ] Se ha probado el comportamiento del modelo ante entradas adversariales o maliciosas.\n[ ] Existe un plan de contingencia si el proveedor cambia precios o descontinúa el modelo."
+    },
+    {
+      "title": "Análisis de ROI: automatización de reportes de marketing",
+      "type": "Análisis ROI",
+      "level": "Intermedio",
+      "description": "Cálculo del ahorro de tiempo al automatizar la generación de informes semanales de marketing.",
+      "content": "Coste de implementación: 20-40 horas de desarrollo inicial del flujo, más 10-30$/mes de herramientas de conexión de datos.\nAhorro de tiempo: generar manualmente un informe semanal con datos de 3-4 fuentes distintas toma en promedio 3-5 horas; automatizado baja a 15-30 minutos de revisión.\nPara un equipo que genera este informe cada semana, el ahorro mensual ronda las 12-18 horas, equivalentes a 300-450$ a un coste medio de 25$/hora.\nBeneficio adicional: mayor consistencia y menor error humano en la consolidación de datos de múltiples plataformas publicitarias.\nPunto de equilibrio: generalmente en el primer o segundo mes de uso.\nRiesgo a vigilar: cambios en las APIs de las plataformas de origen pueden romper el flujo, requiere mantenimiento ligero periódico."
+    },
+    {
+      "title": "Comparativa de herramientas de generación de vídeo con IA",
+      "type": "Comparativa",
+      "level": "Avanzado",
+      "description": "Runway, Pika y Luma: diferencias de calidad, coste y mejores casos de uso en 2026.",
+      "content": "Runway Gen-3: alta calidad de movimiento de cámara y coherencia de escena, precio desde 15$/mes con créditos limitados, fuerte en casos de uso profesionales de producción audiovisual.\nPika Labs: interfaz más accesible para principiantes, buena para clips cortos de redes sociales, precio desde 10$/mes.\nLuma Dream Machine: destaca en generación de escenas realistas con física de movimiento convincente, modelo freemium con créditos diarios gratuitos limitados.\nPara producción profesional con control fino: Runway sigue siendo el más maduro del mercado.\nPara contenido rápido de redes sociales sin gran presupuesto: Pika o el nivel gratuito de Luma son suficientes.\nEn todos los casos, la duración de clip generado sigue siendo corta (4-10 segundos), por lo que la edición y encadenado de clips en post-producción sigue siendo imprescindible."
+    },
+    {
+      "title": "Comparativa de modelos Claude: Haiku, Sonnet y Opus",
+      "type": "Comparativa",
+      "level": "Principiante",
+      "description": "Cuándo usar cada modelo de la familia Claude según velocidad, coste y capacidad de razonamiento.",
+      "content": "Claude Haiku: el más rápido y económico (aprox. 0,25$/millón de tokens de entrada), ideal para clasificación, extracción simple y tareas de alto volumen.\nClaude Sonnet: el equilibrio recomendado para la mayoría de tareas de uso diario, razonamiento sólido a precio moderado (aprox. 3$/millón de tokens de entrada).\nClaude Opus: el más potente para tareas de razonamiento profundo, investigación compleja o análisis de documentos extensos, con mayor coste por token.\nRegla práctica: empieza siempre probando con Sonnet; baja a Haiku si la tarea es simple y de alto volumen, sube a Opus solo si Sonnet falla en la calidad de razonamiento necesaria.\nEn flujos automatizados de alto volumen (miles de llamadas diarias), la diferencia de coste entre Haiku y Sonnet puede ser determinante para la viabilidad económica del proyecto."
+    },
+    {
+      "title": "Guía conceptual: temperatura y top-p, cómo controlan la creatividad",
+      "type": "Guía conceptual",
+      "level": "Intermedio",
+      "description": "Explica los parámetros que controlan la aleatoriedad y creatividad de las respuestas de un LLM.",
+      "content": "La temperatura controla cuánta aleatoriedad se permite al elegir la siguiente palabra: valores bajos (0-0.3) generan respuestas más deterministas y conservadoras, valores altos (0.7-1) generan respuestas más variadas y creativas.\nEl parámetro top-p (nucleus sampling) limita las opciones consideradas a un porcentaje de probabilidad acumulada, funcionando de forma complementaria a la temperatura.\nPara tareas que requieren precisión factual (extracción de datos, código, cálculos), usa temperatura baja (0-0.2).\nPara tareas creativas (brainstorming, copywriting, ideación), una temperatura de 0.7-0.9 suele dar mejores resultados.\nNo se recomienda ajustar temperatura y top-p simultáneamente de forma agresiva, ya que sus efectos se combinan de forma poco predecible.\nRegla práctica: deja los valores por defecto salvo que tengas una razón específica y midas el resultado con pruebas A/B reales."
+    },
+    {
+      "title": "Checklist de preparación de datos para RAG",
+      "type": "Checklist",
+      "level": "Intermedio",
+      "description": "Pasos previos imprescindibles antes de indexar documentos en un sistema de recuperación aumentada.",
+      "content": "[ ] Los documentos están en un formato de texto limpio, sin ruido de maquetación (headers/footers repetitivos).\n[ ] Se ha decidido una estrategia de chunking coherente con el tipo de contenido (por párrafo, por sección, por tamaño fijo).\n[ ] Cada chunk conserva metadatos útiles (fuente, fecha, sección) para poder citar el origen en la respuesta.\n[ ] Se ha eliminado contenido duplicado o desactualizado que pueda generar respuestas contradictorias.\n[ ] Existe un proceso definido para reindexar automáticamente cuando los documentos fuente cambian.\n[ ] Se ha probado la recuperación con al menos 20 preguntas reales de usuarios antes de lanzar a producción.\n[ ] Se ha definido qué pasa cuando no hay ningún fragmento relevante (respuesta de fallback clara, no inventada)."
+    },
+    {
+      "title": "Análisis de ROI: fine-tuning vs prompt engineering para clasificación",
+      "type": "Análisis ROI",
+      "level": "Avanzado",
+      "description": "Compara el coste-beneficio de entrenar un modelo propio frente a usar prompts bien diseñados para tareas de clasificación.",
+      "content": "Coste de fine-tuning: preparación de dataset etiquetado (40-100 horas según volumen), coste de entrenamiento (variable según proveedor, desde cientos hasta miles de dólares), y mantenimiento cuando cambian las categorías.\nCoste de prompt engineering con few-shot: prácticamente cero en desarrollo, solo el coste incremental por token de los ejemplos incluidos en cada llamada.\nEn tareas de clasificación con menos de 20 categorías y volumen moderado, el prompt engineering bien diseñado suele alcanzar una precisión similar al fine-tuning con una fracción del coste y tiempo de desarrollo.\nEl fine-tuning se justifica cuando el volumen es masivo (millones de llamadas/mes) y el ahorro en tokens por respuesta más corta compensa el coste de entrenamiento inicial.\nPunto de equilibrio típico: el fine-tuning rara vez es rentable por debajo de 500.000 llamadas mensuales para tareas de clasificación simple.\nRecomendación: valida siempre primero con prompt engineering y solo evalúa fine-tuning si tienes evidencia clara de que no alcanza la precisión necesaria."
+    },
+    {
+      "title": "Comparativa de herramientas de transcripción automática",
+      "type": "Comparativa",
+      "level": "Principiante",
+      "description": "Whisper local, Otter.ai y Fireflies.ai: diferencias de precio, precisión y facilidad de uso.",
+      "content": "Whisper (OpenAI, local o API): gratuito si lo ejecutas localmente, altísima precisión multilingüe, pero requiere configuración técnica inicial.\nOtter.ai: interfaz muy pulida con resumen automático y notas colaborativas en tiempo real, precio desde 10$/mes, ideal para reuniones recurrentes de equipo.\nFireflies.ai: fuerte integración con herramientas de videollamada (Zoom, Meet, Teams) y CRMs, precio desde 10$/mes, útil para equipos comerciales que quieren transcripciones ligadas al CRM automáticamente.\nPara desarrolladores que quieren integrar transcripción en un flujo propio: Whisper vía API o local es la opción más flexible y económica.\nPara equipos no técnicos que solo quieren actas automáticas sin configuración: Otter.ai o Fireflies son más rápidos de adoptar.\nConsidera siempre el idioma principal de tus reuniones: Whisper tiende a tener mejor soporte multilingüe que las alternativas comerciales."
+    },
+    {
+      "title": "Guía conceptual: qué es un embedding y cómo mide similitud",
+      "type": "Guía conceptual",
+      "level": "Intermedio",
+      "description": "Explica de forma accesible el concepto de embedding vectorial, base técnica de la búsqueda semántica.",
+      "content": "Un embedding es una representación numérica (un vector de cientos o miles de dimensiones) que captura el significado semántico de un texto.\nTextos con significado similar generan vectores 'cercanos' en ese espacio matemático, medido habitualmente con similitud coseno.\nEsto permite búsquedas semánticas: encontrar documentos relevantes aunque no compartan las mismas palabras exactas que la consulta.\nLos modelos de embedding más usados incluyen text-embedding-3 de OpenAI, Voyage AI (recomendado para uso con Claude) y modelos open source como los de la familia BGE.\nLa calidad del embedding determina directamente la calidad de un sistema RAG: un mal modelo de embedding recupera documentos irrelevantes sin importar cuán bueno sea el LLM final.\nRegla práctica: prueba varios modelos de embedding con tu propio set de preguntas reales antes de decidir cuál usar en producción, no confíes solo en benchmarks genéricos."
+    },
+    {
+      "title": "Checklist de evaluación de un agente antes de darle autonomía",
+      "type": "Checklist",
+      "level": "Avanzado",
+      "description": "Verificaciones antes de permitir que un agente de IA actúe sin supervisión humana directa en cada paso.",
+      "content": "[ ] El agente tiene un límite máximo de iteraciones para evitar bucles costosos o infinitos.\n[ ] Las acciones irreversibles (enviar, pagar, borrar, publicar) requieren siempre confirmación humana explícita.\n[ ] Existe un registro detallado (log) de cada decisión y acción tomada por el agente.\n[ ] Se ha probado el agente con al menos 20 escenarios distintos, incluyendo casos adversariales.\n[ ] El agente puede reconocer cuándo no tiene suficiente información y pedir ayuda en lugar de inventar una respuesta.\n[ ] Se ha definido un presupuesto máximo de coste (tokens) por tarea para evitar gastos descontrolados.\n[ ] Existe un botón de parada de emergencia accesible para detener al agente en cualquier momento."
+    },
+    {
+      "title": "Análisis de ROI: chatbot de FAQ con RAG vs formulario de contacto tradicional",
+      "type": "Análisis ROI",
+      "level": "Intermedio",
+      "description": "Compara el coste y la experiencia de usuario de automatizar las preguntas frecuentes frente al modelo tradicional de contacto.",
+      "content": "Coste de implementación de chatbot RAG: 40-80 horas de desarrollo inicial más 20-100$/mes de infraestructura (base vectorial y API de LLM).\nCon un formulario de contacto tradicional, cada consulta genera un ticket que un agente humano debe responder, con un coste promedio de 5-8$ por interacción resuelta.\nSi el chatbot resuelve automáticamente el 50% de 1000 consultas mensuales de FAQ, el ahorro ronda los 2.500-4.000$/mes en tiempo de agente.\nBeneficio adicional en experiencia de usuario: respuesta inmediata 24/7 frente a tiempos de espera de horas o días con el formulario tradicional.\nPunto de equilibrio: típicamente entre el primer y segundo mes de operación con volumen moderado de consultas.\nRiesgo a vigilar: un chatbot mal calibrado que no escala a humano cuando debería puede generar frustración y perder clientes, anulando el ahorro."
+    },
+    {
+      "title": "Comparativa de modelos de razonamiento extendido",
+      "type": "Comparativa",
+      "level": "Avanzado",
+      "description": "Claude con extended thinking, o1/o3 de OpenAI y Gemini con razonamiento: diferencias de enfoque y coste.",
+      "content": "Claude con extended thinking: permite ver el razonamiento paso a paso del modelo antes de la respuesta final, útil para tareas de matemáticas, lógica y depuración de decisiones complejas.\nModelos de razonamiento de OpenAI (serie o): optimizados para problemas de razonamiento profundo con mayor tiempo de 'pensamiento' interno antes de responder, coste significativamente mayor por token que los modelos estándar.\nGemini con razonamiento extendido: integración nativa con búsqueda y herramientas de Google, fuerte en tareas que combinan razonamiento con datos actualizados en tiempo real.\nEl coste de estos modelos de razonamiento extendido suele ser 3-10 veces mayor que un modelo estándar, por lo que solo se justifican en tareas donde la precisión es crítica.\nCasos de uso ideales: problemas matemáticos complejos, depuración de código difícil, planificación estratégica de múltiples pasos, auditoría legal o financiera detallada.\nPara el 80% de las tareas de negocio diarias, un modelo estándar bien prompteado sigue siendo más eficiente en coste-beneficio que activar razonamiento extendido."
+    },
+    {
+      "title": "Guía conceptual: qué es el context engineering",
+      "type": "Guía conceptual",
+      "level": "Avanzado",
+      "description": "Explica la disciplina emergente de diseñar qué información entra en el contexto de un agente y cómo se organiza.",
+      "content": "El context engineering va más allá del prompt engineering: se ocupa de decidir qué información (documentos, historial, resultados de herramientas) debe estar presente en cada llamada al modelo y en qué orden.\nUn contexto mal diseñado, aunque tenga la información correcta, puede confundir al modelo si está desorganizado, duplicado o es excesivamente largo.\nPrincipios clave: prioriza la información más relevante cerca del final del contexto (los modelos tienden a dar más peso a lo reciente), elimina redundancia, y resume información histórica en lugar de mantenerla completa indefinidamente.\nEn agentes que ejecutan muchas herramientas, es fundamental resumir los resultados intermedios en lugar de acumular toda la salida cruda en el contexto, para no agotar la ventana disponible.\nEsta disciplina es especialmente crítica en agentes de larga duración (long-running agents) que ejecutan decenas de pasos antes de completar una tarea.\nRegla práctica: audita periódicamente qué porcentaje del contexto de tu agente es realmente útil para la decisión actual, y recorta lo que no aporte valor directo."
+    },
+    {
+      "title": "Checklist de estructura de un prompt de sistema robusto",
+      "type": "Checklist",
+      "level": "Intermedio",
+      "description": "Elementos que no deberían faltar en el prompt de sistema de un asistente o agente en producción.",
+      "content": "[ ] Define claramente el rol y el objetivo del asistente en la primera frase.\n[ ] Especifica el tono y estilo de comunicación esperado.\n[ ] Establece límites explícitos de lo que el asistente no debe hacer o prometer.\n[ ] Incluye instrucciones sobre qué hacer cuando falta información (pedir aclaración vs asumir).\n[ ] Define el formato de salida esperado si es relevante (JSON, markdown, longitud máxima).\n[ ] Incluye al menos un ejemplo de interacción ideal si el caso de uso es complejo.\n[ ] Especifica cómo debe comportarse ante intentos de manipulación o instrucciones contradictorias del usuario.\n[ ] Se ha probado el prompt contra al menos 10 casos límite antes de considerarlo listo para producción."
+    },
+    {
+      "title": "Análisis de ROI: generación de imágenes con IA vs banco de imágenes",
+      "type": "Análisis ROI",
+      "level": "Principiante",
+      "description": "Compara el coste de generar imágenes con IA frente a suscripciones tradicionales de stock de fotos.",
+      "content": "Coste de banco de imágenes tradicional: 30-100$/mes según el plan y número de descargas permitidas, con imágenes genéricas que también usan tus competidores.\nCoste de generación con IA (Midjourney o similar): 10-30$/mes con generación prácticamente ilimitada de imágenes únicas y personalizadas a tu marca.\nPara un equipo que necesita 20-30 imágenes mensuales para contenido de redes y blog, la IA generativa reduce el coste directo entre un 50% y 70% comparado con bancos de imágenes premium.\nBeneficio adicional: las imágenes generadas son exclusivas, evitando el riesgo de que un competidor use la misma foto de stock.\nConsideración legal: revisa los términos de uso comercial de la herramienta de IA elegida, algunas licencias varían según el plan de suscripción.\nLimitación a considerar: la IA aún tiene dificultades con texto legible dentro de la imagen y con la representación consistente de un mismo personaje o producto entre varias imágenes."
+    },
+    {
+      "title": "Comparativa de niveles de suscripción de Claude",
+      "type": "Comparativa",
+      "level": "Principiante",
+      "description": "Free, Pro y Max: qué incluye cada plan y para qué perfil de usuario es recomendable.",
+      "content": "Claude Free: acceso limitado a Sonnet con un número reducido de mensajes cada pocas horas, sin acceso a Projects extendidos ni a los límites más altos de subida de archivos.\nClaude Pro (20$/mes): límites de uso significativamente mayores, acceso completo a Projects, y acceso prioritario a nuevas funcionalidades como Artifacts avanzados.\nClaude Max (planes desde 100$/mes): pensado para power users y desarrolladores con Claude Code, con límites de uso mucho más altos y acceso preferente a Opus.\nPara un usuario ocasional que prueba la herramienta: el plan Free es suficiente para evaluar el producto.\nPara un profesional que la usa a diario para trabajo (escritura, análisis, código): Pro es la opción con mejor relación coste-beneficio.\nPara desarrolladores que usan Claude Code intensivamente varias horas al día: Max evita quedarse sin límite de uso a mitad de una sesión de trabajo importante."
+    },
+    {
+      "title": "Guía conceptual: qué es el 'grounding' en modelos de IA",
+      "type": "Guía conceptual",
+      "level": "Intermedio",
+      "description": "Explica el concepto de anclar las respuestas de un modelo a fuentes verificables externas.",
+      "content": "El grounding es la práctica de conectar las respuestas de un modelo de IA a fuentes de información verificables externas, en lugar de depender únicamente de su conocimiento interno aprendido durante el entrenamiento.\nSe logra principalmente mediante RAG (documentos propios), herramientas de búsqueda web en tiempo real, o llamadas a APIs con datos actualizados (precios, disponibilidad, clima).\nUn modelo bien 'anclado' cita explícitamente sus fuentes, permitiendo al usuario verificar la información en lugar de confiar ciegamente en la respuesta.\nEl grounding reduce significativamente las alucinaciones en dominios donde la información cambia con frecuencia o donde la precisión factual es crítica (legal, médico, financiero).\nNo elimina completamente el riesgo de error: el modelo puede interpretar mal una fuente correcta, por lo que la verificación humana sigue siendo necesaria en decisiones de alto impacto.\nRegla práctica: en cualquier caso de uso donde la exactitud importe, prioriza siempre una arquitectura con grounding sobre depender del conocimiento paramétrico del modelo."
+    },
+    {
+      "title": "Checklist de optimización de coste en uso de API de LLM",
+      "type": "Checklist",
+      "level": "Avanzado",
+      "description": "Tácticas concretas para reducir la factura de una integración de IA a gran escala sin perder calidad.",
+      "content": "[ ] Se usa el modelo más pequeño posible que cumpla el nivel de calidad requerido por tarea (no todo necesita el modelo más grande).\n[ ] Se ha activado prompt caching en el contenido de contexto que se repite entre llamadas.\n[ ] Los prompts de sistema son concisos, sin instrucciones redundantes que infle el conteo de tokens en cada llamada.\n[ ] Se limita el max_tokens de salida al mínimo razonable para el caso de uso, evitando respuestas innecesariamente largas.\n[ ] Se han identificado tareas que pueden resolverse con reglas simples (regex, lógica) sin necesidad de invocar al modelo.\n[ ] Se monitoriza el gasto diario con alertas automáticas ante picos anómalos de consumo.\n[ ] Se revisa mensualmente qué llamadas al modelo generan más coste y si su valor de negocio lo justifica."
+    },
+    {
+      "title": "Análisis de ROI: agente de investigación de mercado automatizado",
+      "type": "Análisis ROI",
+      "level": "Avanzado",
+      "description": "Calcula el ahorro de tiempo y coste al automatizar la investigación competitiva trimestral con un agente de IA.",
+      "content": "Coste de un informe de investigación de mercado manual mediante consultora externa: entre 3.000$ y 15.000$ según profundidad y número de competidores analizados.\nCoste de un agente de investigación automatizado con acceso a búsqueda web: 20-100 horas de desarrollo inicial más un coste marginal de 5-20$ por informe generado en tokens de API.\nAunque el agente automatizado no sustituye completamente el criterio experto de una consultora en decisiones estratégicas mayores, sí cubre eficazmente el monitoreo recurrente y de menor complejidad.\nPara empresas que necesitan actualizar su inteligencia competitiva trimestralmente, el ahorro acumulado a un año puede superar los 10.000-40.000$ frente a contratar consultoría externa cada vez.\nPunto de equilibrio: generalmente a partir del segundo informe generado, dado el bajo coste marginal por ejecución adicional.\nRecomendación híbrida: usa el agente automatizado para el monitoreo recurrente y reserva la consultoría externa para decisiones estratégicas de alto riesgo que requieran validación experta profunda."
+    },
+    {
+      "title": "Comparativa de opciones de despliegue de modelos open source",
+      "type": "Comparativa",
+      "level": "Experto",
+      "description": "Ollama local, vLLM en servidor propio y APIs gestionadas: trade-offs de coste, privacidad y rendimiento.",
+      "content": "Ollama (local): ideal para desarrollo y prototipado, ejecuta modelos como Llama o Mistral directamente en tu máquina sin coste de API, pero limitado por la potencia de tu hardware.\nvLLM en servidor propio: opción para producción con control total de datos y latencia optimizada mediante batching, requiere gestión de infraestructura GPU propia (coste de servidor dedicado, desde 500-2000$/mes según GPU).\nAPIs gestionadas de modelos open source (por ejemplo, a través de proveedores como Together AI o Fireworks): sin gestión de infraestructura, coste por token similar o menor a los modelos propietarios, pero sin el control total de un despliegue propio.\nPara máxima privacidad de datos (sector salud, legal, financiero con requisitos estrictos): despliegue propio con vLLM es la opción más segura, a mayor coste de mantenimiento.\nPara equipos pequeños sin experiencia en DevOps de IA: las APIs gestionadas ofrecen el mejor equilibrio entre control de costes y velocidad de puesta en producción.\nConsidera siempre el coste total (infraestructura + mantenimiento + tiempo de ingeniería) y no solo el precio por token al comparar estas opciones."
+    },
+    {
+      "title": "Guía conceptual: qué es un LLM-judge y cómo evaluar calidad con IA",
+      "type": "Guía conceptual",
+      "level": "Avanzado",
+      "description": "Explica la técnica de usar un modelo de lenguaje para evaluar automáticamente la calidad de otras respuestas de IA.",
+      "content": "Un LLM-judge es un modelo de lenguaje usado específicamente para evaluar y puntuar la calidad de respuestas generadas por otro modelo (o por el mismo modelo en distintas configuraciones).\nEs útil para escalar la evaluación de calidad en flujos con alto volumen de generación, donde la revisión 100% humana no es viable en tiempo o coste.\nUn LLM-judge necesita un rúbrica de evaluación clara y específica, similar a la que usarías con un evaluador humano, incluyendo criterios y ejemplos de puntuación.\nEs recomendable validar periódicamente el LLM-judge contra evaluaciones humanas en una muestra, para confirmar que sus puntuaciones se correlacionan con el juicio humano real.\nLimitación importante: un LLM-judge puede tener sesgos sistemáticos (por ejemplo, preferir respuestas más largas) que deben corregirse ajustando la rúbrica o el prompt de evaluación.\nCaso de uso típico: evaluar automáticamente miles de respuestas de un chatbot de soporte para detectar degradación de calidad antes de que lo note un cliente real."
+    },
+    {
+      "title": "Checklist de lanzamiento de una skill o plugin de IA interno",
+      "type": "Checklist",
+      "level": "Intermedio",
+      "description": "Verificaciones antes de distribuir una skill personalizada de IA al resto de tu organización.",
+      "content": "[ ] La descripción de la skill indica claramente cuándo debe activarse, evitando ambigüedad con otras skills existentes.\n[ ] Se ha probado con al menos 10 solicitudes reales de distintos usuarios del equipo.\n[ ] Los scripts auxiliares incluidos no contienen credenciales ni datos sensibles hardcodeados.\n[ ] Existe documentación mínima de qué hace la skill y sus limitaciones conocidas.\n[ ] Se ha definido un responsable de mantenimiento de la skill ante futuros cambios de API.\n[ ] Se ha validado que la skill no entra en conflicto ni duplica funcionalidad de otra ya existente en el equipo."
+    },
+    {
+      "title": "Comparativa de herramientas de generación de presentaciones con IA",
+      "type": "Comparativa",
+      "level": "Principiante",
+      "description": "Gamma, Tome y Beautiful.ai: diferencias de estilo, precio y velocidad de generación.",
+      "content": "Gamma: generación muy rápida a partir de un simple resumen de texto, precio desde 8-10$/mes, buena opción por defecto para la mayoría de presentaciones de negocio.\nTome: fuerte en storytelling visual y presentaciones más narrativas, precio con plan gratuito limitado y planes de pago desde 8$/mes.\nBeautiful.ai: control más manual del diseño con plantillas inteligentes que se autoajustan, precio desde 12$/mes, mejor para quienes quieren más control sobre el resultado final.\nPara velocidad máxima con mínima intervención: Gamma es la opción más directa.\nPara presentaciones con enfoque más narrativo o de producto: Tome ofrece mejores plantillas visuales.\nEn todos los casos, revisa siempre el guion de presentador generado, ya que suele necesitar ajustes de tono para sonar natural al exponerlo en voz alta."
+    }
+  ],
+  "automatizacion": [
+    {
+      "title": "Clasificador automático de correos entrantes",
+      "tool": "n8n + Claude API",
+      "complexity": "Intermedio",
+      "description": "Clasifica cada email entrante en categorías (urgente, comercial, soporte, spam) y etiqueta en Gmail automáticamente.",
+      "timeSaving": "3h/semana",
+      "code": "// Nodo HTTP Request en n8n hacia Claude API\n{\n  \"model\": \"claude-sonnet-4-5\",\n  \"max_tokens\": 200,\n  \"messages\": [{\n    \"role\": \"user\",\n    \"content\": \"Clasifica este email en una categoria: urgente, comercial, soporte, spam. Responde solo JSON {\\\"categoria\\\": \\\"...\\\"}. Email: {{$json.body}}\"\n  }]\n}"
+    },
+    {
+      "title": "Generador automático de descripciones de producto",
+      "tool": "Python + Claude API",
+      "complexity": "Intermedio",
+      "description": "Recorre un CSV de productos y genera descripciones SEO para cada uno usando la API de Claude.",
+      "timeSaving": "6h/semana",
+      "code": "import csv, anthropic\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n\nwith open('productos.csv') as f:\n    reader = csv.DictReader(f)\n    for row in reader:\n        msg = client.messages.create(\n            model=\"claude-sonnet-4-5\",\n            max_tokens=300,\n            messages=[{\"role\": \"user\", \"content\": f\"Escribe una descripcion SEO de 100 palabras para: {row['nombre']}, atributos: {row['atributos']}\"}]\n        )\n        row['descripcion'] = msg.content[0].text\n        print(row['nombre'], 'OK')"
+    },
+    {
+      "title": "Resumen diario de Slack automatizado",
+      "tool": "n8n + Slack API + Claude",
+      "complexity": "Principiante",
+      "description": "Envía cada mañana un resumen de los mensajes importantes de un canal de Slack a los stakeholders.",
+      "timeSaving": "2h/semana",
+      "code": "# Flujo n8n:\n# 1. Cron Trigger - todos los dias a las 8:00\n# 2. Slack Node - Get Channel History (ultimas 24h)\n# 3. HTTP Request a Claude API con prompt:\n#    \"Resume estos mensajes de Slack en 5 puntos clave: {{$json.messages}}\"\n# 4. Slack Node - Post Message al canal #resumen-diario"
+    },
+    {
+      "title": "Sincronización automática de leads entre formulario y CRM",
+      "tool": "Zapier",
+      "complexity": "Principiante",
+      "description": "Cada envío de Typeform crea o actualiza automáticamente un contacto en HubSpot con los datos del formulario.",
+      "timeSaving": "4h/semana",
+      "code": "# Configuracion de Zap (sin codigo):\n# Trigger: Typeform - New Entry\n# Action 1: HubSpot - Find or Create Contact (buscar por email)\n# Action 2: HubSpot - Update Contact Property (origen = 'formulario web')\n# Action 3: Slack - Send Channel Message ('Nuevo lead: {{email}}')"
+    },
+    {
+      "title": "Extracción de datos de facturas en PDF",
+      "tool": "Python + Claude API + OCR",
+      "complexity": "Avanzado",
+      "description": "Extrae proveedor, importe, fecha e IVA de facturas PDF y los vuelca en una hoja de cálculo.",
+      "timeSaving": "5h/semana",
+      "code": "import anthropic, base64\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n\nwith open('factura.pdf', 'rb') as f:\n    pdf_data = base64.standard_b64encode(f.read()).decode('utf-8')\n\nmsg = client.messages.create(\n    model=\"claude-sonnet-4-5\",\n    max_tokens=500,\n    messages=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\"type\": \"document\", \"source\": {\"type\": \"base64\", \"media_type\": \"application/pdf\", \"data\": pdf_data}},\n            {\"type\": \"text\", \"text\": \"Extrae proveedor, importe total, fecha e IVA en formato JSON.\"}\n        ]\n    }]\n)\nprint(msg.content[0].text)"
+    },
+    {
+      "title": "Publicación automática de contenido en redes sociales",
+      "tool": "Make + Buffer",
+      "complexity": "Intermedio",
+      "description": "Toma ideas de una hoja de cálculo, genera el copy con IA y programa la publicación en Buffer.",
+      "timeSaving": "5h/semana",
+      "code": "// Escenario Make:\n// 1. Google Sheets Watch Rows (estado = 'pendiente')\n// 2. HTTP Request a Claude API generando el copy a partir de la idea\n// 3. Buffer - Create Post con el copy generado y la imagen asociada\n// 4. Google Sheets Update Row (estado = 'publicado')"
+    },
+    {
+      "title": "Bot de soporte con RAG sobre documentación propia",
+      "tool": "LangChain + ChromaDB + Claude",
+      "complexity": "Experto",
+      "description": "Chatbot que responde preguntas de soporte consultando la documentación interna indexada en una base vectorial.",
+      "timeSaving": "10h/semana",
+      "code": "from langchain_anthropic import ChatAnthropic\nfrom langchain_community.vectorstores import Chroma\nfrom langchain.chains import ConversationalRetrievalChain\n\nvectorstore = Chroma(persist_directory=\"./db\", embedding_function=embeddings)\nllm = ChatAnthropic(model=\"claude-sonnet-4-5\")\nchain = ConversationalRetrievalChain.from_llm(\n    llm=llm,\n    retriever=vectorstore.as_retriever(search_kwargs={\"k\": 4})\n)\nresult = chain.invoke({\"question\": pregunta_usuario, \"chat_history\": historial})\nprint(result['answer'])"
+    },
+    {
+      "title": "Transcripción y resumen automático de reuniones grabadas",
+      "tool": "Python + Whisper + Claude API",
+      "complexity": "Intermedio",
+      "description": "Transcribe grabaciones de reuniones y genera un acta estructurada con tareas asignadas.",
+      "timeSaving": "4h/semana",
+      "code": "import whisper, anthropic\nmodel = whisper.load_model(\"medium\")\nresult = model.transcribe(\"reunion.mp3\", language=\"es\")\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\nacta = client.messages.create(\n    model=\"claude-sonnet-4-5\",\n    max_tokens=800,\n    messages=[{\"role\": \"user\", \"content\": f\"Genera un acta con decisiones y tareas (responsable y fecha) a partir de: {result['text']}\"}]\n)\nprint(acta.content[0].text)"
+    },
+    {
+      "title": "Cualificación automática de leads con scoring IA",
+      "tool": "n8n + HubSpot + Claude",
+      "complexity": "Avanzado",
+      "description": "Puntúa cada lead nuevo del CRM según criterios BANT y asigna automáticamente al comercial correspondiente.",
+      "timeSaving": "6h/semana",
+      "code": "// Flujo n8n:\n// 1. HubSpot Trigger - New Contact\n// 2. HTTP Request a Claude API:\n//    prompt: \"Puntua este lead 0-100 segun BANT. Datos: {{$json}}. Responde JSON {score, justificacion}\"\n// 3. IF Node: score > 80 -> HubSpot Assign Owner (comercial senior)\n// 4. Else -> HubSpot Assign Owner (cola general)\n// 5. Slack Notify al comercial asignado"
+    },
+    {
+      "title": "Generación automática de informes financieros mensuales",
+      "tool": "Python + Pandas + Claude API",
+      "complexity": "Avanzado",
+      "description": "Consolida datos contables del mes, calcula variaciones y redacta un informe narrativo automáticamente.",
+      "timeSaving": "8h/semana",
+      "code": "import pandas as pd, anthropic\ndf = pd.read_csv('contabilidad_mes.csv')\nresumen = df.groupby('categoria')['importe'].sum().to_dict()\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\ninforme = client.messages.create(\n    model=\"claude-sonnet-4-5\",\n    max_tokens=600,\n    messages=[{\"role\": \"user\", \"content\": f\"Redacta un informe financiero ejecutivo a partir de estos totales por categoria: {resumen}\"}]\n)\nprint(informe.content[0].text)"
+    },
+    {
+      "title": "Monitor automático de menciones de marca en redes",
+      "tool": "Make + Twitter API + Claude",
+      "complexity": "Intermedio",
+      "description": "Detecta menciones de tu marca, analiza el sentimiento y alerta al equipo si hay quejas graves.",
+      "timeSaving": "3h/semana",
+      "code": "// Escenario Make:\n// 1. Twitter Watch Mentions\n// 2. HTTP Request a Claude API: 'Clasifica sentimiento: positivo/neutro/negativo/critico'\n// 3. Router: si sentimiento = 'critico' -> Slack alerta inmediata al equipo\n// 4. Google Sheets - Log de todas las menciones con su clasificacion"
+    },
+    {
+      "title": "Generador automático de tests unitarios en cada commit",
+      "tool": "GitHub Actions + Claude API",
+      "complexity": "Experto",
+      "description": "Genera y ejecuta tests unitarios automáticamente para cada función nueva detectada en un pull request.",
+      "timeSaving": "7h/semana",
+      "code": "# .github/workflows/ai-tests.yml\nname: AI Test Generator\non: pull_request\njobs:\n  generate-tests:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Generate tests\n        run: python scripts/generate_tests.py --diff ${{ github.event.pull_request.diff_url }}\n      - name: Run tests\n        run: pytest tests/ -v"
+    },
+    {
+      "title": "Automatización de respuesta a reseñas de Google Business",
+      "tool": "Zapier + Claude",
+      "complexity": "Principiante",
+      "description": "Genera un borrador de respuesta personalizada para cada nueva reseña de Google, lista para revisión humana.",
+      "timeSaving": "2h/semana",
+      "code": "# Zap:\n# Trigger: Google Business Profile - New Review\n# Action: Webhooks by Zapier - POST a Claude API\n#   prompt: \"Redacta una respuesta breve y empatica a esta resena: {{review_text}}, valoracion {{rating}} estrellas\"\n# Action: Email to Me - borrador para revisar antes de publicar"
+    },
+    {
+      "title": "Sincronización de inventario entre tienda online y almacén",
+      "tool": "Make + Shopify + Google Sheets",
+      "complexity": "Intermedio",
+      "description": "Actualiza automáticamente el stock disponible en Shopify cuando cambia en la hoja de control de almacén.",
+      "timeSaving": "4h/semana",
+      "code": "// Escenario Make:\n// 1. Google Sheets Watch Rows (columna stock modificada)\n// 2. Shopify - Update Product Variant (inventory_quantity)\n// 3. Router: si stock < 5 -> Slack alerta de reposicion\n// 4. Log en hoja separada de historico de cambios de stock"
+    },
+    {
+      "title": "Generador automático de resumen ejecutivo semanal",
+      "tool": "n8n + Google Sheets + Claude",
+      "complexity": "Intermedio",
+      "description": "Consolida métricas de varias fuentes y genera un resumen ejecutivo enviado por email cada lunes.",
+      "timeSaving": "3h/semana",
+      "code": "// Flujo n8n:\n// 1. Cron Trigger - lunes 8:00\n// 2. Google Sheets - Read Range (metricas consolidadas)\n// 3. HTTP Request a Claude API generando resumen de 200 palabras\n// 4. Gmail - Send Email al equipo directivo con el resumen en el cuerpo"
+    },
+    {
+      "title": "Detección automática de tickets duplicados de soporte",
+      "tool": "Python + embeddings + Claude",
+      "complexity": "Avanzado",
+      "description": "Compara nuevos tickets contra el historial usando similitud semántica para detectar duplicados automáticamente.",
+      "timeSaving": "5h/semana",
+      "code": "from sentence_transformers import SentenceTransformer, util\nmodel = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')\n\nnuevo_emb = model.encode(ticket_nuevo)\nhistorico_emb = model.encode(tickets_historicos)\nsimilitudes = util.cos_sim(nuevo_emb, historico_emb)\n\nduplicados = [tickets_historicos[i] for i, s in enumerate(similitudes[0]) if s > 0.85]\nprint('Posibles duplicados:', duplicados)"
+    },
+    {
+      "title": "Generador de contenido para newsletter semanal",
+      "tool": "Make + RSS + Claude",
+      "complexity": "Principiante",
+      "description": "Recopila las noticias más relevantes de tu sector desde RSS y redacta un borrador de newsletter automáticamente.",
+      "timeSaving": "3h/semana",
+      "code": "// Escenario Make:\n// 1. RSS - Watch Feed Items (fuentes del sector)\n// 2. Aggregator - agrupa las noticias de la semana\n// 3. HTTP Request a Claude API: 'Redacta newsletter con estas noticias: {{items}}'\n// 4. Gmail Draft - crea borrador para revision antes de enviar"
+    },
+    {
+      "title": "Automatización de onboarding de nuevos clientes SaaS",
+      "tool": "n8n + Stripe + Claude",
+      "complexity": "Intermedio",
+      "description": "Cuando un cliente nuevo paga en Stripe, se crea su cuenta, se envía un email de bienvenida personalizado y se agenda una llamada.",
+      "timeSaving": "4h/semana",
+      "code": "// Flujo n8n:\n// 1. Stripe Trigger - Checkout Session Completed\n// 2. HTTP Request - crear cuenta en tu backend via API\n// 3. HTTP Request a Claude API - generar email de bienvenida personalizado segun el plan contratado\n// 4. Gmail Send Email\n// 5. Calendly API - crear invitacion de llamada de onboarding"
+    },
+    {
+      "title": "Auditor automático de accesibilidad de páginas web",
+      "tool": "Python + Playwright + Claude",
+      "complexity": "Avanzado",
+      "description": "Analiza el HTML de páginas clave y reporta problemas de accesibilidad con sugerencias de corrección.",
+      "timeSaving": "5h/semana",
+      "code": "from playwright.sync_api import sync_playwright\nimport anthropic\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    page = browser.new_page()\n    page.goto('https://tusitio.com')\n    html = page.content()\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\nreporte = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=800,\n    messages=[{\"role\": \"user\", \"content\": f\"Audita accesibilidad WCAG de este HTML y lista problemas con severidad: {html[:5000]}\"}]\n)\nprint(reporte.content[0].text)"
+    },
+    {
+      "title": "Generador automático de propuestas comerciales",
+      "tool": "Zapier + Google Docs + Claude",
+      "complexity": "Intermedio",
+      "description": "A partir de un formulario de cualificación, genera automáticamente una propuesta comercial personalizada en Google Docs.",
+      "timeSaving": "4h/semana",
+      "code": "# Zap:\n# Trigger: Google Forms - New Response\n# Action 1: Webhooks - POST a Claude API generando el texto de la propuesta\n# Action 2: Google Docs - Create Document from Template con el texto generado\n# Action 3: Gmail - Send Email al comercial con el enlace al documento"
+    },
+    {
+      "title": "Alertas automáticas de anomalías en métricas de negocio",
+      "tool": "Python + Pandas + Claude API",
+      "complexity": "Avanzado",
+      "description": "Detecta desviaciones significativas en métricas diarias y envía una alerta con posible explicación.",
+      "timeSaving": "3h/semana",
+      "code": "import pandas as pd, anthropic\ndf = pd.read_csv('metricas_diarias.csv')\nmedia = df['ventas'].rolling(30).mean().iloc[-1]\nhoy = df['ventas'].iloc[-1]\n\nif abs(hoy - media) / media > 0.25:\n    client = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n    analisis = client.messages.create(\n        model=\"claude-sonnet-4-5\", max_tokens=300,\n        messages=[{\"role\": \"user\", \"content\": f\"Ventas hoy: {hoy}, media 30d: {media}. Sugiere 2 posibles causas.\"}]\n    )\n    print('ALERTA:', analisis.content[0].text)"
+    },
+    {
+      "title": "Automatización de recordatorios de facturas pendientes",
+      "tool": "n8n + QuickBooks + Claude",
+      "complexity": "Intermedio",
+      "description": "Detecta facturas vencidas y envía recordatorios con tono ajustado según el historial de pago del cliente.",
+      "timeSaving": "3h/semana",
+      "code": "// Flujo n8n:\n// 1. Cron Trigger - diario 9:00\n// 2. QuickBooks Node - Get Overdue Invoices\n// 3. HTTP Request a Claude API: 'Redacta recordatorio de pago, tono {{tono_cliente}}, factura {{numero}}, importe {{importe}}'\n// 4. Gmail Send Email al cliente\n// 5. Google Sheets Log del recordatorio enviado"
+    },
+    {
+      "title": "Generador automático de subtítulos multilingües para vídeo",
+      "tool": "Python + Whisper + Claude API",
+      "complexity": "Avanzado",
+      "description": "Transcribe un vídeo, traduce los subtítulos a varios idiomas y genera los archivos .srt correspondientes.",
+      "timeSaving": "6h/semana",
+      "code": "import whisper, anthropic\nmodel = whisper.load_model('medium')\nresult = model.transcribe('video.mp4', language='es')\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\nfor idioma in ['en', 'fr', 'pt']:\n    trad = client.messages.create(\n        model=\"claude-sonnet-4-5\", max_tokens=1000,\n        messages=[{\"role\": \"user\", \"content\": f\"Traduce a {idioma} manteniendo formato SRT: {result['text']}\"}]\n    )\n    with open(f'subs_{idioma}.srt', 'w') as f:\n        f.write(trad.content[0].text)"
+    },
+    {
+      "title": "Bot de Discord para moderación asistida por IA",
+      "tool": "Python + discord.py + Claude API",
+      "complexity": "Avanzado",
+      "description": "Detecta mensajes potencialmente ofensivos o spam en un servidor de Discord y los marca para revisión de moderadores.",
+      "timeSaving": "4h/semana",
+      "code": "import discord, anthropic\nclient_discord = discord.Client(intents=discord.Intents.default())\nclient_ai = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n\n@client_discord.event\nasync def on_message(message):\n    if message.author.bot: return\n    resp = client_ai.messages.create(\n        model=\"claude-haiku-4-5\", max_tokens=50,\n        messages=[{\"role\": \"user\", \"content\": f\"Es spam u ofensivo? responde solo si/no: {message.content}\"}]\n    )\n    if 'si' in resp.content[0].text.lower():\n        await message.add_reaction('⚠️')"
+    },
+    {
+      "title": "Automatización de generación de reportes de RRHH",
+      "tool": "n8n + BambooHR + Claude",
+      "complexity": "Intermedio",
+      "description": "Genera un resumen mensual de rotación, ausentismo y nuevas incorporaciones para el comité directivo.",
+      "timeSaving": "4h/semana",
+      "code": "// Flujo n8n:\n// 1. Cron Trigger - dia 1 de cada mes\n// 2. BambooHR API - Get Employee Changes\n// 3. HTTP Request a Claude API generando narrativa del informe\n// 4. Google Slides API - actualizar diapositiva con el resumen generado\n// 5. Email al comite directivo con el enlace a la presentacion"
+    },
+    {
+      "title": "Extracción automática de datos de currículums (CV)",
+      "tool": "Python + Claude API",
+      "complexity": "Intermedio",
+      "description": "Extrae experiencia, formación y skills de CVs en PDF y los estructura en una base de datos de candidatos.",
+      "timeSaving": "5h/semana",
+      "code": "import anthropic, base64\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n\nwith open('cv_candidato.pdf', 'rb') as f:\n    data = base64.standard_b64encode(f.read()).decode('utf-8')\n\nresp = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=500,\n    messages=[{\"role\": \"user\", \"content\": [\n        {\"type\": \"document\", \"source\": {\"type\": \"base64\", \"media_type\": \"application/pdf\", \"data\": data}},\n        {\"type\": \"text\", \"text\": \"Extrae nombre, experiencia (años), formacion y top 5 skills en JSON.\"}\n    ]}]\n)\nprint(resp.content[0].text)"
+    },
+    {
+      "title": "Automatización de campañas de retención de clientes en riesgo",
+      "tool": "Make + CRM + Claude",
+      "complexity": "Avanzado",
+      "description": "Identifica clientes con baja actividad reciente y lanza automáticamente una campaña de reactivación personalizada.",
+      "timeSaving": "5h/semana",
+      "code": "// Escenario Make:\n// 1. CRM Watch - clientes sin actividad en 45 dias\n// 2. HTTP Request a Claude API: 'Genera oferta de reactivacion personalizada segun historial: {{historial_compras}}'\n// 3. Router: valor cliente alto -> email personal del account manager\n// 4. Router: valor cliente bajo -> email automatizado con oferta generica\n// 5. Log en CRM de la campaña enviada"
+    },
+    {
+      "title": "Generador automático de posts de LinkedIn desde artículos del blog",
+      "tool": "Zapier + RSS + Claude",
+      "complexity": "Principiante",
+      "description": "Cada vez que se publica un artículo nuevo en el blog, genera automáticamente un post de LinkedIn con enlace.",
+      "timeSaving": "2h/semana",
+      "code": "# Zap:\n# Trigger: RSS by Zapier - New Item in Feed (blog)\n# Action: Webhooks - POST a Claude API\n#   prompt: \"Convierte este articulo en un post de LinkedIn de 100 palabras con gancho inicial: {{titulo}} {{resumen}}\"\n# Action: LinkedIn - Create Share Update (revision manual antes de programar)"
+    },
+    {
+      "title": "Automatización de control de calidad en atención al cliente",
+      "tool": "Python + Claude API",
+      "complexity": "Avanzado",
+      "description": "Analiza una muestra de conversaciones de soporte y puntúa la calidad de atención según una rúbrica definida.",
+      "timeSaving": "5h/semana",
+      "code": "import anthropic\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n\nrubrica = \"Evalua: empatia (0-10), resolucion (0-10), tiempo de respuesta (0-10), tono profesional (0-10)\"\nfor conversacion in conversaciones_muestra:\n    eval_result = client.messages.create(\n        model=\"claude-sonnet-4-5\", max_tokens=300,\n        messages=[{\"role\": \"user\", \"content\": f\"{rubrica}. Conversacion: {conversacion}. Responde JSON.\"}]\n    )\n    print(eval_result.content[0].text)"
+    },
+    {
+      "title": "Automatización de generación de contratos estándar",
+      "tool": "n8n + DocuSign + Claude",
+      "complexity": "Avanzado",
+      "description": "Genera un contrato personalizado a partir de una plantilla y los datos del cliente, y lo envía a firma electrónica.",
+      "timeSaving": "6h/semana",
+      "code": "// Flujo n8n:\n// 1. Formulario Trigger - datos del nuevo cliente\n// 2. HTTP Request a Claude API - rellenar clausulas variables de la plantilla base\n// 3. HTTP Request - generar PDF con los datos combinados\n// 4. DocuSign API - crear sobre (envelope) y enviar a firma\n// 5. Webhook DocuSign - notificar cuando se complete la firma"
+    },
+    {
+      "title": "Monitor de precios de competencia automatizado",
+      "tool": "Python + BeautifulSoup + Claude API",
+      "complexity": "Avanzado",
+      "description": "Rastrea los precios de productos de la competencia y genera un resumen de cambios relevantes cada semana.",
+      "timeSaving": "4h/semana",
+      "code": "import requests, anthropic\nfrom bs4 import BeautifulSoup\n\nprecios = {}\nfor url in urls_competidores:\n    html = requests.get(url).text\n    soup = BeautifulSoup(html, 'html.parser')\n    precios[url] = soup.select_one('.price').text\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\nresumen = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=400,\n    messages=[{\"role\": \"user\", \"content\": f\"Resume cambios de precio relevantes: {precios}\"}]\n)\nprint(resumen.content[0].text)"
+    },
+    {
+      "title": "Automatización de generación de preguntas de examen",
+      "tool": "Python + Claude API",
+      "complexity": "Intermedio",
+      "description": "Genera automáticamente bancos de preguntas de examen a partir del temario de un curso, con nivel variable.",
+      "timeSaving": "3h/semana",
+      "code": "import anthropic\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n\ntemas = ['Tema 1: Introduccion', 'Tema 2: Fundamentos', 'Tema 3: Aplicacion']\nfor tema in temas:\n    preguntas = client.messages.create(\n        model=\"claude-sonnet-4-5\", max_tokens=600,\n        messages=[{\"role\": \"user\", \"content\": f\"Genera 5 preguntas de examen tipo test sobre: {tema}, con 4 opciones y respuesta correcta marcada.\"}]\n    )\n    print(tema, '\\n', preguntas.content[0].text)"
+    },
+    {
+      "title": "Automatización de seguimiento post-venta",
+      "tool": "Make + Shopify + Claude",
+      "complexity": "Principiante",
+      "description": "Envía automáticamente un email de seguimiento personalizado 7 días después de cada compra pidiendo feedback.",
+      "timeSaving": "2h/semana",
+      "code": "// Escenario Make:\n// 1. Shopify Watch - Order Fulfilled\n// 2. Delay - esperar 7 dias\n// 3. HTTP Request a Claude API: 'Genera email de seguimiento para pedido de {{producto}}'\n// 4. Email - enviar al cliente con enlace a encuesta de satisfaccion"
+    },
+    {
+      "title": "Automatización de clasificación de tickets por prioridad",
+      "tool": "n8n + Zendesk + Claude",
+      "complexity": "Intermedio",
+      "description": "Clasifica automáticamente cada ticket entrante por urgencia y lo asigna a la cola correspondiente.",
+      "timeSaving": "4h/semana",
+      "code": "// Flujo n8n:\n// 1. Zendesk Trigger - New Ticket\n// 2. HTTP Request a Claude API: 'Clasifica urgencia: critica/alta/media/baja. Ticket: {{descripcion}}'\n// 3. Switch Node segun urgencia\n// 4. Zendesk Update Ticket - asignar cola y prioridad correspondiente"
+    },
+    {
+      "title": "Generador de informes de accesibilidad SEO técnico",
+      "tool": "Python + Requests + Claude API",
+      "complexity": "Avanzado",
+      "description": "Analiza automáticamente aspectos técnicos de SEO de un sitio (meta tags, encabezados, velocidad) y genera recomendaciones.",
+      "timeSaving": "5h/semana",
+      "code": "import requests, anthropic\nfrom bs4 import BeautifulSoup\n\nhtml = requests.get('https://tusitio.com').text\nsoup = BeautifulSoup(html, 'html.parser')\ndatos = {\n    'title': soup.title.string if soup.title else '',\n    'h1_count': len(soup.find_all('h1')),\n    'meta_desc': soup.find('meta', attrs={'name':'description'})\n}\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\nreporte = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=500,\n    messages=[{\"role\": \"user\", \"content\": f\"Audita SEO tecnico basico y da recomendaciones: {datos}\"}]\n)\nprint(reporte.content[0].text)"
+    },
+    {
+      "title": "Automatización de generación de OKRs trimestrales",
+      "tool": "n8n + Google Sheets + Claude",
+      "complexity": "Intermedio",
+      "description": "Convierte objetivos estratégicos ingresados en una hoja de cálculo en OKRs estructurados automáticamente.",
+      "timeSaving": "2h/semana",
+      "code": "// Flujo n8n:\n// 1. Google Sheets Trigger - nueva fila con objetivo estrategico\n// 2. HTTP Request a Claude API: 'Convierte en OKR: objetivo + 3 resultados clave medibles. Objetivo: {{objetivo}}'\n// 3. Google Sheets - Update Row con el OKR generado\n// 4. Notion API - crear pagina del OKR en el workspace del equipo"
+    },
+    {
+      "title": "Automatización de resumen de patentes y literatura técnica",
+      "tool": "Python + arXiv API + Claude",
+      "complexity": "Experto",
+      "description": "Monitoriza nuevas publicaciones en un área técnica y genera un resumen semanal de las más relevantes.",
+      "timeSaving": "6h/semana",
+      "code": "import requests, anthropic\nresp = requests.get('http://export.arxiv.org/api/query?search_query=all:agentic+AI&max_results=10')\n# parsear resp.text con feedparser para extraer titulos y abstracts\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\nresumen = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=800,\n    messages=[{\"role\": \"user\", \"content\": f\"Resume los 3 papers mas relevantes para una empresa de IA aplicada: {abstracts}\"}]\n)\nprint(resumen.content[0].text)"
+    },
+    {
+      "title": "Bot de recordatorios de reuniones con contexto",
+      "tool": "n8n + Google Calendar + Claude",
+      "complexity": "Principiante",
+      "description": "Envía un recordatorio 15 minutos antes de cada reunión con un resumen del contexto y objetivo de la misma.",
+      "timeSaving": "2h/semana",
+      "code": "// Flujo n8n:\n// 1. Google Calendar Trigger - Event Starting Soon (15 min)\n// 2. HTTP Request a Claude API: 'Resume el objetivo de esta reunion en 2 lineas: {{descripcion_evento}}'\n// 3. Slack Direct Message a los asistentes con el resumen generado"
+    },
+    {
+      "title": "Automatización de generación de casos de prueba QA",
+      "tool": "Python + Claude API + Jira",
+      "complexity": "Avanzado",
+      "description": "Genera automáticamente casos de prueba a partir de historias de usuario creadas en Jira.",
+      "timeSaving": "5h/semana",
+      "code": "import anthropic\nfrom jira import JIRA\n\njira = JIRA(server='https://tuempresa.atlassian.net', basic_auth=('email', 'token'))\nissue = jira.issue('PROJ-123')\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\ncasos = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=600,\n    messages=[{\"role\": \"user\", \"content\": f\"Genera 6 casos de prueba para: {issue.fields.description}\"}]\n)\njira.add_comment(issue, casos.content[0].text)"
+    },
+    {
+      "title": "Automatización de análisis de competencia semanal",
+      "tool": "Make + Web Scraping + Claude",
+      "complexity": "Avanzado",
+      "description": "Recopila cambios en las webs de competidores clave y genera un informe comparativo semanal automático.",
+      "timeSaving": "5h/semana",
+      "code": "// Escenario Make:\n// 1. HTTP Module - GET a cada URL de competidor (programado semanalmente)\n// 2. Text Parser - extraer secciones clave (precios, features, novedades)\n// 3. HTTP Request a Claude API: 'Compara estos datos con la semana anterior y destaca cambios relevantes'\n// 4. Google Docs - actualizar informe semanal compartido con el equipo"
+    },
+    {
+      "title": "Generador automático de posts para foro de comunidad",
+      "tool": "Zapier + Claude",
+      "complexity": "Principiante",
+      "description": "Convierte preguntas frecuentes de soporte en publicaciones educativas para el foro de la comunidad de usuarios.",
+      "timeSaving": "2h/semana",
+      "code": "# Zap:\n# Trigger: Google Sheets - nueva fila con pregunta frecuente detectada\n# Action: Webhooks - POST a Claude API\n#   prompt: \"Convierte esta pregunta frecuente en un post educativo para el foro: {{pregunta}} {{respuesta}}\"\n# Action: Discourse API - Create Topic en la categoria correspondiente"
+    },
+    {
+      "title": "Automatización de validación de datos de formularios",
+      "tool": "n8n + Claude API",
+      "complexity": "Intermedio",
+      "description": "Valida la coherencia y completitud de los datos enviados en formularios antes de que entren al CRM.",
+      "timeSaving": "3h/semana",
+      "code": "// Flujo n8n:\n// 1. Webhook Trigger - datos del formulario\n// 2. HTTP Request a Claude API: 'Valida coherencia de estos datos (email valido, telefono con formato correcto, campos vacios criticos): {{datos}}'\n// 3. IF Node - si hay errores, responder al formulario con mensaje de correccion\n// 4. Si es valido, continuar flujo hacia el CRM"
+    },
+    {
+      "title": "Automatización de generación de resúmenes de video largos",
+      "tool": "Python + Whisper + Claude API",
+      "complexity": "Intermedio",
+      "description": "Transcribe vídeos largos (webinars, cursos) y genera capítulos con marcas de tiempo y resumen por sección.",
+      "timeSaving": "5h/semana",
+      "code": "import whisper, anthropic\nmodel = whisper.load_model('medium')\nresult = model.transcribe('webinar.mp4', language='es', word_timestamps=True)\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\ncapitulos = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=800,\n    messages=[{\"role\": \"user\", \"content\": f\"Divide en capitulos con timestamp aproximado y resumen breve: {result['text']}\"}]\n)\nprint(capitulos.content[0].text)"
+    },
+    {
+      "title": "Automatización de resumen de contratos entrantes",
+      "tool": "n8n + Claude API",
+      "complexity": "Avanzado",
+      "description": "Cuando llega un contrato por email, extrae las cláusulas clave y genera un resumen de riesgos automáticamente.",
+      "timeSaving": "4h/semana",
+      "code": "// Flujo n8n:\n// 1. Gmail Trigger - email con adjunto PDF y asunto que contiene 'contrato'\n// 2. HTTP Request a Claude API con el PDF adjunto (document type)\n// 3. Prompt: 'Extrae partes, duracion, clausulas de riesgo y resumen en 5 lineas'\n// 4. Slack Notify al equipo legal con el resumen generado"
+    },
+    {
+      "title": "Automatización de generación de reportes de accesibilidad web",
+      "tool": "Python + axe-core + Claude API",
+      "complexity": "Avanzado",
+      "description": "Ejecuta una auditoría automática de accesibilidad y genera un informe priorizado con IA cada semana.",
+      "timeSaving": "4h/semana",
+      "code": "# Ejecutar axe-core via Playwright y luego pasar resultados a Claude\nimport json, anthropic\nresultados = json.load(open('axe_results.json'))\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\ninforme = client.messages.create(\n    model=\"claude-sonnet-4-5\", max_tokens=600,\n    messages=[{\"role\": \"user\", \"content\": f\"Prioriza estos problemas de accesibilidad por impacto y esfuerzo: {resultados}\"}]\n)\nprint(informe.content[0].text)"
+    },
+    {
+      "title": "Automatización de generación de resúmenes de encuestas NPS",
+      "tool": "Make + Typeform + Claude",
+      "complexity": "Intermedio",
+      "description": "Consolida respuestas de encuestas NPS y genera automáticamente un resumen de temas y detractores prioritarios.",
+      "timeSaving": "3h/semana",
+      "code": "// Escenario Make:\n// 1. Typeform Watch Responses (encuesta NPS)\n// 2. Aggregator - agrupa respuestas de la semana\n// 3. HTTP Request a Claude API: 'Agrupa por tema y prioriza detractores con score menor a 6'\n// 4. Google Sheets - actualizar resumen semanal compartido con Customer Success"
+    },
+    {
+      "title": "Automatización de generación de itinerarios de viaje corporativo",
+      "tool": "Zapier + Claude",
+      "complexity": "Principiante",
+      "description": "Genera automáticamente un itinerario de viaje de negocio a partir de los datos reservados en el formulario interno.",
+      "timeSaving": "2h/semana",
+      "code": "# Zap:\n# Trigger: Google Forms - solicitud de viaje\n# Action: Webhooks - POST a Claude API\n#   prompt: \"Genera itinerario resumido para viaje a {{destino}} del {{fecha_inicio}} al {{fecha_fin}}\"\n# Action: Google Calendar - crear eventos del itinerario generado"
+    },
+    {
+      "title": "Automatización de detección de churn temprano",
+      "tool": "Python + Pandas + Claude API",
+      "complexity": "Avanzado",
+      "description": "Analiza señales de uso de producto para predecir clientes en riesgo de cancelación y sugiere acciones.",
+      "timeSaving": "5h/semana",
+      "code": "import pandas as pd, anthropic\ndf = pd.read_csv('uso_producto.csv')\nen_riesgo = df[df['dias_sin_login'] > 14]\n\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\nfor _, cliente in en_riesgo.iterrows():\n    accion = client.messages.create(\n        model=\"claude-sonnet-4-5\", max_tokens=200,\n        messages=[{\"role\": \"user\", \"content\": f\"Sugiere una accion de retencion para: {cliente.to_dict()}\"}]\n    )\n    print(cliente['nombre'], '->', accion.content[0].text)"
+    },
+    {
+      "title": "Automatización de generación de posts de comunidad Discord",
+      "tool": "n8n + Discord API + Claude",
+      "complexity": "Principiante",
+      "description": "Publica automáticamente un resumen semanal de novedades del producto en el canal de anuncios de Discord.",
+      "timeSaving": "1h/semana",
+      "code": "// Flujo n8n:\n// 1. Cron Trigger - viernes 16:00\n// 2. Notion API - Get Changelog Items de la semana\n// 3. HTTP Request a Claude API: 'Redacta anuncio de novedades para Discord con estos cambios: {{items}}'\n// 4. Discord Node - Send Message al canal #anuncios"
+    },
+    {
+      "title": "Automatización de priorización de backlog de producto",
+      "tool": "Python + Jira API + Claude",
+      "complexity": "Avanzado",
+      "description": "Puntúa automáticamente cada ticket del backlog usando el framework RICE a partir de su descripción.",
+      "timeSaving": "4h/semana",
+      "code": "from jira import JIRA\nimport anthropic\n\njira = JIRA(server='https://tuempresa.atlassian.net', basic_auth=('email','token'))\nclient = anthropic.Anthropic(api_key=\"TU_API_KEY\")\n\nfor issue in jira.search_issues('status = Backlog'):\n    score = client.messages.create(\n        model=\"claude-sonnet-4-5\", max_tokens=200,\n        messages=[{\"role\": \"user\", \"content\": f\"Puntua RICE (reach,impact,confidence,effort) para: {issue.fields.summary} - {issue.fields.description}\"}]\n    )\n    jira.add_comment(issue, score.content[0].text)"
+    }
+  ]
+}

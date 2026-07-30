@@ -89,13 +89,31 @@ function requireAccess(callback) {
         cleanup();
     }
 
+    function getFocusable() {
+        return Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+            .filter(el => !el.disabled && el.offsetParent !== null);
+    }
+
     function handleKeyDown(e) {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && document.activeElement === input) {
             e.preventDefault();
             handleUnlock();
         } else if (e.key === 'Escape') {
             e.preventDefault();
             closeModal();
+        } else if (e.key === 'Tab') {
+            // Focus trap: mantiene el foco dentro del modal
+            const focusable = getFocusable();
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
     }
 
@@ -108,13 +126,13 @@ function requireAccess(callback) {
     function cleanup() {
         submitBtn.removeEventListener('click', handleUnlock);
         if (closeBtn) closeBtn.removeEventListener('click', closeModal);
-        input.removeEventListener('keydown', handleKeyDown);
+        modal.removeEventListener('keydown', handleKeyDown);
         modal.removeEventListener('click', handleOutsideClick);
     }
 
     submitBtn.addEventListener('click', handleUnlock);
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    input.addEventListener('keydown', handleKeyDown);
+    modal.addEventListener('keydown', handleKeyDown);
     modal.addEventListener('click', handleOutsideClick);
 }
 
@@ -161,6 +179,11 @@ function showSection(sectionId) {
 
     // Update URL hash
     history.pushState(null, '', `#${sectionId}`);
+
+    // Analytics: qué sección engancha más
+    if (typeof gtag === 'function') {
+        gtag('event', 'section_view', { section_id: sectionId });
+    }
 }
 
 // =============================================
@@ -176,6 +199,24 @@ function renderAll() {
 }
 
 // =============================================
+// PAGINACIÓN (evita renderizar cientos de tarjetas de golpe)
+// =============================================
+const PAGE_SIZE = 12;
+const paginationState = { tutoriales: PAGE_SIZE, prompts: PAGE_SIZE, guias: PAGE_SIZE, automatizacion: PAGE_SIZE };
+
+function appendLoadMore(container, key, total, rerenderFn) {
+    if (paginationState[key] >= total) return;
+    const btn = document.createElement('button');
+    btn.className = 'load-more-btn';
+    btn.textContent = `Cargar más (${total - paginationState[key]} restantes)`;
+    btn.addEventListener('click', () => {
+        paginationState[key] += PAGE_SIZE;
+        rerenderFn();
+    });
+    container.insertAdjacentElement('afterend', btn);
+}
+
+// =============================================
 // TUTORIALES
 // =============================================
 
@@ -183,8 +224,12 @@ function renderTutoriales() {
     const container = document.querySelector('#tutoriales-container');
     if (!container || !contentData.tutoriales) return;
 
-    container.innerHTML = contentData.tutoriales.map((t, i) => `
-        <div class="content-card" style="animation-delay: ${i * 0.1}s">
+    const prevBtn = container.nextElementSibling;
+    if (prevBtn && prevBtn.classList.contains('load-more-btn')) prevBtn.remove();
+
+    const items = contentData.tutoriales.slice(0, paginationState.tutoriales);
+    container.innerHTML = items.map((t, i) => `
+        <div class="content-card" style="animation-delay: ${Math.min(i, 8) * 0.06}s">
             <h3>${t.title}</h3>
             <div class="card-meta">
                 <span class="meta-level">${t.level}</span>
@@ -199,6 +244,8 @@ function renderTutoriales() {
             </button>
         </div>
     `).join('');
+
+    appendLoadMore(container, 'tutoriales', contentData.tutoriales.length, renderTutoriales);
 }
 
 function toggleContent(contentId, btn) {
@@ -223,15 +270,26 @@ function toggleContent(contentId, btn) {
 // PROMPTS
 // =============================================
 
-function renderPrompts(filter = 'todos') {
+let currentPromptFilter = 'todos';
+
+function renderPrompts(filter) {
     const container = document.querySelector('#prompts-container');
     if (!container || !contentData.prompts) return;
 
-    const filtered = filter === 'todos'
-        ? contentData.prompts
-        : contentData.prompts.filter(p => p.category.toLowerCase() === filter);
+    if (filter !== undefined) {
+        currentPromptFilter = filter;
+        paginationState.prompts = PAGE_SIZE;
+    }
 
-    if (filtered.length === 0) {
+    const prevBtn = container.nextElementSibling;
+    if (prevBtn && prevBtn.classList.contains('load-more-btn')) prevBtn.remove();
+
+    const normalize = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const allFiltered = currentPromptFilter === 'todos'
+        ? contentData.prompts
+        : contentData.prompts.filter(p => normalize(p.category) === normalize(currentPromptFilter));
+
+    if (allFiltered.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
                 <div class="empty-icon">🔍</div>
@@ -241,12 +299,14 @@ function renderPrompts(filter = 'todos') {
         return;
     }
 
+    const filtered = allFiltered.slice(0, paginationState.prompts);
     container.innerHTML = filtered.map((p, i) => `
-        <div class="prompt-card" style="animation-delay: ${i * 0.1}s">
+        <div class="prompt-card" style="animation-delay: ${Math.min(i, 8) * 0.06}s">
             <div class="prompt-header">
                 <h3>${p.title}</h3>
                 <span class="prompt-category">${p.category}</span>
             </div>
+            ${p.level ? `<span class="meta-level">${p.level}</span>` : ''}
             <p class="prompt-desc">${p.description}</p>
             <div class="prompt-text" onclick="copyPrompt(this)" title="Click para copiar">
                 ${escapeHtml(p.text)}
@@ -254,12 +314,17 @@ function renderPrompts(filter = 'todos') {
             <div class="prompt-tip">${p.tip}</div>
         </div>
     `).join('');
+
+    appendLoadMore(container, 'prompts', allFiltered.length, () => renderPrompts());
 }
 
 function copyPrompt(element) {
     // Require access before copying
     requireAccess(() => {
         const text = element.textContent.trim();
+        if (typeof gtag === 'function') {
+            gtag('event', 'prompt_copy', { prompt_title: element.closest('.prompt-card')?.querySelector('h3')?.textContent || '' });
+        }
         navigator.clipboard.writeText(text).then(() => {
             showToast('✅ ¡Prompt copiado al portapapeles!');
         }).catch(() => {
@@ -283,11 +348,16 @@ function renderGuias() {
     const container = document.querySelector('#guias-container');
     if (!container || !contentData.guias) return;
 
-    container.innerHTML = contentData.guias.map((g, i) => `
-        <div class="content-card" style="animation-delay: ${i * 0.1}s">
+    const prevBtn = container.nextElementSibling;
+    if (prevBtn && prevBtn.classList.contains('load-more-btn')) prevBtn.remove();
+
+    const items = contentData.guias.slice(0, paginationState.guias);
+    container.innerHTML = items.map((g, i) => `
+        <div class="content-card" style="animation-delay: ${Math.min(i, 8) * 0.06}s">
             <h3>${g.title}</h3>
             <div class="card-meta">
                 <span class="meta-type">${g.type}</span>
+                ${g.level ? `<span class="meta-level">${g.level}</span>` : ''}
             </div>
             <p class="card-desc">${g.description}</p>
             <div class="card-content" id="guia-content-${i}">
@@ -298,6 +368,8 @@ function renderGuias() {
             </button>
         </div>
     `).join('');
+
+    appendLoadMore(container, 'guias', contentData.guias.length, renderGuias);
 }
 
 // =============================================
@@ -308,8 +380,12 @@ function renderAutomatizacion() {
     const container = document.querySelector('#automatizacion-container');
     if (!container || !contentData.automatizacion) return;
 
-    container.innerHTML = contentData.automatizacion.map((a, i) => `
-        <div class="content-card" style="animation-delay: ${i * 0.1}s">
+    const prevBtn = container.nextElementSibling;
+    if (prevBtn && prevBtn.classList.contains('load-more-btn')) prevBtn.remove();
+
+    const items = contentData.automatizacion.slice(0, paginationState.automatizacion);
+    container.innerHTML = items.map((a, i) => `
+        <div class="content-card" style="animation-delay: ${Math.min(i, 8) * 0.06}s">
             <h3>${a.title}</h3>
             <div class="card-meta">
                 <span class="meta-tool">🔧 ${a.tool}</span>
@@ -325,6 +401,8 @@ function renderAutomatizacion() {
             </button>
         </div>
     `).join('');
+
+    appendLoadMore(container, 'automatizacion', contentData.automatizacion.length, renderAutomatizacion);
 }
 
 // =============================================
