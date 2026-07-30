@@ -15,7 +15,7 @@
 // es visible en el código fuente del navegador (DevTools).
 // Esto protege contra curiosos, pero NO es seguridad real.
 // Es un candado de cortesía, no un cifrado.
-const ACCESS_KEY = 'iabrutal2026';
+const ACCESS_KEY = '3025';
 const ACCESS_SESSION_KEY = 'ia_brutal_unlocked';
 
 // =============================================
