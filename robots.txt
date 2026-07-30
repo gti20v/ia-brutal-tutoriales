@@ -1,0 +1,30 @@
+# IA BRUTAL - robots.txt
+# Configuración para motores de búsqueda
+
+User-agent: *
+Allow: /
+Allow: *.html
+Allow: *.json
+Allow: *.css
+Allow: *.js
+Disallow: 
+
+# Permitir crawlers específicos
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Prevenir crawlers spam
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+# Sitemap
+Sitemap: https://gti20v.github.io/ia-brutal-tutoriales/sitemap.xml
+
+# Tiempo de crawl (en segundos)
+Crawl-delay: 1
